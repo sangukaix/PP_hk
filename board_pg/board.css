@@ -1,0 +1,610 @@
+/* 1. 전체 기본 설정 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 2. body 기본 글꼴 설정 */
+body {
+  font-family: Arial, sans-serif;
+  color: #222;
+  line-height: 1.6;
+}
+
+/* 3. a 태그 기본 설정 */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 4. ul 태그 기본 설정 */
+ul {
+  list-style: none;
+}
+
+/* 5. 공통 container */
+.container {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+/* 6. header 영역 */
+header {
+  width: 100%;
+  height: 80px;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+header .container {
+  height: 80px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 로고 */
+.logo {
+  width: 135px;
+  height: auto;
+  display: block;
+}
+
+/* 메뉴 가로 배치 */
+nav ul {
+  display: flex;
+}
+
+/* 메뉴 사이 간격 */
+nav ul li {
+  margin-left: 30px;
+}
+
+/* 메뉴 글자 */
+nav ul li a {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* 현재 Board 메뉴 표시 */
+.board {
+  color: blueviolet;
+  font-size: medium;
+}
+
+/* 메뉴에 마우스를 올렸을 때 */
+nav ul li a:hover {
+  color: #1f5fbf;
+}
+
+/* 7. Board 상단 영역 */
+#board_visual {
+  height: 280px;
+  background-color: #eaf3ff;
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+#board_visual h2 {
+  font-size: 42px;
+  color: #1f5fbf;
+  margin-bottom: 15px;
+}
+
+#board_visual p {
+  font-size: 20px;
+  color: #333;
+}
+
+/* 8. Board 내용 영역 */
+#board_content {
+  padding: 80px 0;
+  background-color: #fff;
+}
+
+/* 게시판 제목 + 검색 영역 */
+.board_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  margin-bottom: 25px;
+}
+
+.board_title h3 {
+  font-size: 28px;
+  color: #1f5fbf;
+  margin-bottom: 8px;
+}
+
+.board_title p {
+  font-size: 16px;
+  color: #555;
+}
+
+/* 검색 영역 */
+.board_search {
+  display: flex;
+}
+
+.board_search select {
+  width: 100px;
+  height: 38px;
+  padding: 0 8px;
+
+  border: 1px solid #ddd;
+  background-color: #fff;
+}
+
+.board_search input {
+  width: 260px;
+  height: 38px;
+  padding: 0 10px;
+
+  border: 1px solid #ddd;
+  border-left: none;
+}
+
+.board_search button {
+  width: 70px;
+  height: 38px;
+
+  border: none;
+  background-color: #1f5fbf;
+  color: #fff;
+  cursor: pointer;
+}
+
+.board_search button:hover {
+  background-color: #174a96;
+}
+
+/* 9. 게시판 테이블 */
+.table_wrap {
+  width: 100%;
+}
+
+.board_table {
+  width: 100%;
+  border-collapse: collapse;
+  border-top: 2px solid #1f5fbf;
+}
+
+.board_table caption {
+  display: none;
+}
+
+.board_table th {
+  padding: 15px 10px;
+
+  border-bottom: 1px solid #ddd;
+  background-color: #f7f9fc;
+
+  font-size: 16px;
+  color: #222;
+}
+
+.board_table td {
+  padding: 15px 10px;
+
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+
+  font-size: 15px;
+  color: #333;
+}
+
+/* 제목 칸만 왼쪽 정렬 */
+.board_table th:nth-child(2),
+.board_table td:nth-child(2) {
+  text-align: left;
+}
+
+/* 번호 칸 너비 */
+.board_table th:nth-child(1),
+.board_table td:nth-child(1) {
+  width: 90px;
+}
+
+/* 작성자 칸 너비 */
+.board_table th:nth-child(3),
+.board_table td:nth-child(3) {
+  width: 130px;
+}
+
+/* 작성일 칸 너비 */
+.board_table th:nth-child(4),
+.board_table td:nth-child(4) {
+  width: 150px;
+}
+
+/* 상태 칸 너비 */
+.board_table th:nth-child(5),
+.board_table td:nth-child(5) {
+  width: 120px;
+}
+
+/* 제목에 마우스를 올렸을 때 */
+.board_table td:nth-child(2) a:hover {
+  color: #1f5fbf;
+  text-decoration: underline;
+}
+
+/* 공지글 */
+.board_table .notice {
+  background-color: #f9fcff;
+  font-weight: bold;
+}
+
+.board_table .notice td:first-child {
+  color: #1f5fbf;
+}
+
+/* 게시글 줄에 마우스를 올렸을 때 */
+.board_table tbody tr:hover {
+  background-color: #f5f9ff;
+}
+
+/* 상태 표시 */
+.status {
+  display: inline-block;
+  padding: 4px 10px;
+
+  border-radius: 20px;
+  font-size: 13px;
+}
+
+.status.done {
+  background-color: #eaf3ff;
+  color: #1f5fbf;
+}
+
+.status.wait {
+  background-color: #f2f2f2;
+  color: #555;
+}
+
+.status.notice_text {
+  background-color: #1f5fbf;
+  color: #fff;
+}
+
+/* 10. 게시판 하단 영역 */
+.board_bottom {
+  position: relative;
+  margin-top: 35px;
+  text-align: center;
+}
+
+/* 페이지 번호 */
+.pagination a {
+  display: inline-block;
+  min-width: 36px;
+  padding: 7px 10px;
+  margin: 0 2px;
+
+  border: 1px solid #ddd;
+  background-color: #fff;
+
+  color: #333;
+  font-size: 14px;
+}
+
+.pagination a.active {
+  background-color: #1f5fbf;
+  color: #fff;
+  border-color: #1f5fbf;
+}
+
+.pagination a:hover {
+  border-color: #1f5fbf;
+  color: #1f5fbf;
+}
+
+/* 글쓰기 버튼 */
+.write_btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.write_btn a {
+  display: inline-block;
+  padding: 9px 22px;
+
+  background-color: #1f5fbf;
+  color: #fff;
+  font-size: 15px;
+}
+
+.write_btn a:hover {
+  background-color: #174a96;
+}
+
+/* 11. footer 영역 */
+footer {
+  padding: 30px 0;
+  background-color: #222;
+  color: #fff;
+  text-align: center;
+}
+
+footer p {
+  font-size: 14px;
+}
+
+/* 12. 반응형 */
+@media (max-width: 1200px) {
+  .container {
+    width: 90%;
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    height: auto;
+  }
+
+  header .container {
+    height: auto;
+    flex-direction: column;
+    padding: 20px 0;
+  }
+
+  nav ul {
+    margin-top: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  nav ul li {
+    margin: 5px 12px;
+  }
+
+  #board_visual {
+    height: 240px;
+  }
+
+  #board_visual h2 {
+    font-size: 36px;
+  }
+
+  #board_visual p {
+    font-size: 18px;
+  }
+
+  .board_header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .board_title {
+    margin-bottom: 20px;
+  }
+
+  .board_search {
+    width: 100%;
+  }
+
+  .board_search select {
+    width: 25%;
+  }
+
+  .board_search input {
+    width: 55%;
+  }
+
+  .board_search button {
+    width: 20%;
+  }
+
+  .table_wrap {
+    overflow-x: auto;
+  }
+
+  .board_table {
+    min-width: 800px;
+  }
+
+  .write_btn {
+    position: static;
+    margin-top: 20px;
+  }
+}
+
+/* 13. 글쓰기 페이지 */
+#write_content {
+  padding: 80px 0;
+  background-color: #fff;
+}
+
+.write_header {
+  margin-bottom: 35px;
+}
+
+.write_header h3 {
+  font-size: 28px;
+  color: #1f5fbf;
+  margin-bottom: 8px;
+}
+
+.write_header p {
+  font-size: 16px;
+  color: #555;
+}
+
+/* 글쓰기 form */
+.write_form {
+  width: 100%;
+  border-top: 2px solid #1f5fbf;
+}
+
+/* form 한 줄 */
+.form_row {
+  display: flex;
+  align-items: center;
+
+  padding: 18px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+/* 왼쪽 label */
+.form_row label {
+  width: 130px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #222;
+}
+
+/* input, select 공통 */
+.form_row input,
+.form_row select {
+  width: calc(100% - 130px);
+  height: 42px;
+  padding: 0 12px;
+
+  border: 1px solid #ddd;
+  font-size: 15px;
+}
+
+/* 내용 줄 */
+.content_row {
+  align-items: flex-start;
+}
+
+.content_row label {
+  padding-top: 10px;
+}
+
+/* textarea */
+.content_row textarea {
+  width: calc(100% - 130px);
+  height: 260px;
+  padding: 12px;
+
+  border: 1px solid #ddd;
+  resize: vertical;
+
+  font-size: 15px;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
+/* 버튼 영역 */
+.form_btn {
+  margin-top: 35px;
+  text-align: center;
+}
+
+.form_btn button,
+.form_btn a {
+  display: inline-block;
+  min-width: 100px;
+  height: 46px;
+  line-height: 46px;
+
+  margin: 0 5px;
+  padding: 0 22px;
+
+  border: none;
+  background-color: #1f5fbf;
+  color: #fff;
+
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* 목록으로 버튼 */
+.form_btn a {
+  background-color: #555;
+}
+
+/* 버튼 hover */
+.form_btn button:hover {
+  background-color: #174a96;
+}
+
+.form_btn a:hover {
+  background-color: #333;
+}
+
+
+/* 14. 미리보기 영역 */
+.preview_box {
+  margin-top: 60px;
+  padding: 35px;
+
+  border: 1px solid #ddd;
+  background-color: #f9fcff;
+}
+
+.preview_box h3 {
+  font-size: 24px;
+  color: #1f5fbf;
+  margin-bottom: 20px;
+}
+
+.preview_content {
+  padding: 25px;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+}
+
+.preview_content h4 {
+  font-size: 22px;
+  color: #222;
+  margin-bottom: 15px;
+}
+
+.preview_content p {
+  font-size: 15px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.preview_content .preview_body {
+  margin-top: 20px;
+  padding-top: 20px;
+
+  border-top: 1px solid #ddd;
+  line-height: 1.8;
+}
+
+.empty_text {
+  color: #999;
+}
+
+
+/* 15. 글쓰기 페이지 반응형 */
+@media (max-width: 768px) {
+  .form_row {
+    display: block;
+  }
+
+  .form_row label {
+    display: block;
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .form_row input,
+  .form_row select,
+  .content_row textarea {
+    width: 100%;
+  }
+
+  .form_btn button,
+  .form_btn a {
+    margin-bottom: 8px;
+  }
+
+  .preview_box {
+    padding: 25px 20px;
+  }
+}

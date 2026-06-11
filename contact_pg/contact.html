@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hello Korean - Contact</title>
+
+  <!-- 외부 CSS 연결 -->
+  <link rel="stylesheet" href="./contact.css">
+
+  <!-- 카카오지도 API 연결 -->
+  <!-- appkey 부분에는 본인 JavaScript 키를 넣어야 함 -->
+  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=514d8e21c5cf93e54eb6db75e7f073c4"></script>
+
+  <!-- 지도 실행 JS 연결 -->
+  <script src="./contact_map.js" defer></script>
+</head>
+
+<body>
+
+<header>
+  <div class="container">
+
+    <h1>
+      <h1 class="logo-box">
+      <a href="../main_pg/01main_pg.html">
+        <img src="../main_pg/image/logo.png" alt="main_logo" class="logo">
+      </a>
+    </h1>
+
+
+    <nav>
+      <ul>
+        <li><a href="../main_pg/01main_pg.html">Home</a></li>
+        <li><a href="#">Course</a></li>
+        <li><a href="#">Teacher</a></li>
+        <li><a href="#">Price</a></li>
+        <li><a href="#">Q&A</a></li>
+        <li><a href="./contact.html">Contact</a></li>
+        <li><a href="#" class="board">Board</a></li>
+      </ul>
+    </nav>
+
+  </div>
+</header>
+
+<main>
+
+  <section id="contact_visual">
+    <div class="container">
+      <h2>Contact Us</h2>
+      <p>Hello Korean 한국어 수업 상담 대해 문의</p>
+    </div>
+  </section>
+
+  <section id="contact_content">
+    <div class="container">
+
+      <div class="contact_info">
+        <h3>HelloKorean 사무실 주소</h3>
+        <p>Online Korean Language Education</p>
+        <p>서울시 관악구 신림로 64길 46</p>
+        <p>Email : hellokedu@naver.com</p>
+        <p>Location : Seoul, Korea</p>
+      </div>
+
+      <!-- 지도가 그려질 영역 -->
+      <!-- 카카오지도는 width, height 지정이 필수 -->
+      <div id="map"></div>
+
+    </div>
+  </section>
+
+<section id="my_location">
+  <div class="container">
+
+    <div class="current_info">
+      <h3>현재 내 위치</h3>
+      <p>브라우저에서 위치 정보 사용을 허용하면 현재 위치가 지도에 표시됩니다.</p>
+      <p>Location : Your current location</p>
+    </div>
+
+    <!-- 현재 위치 지도가 들어갈 영역 -->
+    <div id="current_map"></div>
+
+  </div>
+</section>
+
+<section id="marker_control">
+  <div class="container">
+
+    <div class="marker_info">
+      <h3>마커 테스트</h3>
+      <p>지도를 클릭하면 클릭한 위치에 마커가 추가됩니다.</p>
+
+      <button onclick="hideControlMarkers()">마커 감추기</button>
+      <button onclick="showControlMarkers()">마커 보이기</button>
+
+      <p id="marker_message">클릭한 위치에 마커가 표시됩니다!</p>
+    </div>
+
+    <!-- 여러 개 마커를 테스트할 지도 -->
+    <div id="marker_map"></div>
+
+  </div>
+</section>
+
+
+</main>
+
+<footer>
+  <div class="container">
+    <p>© Global Link Co., Ltd. All rights reserved.</p>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,288 @@
+/* 1. 전체 기본 설정 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 2. body 기본 설정 */
+body {
+  font-family: Arial, sans-serif;
+  color: #222;
+  line-height: 1.6;
+}
+
+/* 3. a 태그 기본 설정 */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 4. ul 태그 기본 설정 */
+ul {
+  list-style: none;
+}
+
+/* 5. 공통 container */
+.container {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+/* 6. header 영역 */
+header {
+  width: 100%;
+  height: 80px;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+header .container {
+  height: 80px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  font-size: 28px;
+  color: #1f5fbf;
+}
+
+/* 메뉴 가로 배치 */
+nav ul {
+  display: flex;
+}
+
+nav ul li {
+  margin-left: 30px;
+}
+
+nav ul li a {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+nav ul li a:hover {
+  color: #1f5fbf;
+}
+
+.board {
+  color: blueviolet;
+}
+
+/* 7. Contact 상단 영역 */
+#contact_visual {
+  height: 280px;
+  background-color: #eaf3ff;
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+#contact_visual h2 {
+  font-size: 42px;
+  color: #1f5fbf;
+  margin-bottom: 15px;
+}
+
+#contact_visual p {
+  font-size: 20px;
+  color: #333;
+}
+
+/* 8. Contact 내용 영역 */
+#contact_content {
+  padding: 80px 0;
+}
+
+#contact_content .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 회사 정보 박스 */
+.contact_info {
+  width: 40%;
+}
+
+.contact_info h3 {
+  font-size: 28px;
+  color: #1f5fbf;
+  margin-bottom: 20px;
+}
+
+.contact_info p {
+  font-size: 17px;
+  margin-bottom: 10px;
+}
+
+/* 카카오지도 영역 */
+/* 지도는 반드시 사이즈를 지정해야 화면에 보임 */
+#map {
+  width: 55%;
+  height: 400px;
+  border: 1px solid #ddd;
+}
+
+/* 9. footer 영역 */
+footer {
+  padding: 30px 0;
+  background-color: #222;
+  color: #fff;
+  text-align: center;
+}
+
+footer p {
+  font-size: 14px;
+}
+
+/* 10. 반응형 */
+@media (max-width: 1200px) {
+  .container {
+    width: 90%;
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    height: auto;
+  }
+
+  header .container {
+    height: auto;
+    flex-direction: column;
+    padding: 20px 0;
+  }
+
+  nav ul {
+    margin-top: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  nav ul li {
+    margin: 5px 12px;
+  }
+
+  #contact_content .container {
+    flex-direction: column;
+  }
+
+  .contact_info {
+    width: 100%;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  #map {
+    width: 100%;
+    height: 350px;
+  }
+}
+
+/* 로고 박스 */
+.logo-box {
+  width: 120px;
+  height: 55px;
+
+  margin-left: -600px;
+}
+
+/* 로고 이미지 */
+.logo {
+  width: 150px;
+  height: auto;
+  display: block;
+}
+
+/*----------------------------------------*/
+
+/* 현재 위치 지도 영역 */
+/* 현재 위치 지도 영역 */
+#my_location {
+  padding: 80px 0;
+  background-color: #f7f9fc;
+}
+
+/* 현재 위치 영역 안의 container */
+#my_location .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 현재 위치 설명 박스 */
+.current_info {
+  width: 40%;
+}
+
+.current_info h3 {
+  font-size: 28px;
+  color: #1f5fbf;
+  margin-bottom: 20px;
+}
+
+.current_info p {
+  font-size: 17px;
+  margin-bottom: 10px;
+}
+
+/* 현재 위치 지도 박스 */
+#current_map {
+  width: 55%;
+  height: 400px;
+  border: 1px solid #ddd;
+}
+
+/*----------------------------------------*/
+
+/* 여러 개 마커 제어 지도 영역 */
+#marker_control {
+  padding: 80px 0;
+  background-color: #fff;
+}
+
+/* 왼쪽 설명 / 오른쪽 지도 배치 */
+#marker_control .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 설명 영역 */
+.marker_info {
+  width: 40%;
+}
+
+.marker_info h3 {
+  font-size: 28px;
+  color: #1f5fbf;
+  margin-bottom: 20px;
+}
+
+.marker_info p {
+  font-size: 17px;
+  margin-bottom: 15px;
+}
+
+/* 버튼 */
+.marker_info button {
+  padding: 10px 18px;
+  margin-right: 10px;
+  border: none;
+  background-color: #1f5fbf;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* 마커 제어 지도 */
+#marker_map {
+  width: 55%;
+  height: 400px;
+  border: 1px solid #ddd;
+}

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hello Korean - Board</title>
+
+  <!-- 외부 CSS 연결 -->
+  <link rel="stylesheet" href="./board.css">
+</head>
+
+<body>
+
+<header>
+  <div class="container">
+
+    <a href="../main_pg/01main_pg.html">
+      <img src="../main_pg/image/logo.png" alt="main_logo" class="logo">
+    </a>
+
+    <nav>
+      <ul>
+        <li><a href="../main_pg/01main_pg.html">Home</a></li>
+        <li><a href="#">Course</a></li>
+        <li><a href="#">Teacher</a></li>
+        <li><a href="#">Price</a></li>
+        <li><a href="./board.html">Q&A</a></li>
+        <li><a href="../contact_pg/contact.html">Contact</a></li>
+        <li><a href="./board.html" class="board">Board</a></li>
+      </ul>
+    </nav>
+
+  </div>
+</header>
+
+<main>
+
+  <!-- Board 상단 영역 -->
+  <section id="board_visual">
+    <div class="container">
+      <h2>Q&A Board</h2>
+      <p>Hello Korean 수업에 대해 궁금한 점을 남겨주세요.</p>
+    </div>
+  </section>
+
+  <!-- Board 내용 영역 -->
+  <section id="board_content">
+    <div class="container">
+
+      <div class="board_header">
+
+        <div class="board_title">
+          <h3>문의 게시판</h3>
+          <p>수업 신청, 레벨 테스트, 수강료 등 궁금한 내용을 확인하세요.</p>
+        </div>
+
+        <form action="#" method="get" class="board_search">
+          <select name="search_type">
+            <option value="title">제목</option>
+            <option value="writer">작성자</option>
+            <option value="content">내용</option>
+          </select>
+
+          <input type="text" name="keyword" placeholder="검색어를 입력하세요">
+          <button type="submit">검색</button>
+        </form>
+
+      </div>
+
+      <div class="table_wrap">
+        <table class="board_table">
+          <caption>Q&A 게시판 목록</caption>
+
+          <thead>
+            <tr>
+              <th>번호</th>
+              <th>제목</th>
+              <th>작성자</th>
+              <th>작성일</th>
+              <th>상태</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr class="notice">
+              <td>공지</td>
+              <td><a href="#">수업 신청 전 꼭 확인해주세요.</a></td>
+              <td>관리자</td>
+              <td>2026-06-11</td>
+              <td><span class="status notice_text">공지</span></td>
+            </tr>
+
+            <tr>
+              <td>5</td>
+              <td><a href="#">해외에서도 한국어 수업을 들을 수 있나요?</a></td>
+              <td>John</td>
+              <td>2026-06-11</td>
+              <td><span class="status done">답변완료</span></td>
+            </tr>
+
+            <tr>
+              <td>4</td>
+              <td><a href="#">수업 시간 변경이 가능한가요?</a></td>
+              <td>Mina</td>
+              <td>2026-06-10</td>
+              <td><span class="status done">답변완료</span></td>
+            </tr>
+
+            <tr>
+              <td>3</td>
+              <td><a href="#">초급자도 수업을 신청할 수 있나요?</a></td>
+              <td>Alex</td>
+              <td>2026-06-09</td>
+              <td><span class="status wait">답변대기</span></td>
+            </tr>
+
+            <tr>
+              <td>2</td>
+              <td><a href="#">수업은 Zoom으로 진행되나요?</a></td>
+              <td>Sarah</td>
+              <td>2026-06-08</td>
+              <td><span class="status done">답변완료</span></td>
+            </tr>
+
+            <tr>
+              <td>1</td>
+              <td><a href="#">한국어 회화 중심 수업이 있나요?</a></td>
+              <td>David</td>
+              <td>2026-06-07</td>
+              <td><span class="status done">답변완료</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="board_bottom">
+
+        <div class="pagination">
+          <a href="#">이전</a>
+          <a href="#" class="active">1</a>
+          <a href="#">2</a>
+          <a href="#">3</a>
+          <a href="#">다음</a>
+        </div>
+
+<div class="write_btn">
+  <a href="./board_write.html">글쓰기</a>
+</div>
+
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <p>© Global Link Co., Ltd. All rights reserved.</p>
+  </div>
+</footer>
+
+</body>
+</html>
