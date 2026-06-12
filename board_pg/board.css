@@ -608,3 +608,121 @@ footer p {
     padding: 25px 20px;
   }
 }
+
+/* =========================
+   board_feedback.html
+   게시글 상세보기 페이지
+========================= */
+
+.board_view {
+  padding: 70px 0;
+  background-color: #fff;
+}
+
+/* 글 제목 박스 */
+.view_title_box {
+  background-color: #f5f7fa;
+  border-top: 2px solid #1f5fae;
+  border-bottom: 1px solid #ddd;
+  padding: 35px 20px;
+  text-align: center;
+}
+
+.view_title_box h3 {
+  font-size: 26px;
+  color: #1f5fae;
+  margin-bottom: 15px;
+}
+
+.view_title_box p {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.view_title_box span {
+  font-size: 14px;
+  color: #777;
+}
+
+/* 문의 내용 */
+.view_content {
+  padding: 40px 20px;
+  border-bottom: 1px solid #ddd;
+  font-size: 16px;
+  line-height: 1.8;
+  color: #333;
+}
+
+/* 답변 영역 */
+.answer_box {
+  padding: 35px 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.answer_box h4 {
+  font-size: 18px;
+  color: #1f5fae;
+  margin-bottom: 20px;
+}
+
+.answer_content {
+  background-color: #f9f9f9;
+  padding: 25px;
+  border-radius: 8px;
+  line-height: 1.8;
+  color: #333;
+}
+
+/* 버튼 영역 */
+.view_btn_box {
+  text-align: center;
+  margin-top: 35px;
+}
+
+.list_btn {
+  display: inline-block;
+  background-color: #1f5fae;
+  color: #fff;
+  padding: 12px 28px;
+  border-radius: 5px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.list_btn:hover {
+  background-color: #174b8a;
+}
+
+/* =========================
+   nav login / join
+========================= */
+
+nav ul {
+  display: flex;
+  align-items: center;
+}
+
+.login_btn {
+  margin-left: 15px;
+  font-size: 13px;
+  color: #555;
+}
+
+.join_btn {
+  font-size: 13px;
+  color: #1f5fae;
+  padding: 6px 12px;
+  border: 1px solid #1f5fae;
+  border-radius: 20px;
+}
+
+.login_btn:hover {
+  color: #1f5fae;
+}
+
+.join_btn:hover {
+  background-color: #1f5fae;
+  color: #fff;
+}
