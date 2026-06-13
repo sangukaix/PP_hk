@@ -1,0 +1,103 @@
+/* 관리자 페이지 본문 */
+#admin_visual {
+  height: 220px;
+  background-color: #eaf3ff;
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+#admin_visual h2 {
+  font-size: 36px;
+  color: #1f5fbf;
+  margin-bottom: 10px;
+}
+
+#admin_visual p {
+  font-size: 17px;
+  color: #333;
+}
+
+#admin_content {
+  padding: 70px 0;
+  background-color: #fff;
+}
+
+/* 관리자 메뉴 카드 영역 */
+.admin_menu {
+  display: flex;
+  gap: 25px;
+}
+
+/* 카드 */
+.admin_card {
+  flex: 1;
+  padding: 35px 30px;
+
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  background-color: #fff;
+}
+
+.admin_card h3 {
+  font-size: 24px;
+  color: #1f5fbf;
+  margin-bottom: 15px;
+}
+
+.admin_card p {
+  font-size: 15px;
+  color: #555;
+  margin-bottom: 25px;
+}
+
+/* 관리자 버튼 */
+.admin_card a {
+  display: inline-block;
+  padding: 10px 24px;
+
+  background-color: #1f5fbf;
+  color: #fff;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.admin_card a:hover {
+  background-color: #174a96;
+}
+
+/* 안내 박스 */
+.admin_notice {
+  margin-top: 45px;
+  padding: 25px 30px;
+
+  background-color: #f7f9fc;
+  border-left: 4px solid #1f5fbf;
+}
+
+.admin_notice h4 {
+  font-size: 18px;
+  color: #1f5fbf;
+  margin-bottom: 10px;
+}
+
+.admin_notice p {
+  font-size: 15px;
+  color: #555;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  #admin_visual {
+    height: 190px;
+  }
+
+  #admin_visual h2 {
+    font-size: 30px;
+  }
+
+  .admin_menu {
+    flex-direction: column;
+  }
+}

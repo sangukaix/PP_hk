@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hello Korean</title>
+  <title>Hello Korean - Login</title>
 
-  <!-- 외부 CSS 연결 -->
-  <link rel="stylesheet" href="./01main.css">
+  <link rel="stylesheet" href="./member.css">
 <link rel="stylesheet" href="../common/common.css">
 </head>
 
@@ -37,55 +36,50 @@
 
 <main>
 
-  <section id="main_visual">
-
+  <section id="member_visual">
     <div class="container">
-
-      <h2>Learn Korean Online</h2>
-
-      <p>
-        외국인을 위한 온라인 한국어 회화 수업
-      </p>
-
+      <h2>Login</h2>
+      <p>Hello Korean 로그인 페이지입니다.</p>
     </div>
-
   </section>
 
-  <section id="intro">
-
+  <section id="member_content">
     <div class="container">
 
-      <article>
-        <h3>1:1 Korean Class</h3>
-        <p>전 세계 어디에서든 휴대폰만 있으면 온라인으로 수업을 들을 수 있습니다.</p>
-      </article>
+      <div class="member_box">
+        <h3>로그인</h3>
 
-      <article>
-        <h3>Professional Teacher</h3>
-        <p>TOPIK 시험대비 과정으로 한국 국립대학교 유학 및 취업까지 연계.</p>
-      </article>
+        <form action="./login_ok.php" method="post" class="member_form">
 
-      <article>
-        <h3>Flexible Schedule</h3>
-        <p>선생님과 수업 후 AI와 24시간 무한반복 연습.</p>
-      </article>
+          <p>
+            <input type="text" name="user_id" placeholder="아이디">
+          </p>
+
+          <p>
+            <input type="password" name="user_pw" placeholder="비밀번호">
+          </p>
+
+          <div class="member_btn">
+            <input type="submit" value="로그인">
+          </div>
+
+        </form>
+
+        <p class="member_link">
+          아직 회원이 아니신가요?
+          <a href="./join.php">회원가입</a>
+        </p>
+      </div>
 
     </div>
-
   </section>
 
 </main>
 
 <footer>
-
   <div class="container">
-
-    <p>
-      © Global Link Co., Ltd. All rights reserved.
-    </p>
-
+    <p>Copyright © Hello Korean. All rights reserved.</p>
   </div>
-
 </footer>
 
 </body>

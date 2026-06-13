@@ -1,0 +1,181 @@
+/* =========================
+   common.css
+   모든 페이지 공통 스타일
+========================= */
+
+/* 1. 전체 기본 설정 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 2. body 기본 글꼴 설정 */
+body {
+  font-family: Arial, sans-serif;
+  color: #222;
+  line-height: 1.6;
+}
+
+/* 3. a 태그 기본 설정 */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 4. ul 태그 기본 설정 */
+ul {
+  list-style: none;
+}
+
+/* 5. 공통 container */
+.container {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+/* 6. header 영역 */
+header {
+  width: 100%;
+  height: 80px;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+header .container {
+  height: 80px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 로고 */
+.logo {
+  width: 135px;
+  height: auto;
+  display: block;
+}
+
+/* 메뉴 가로 배치 */
+nav ul {
+  display: flex;
+  align-items: center;
+}
+
+/* 메뉴 사이 간격 */
+nav ul li {
+  margin-left: 30px;
+}
+
+/* 메뉴 글자 */
+nav ul li a {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* 현재 Board 메뉴 표시 */
+.board {
+  color: blueviolet;
+  font-size: medium;
+}
+
+/* 메뉴에 마우스를 올렸을 때 */
+nav ul li a:hover {
+  color: #1f5fbf;
+}
+
+/* 로그인 버튼 */
+.login_btn {
+  margin-left: 15px;
+  font-size: 13px;
+  color: #555;
+}
+
+/* 회원가입 버튼 */
+.join_btn {
+  font-size: 13px;
+  color: #1f5fae;
+  padding: 6px 12px;
+  border: 1px solid #1f5fae;
+  border-radius: 20px;
+}
+
+.login_btn:hover {
+  color: #1f5fae;
+}
+
+.join_btn:hover {
+  background-color: #1f5fae;
+  color: #fff;
+}
+
+/* footer 영역 */
+footer {
+  padding: 30px 0;
+  background-color: #222;
+  color: #fff;
+  text-align: center;
+}
+
+footer p {
+  font-size: 14px;
+}
+
+/* 반응형 */
+@media (max-width: 1200px) {
+  .container {
+    width: 90%;
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    height: auto;
+  }
+
+  header .container {
+    height: auto;
+    flex-direction: column;
+    padding: 20px 0;
+  }
+
+  nav ul {
+    margin-top: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  nav ul li {
+    margin: 5px 12px;
+  }
+}
+
+/* =========================
+   임시 비활성 메뉴
+   Course / Teacher / Price
+========================= */
+
+nav ul li:nth-child(2) a,
+nav ul li:nth-child(3) a,
+nav ul li:nth-child(4) a {
+  color: #aaa !important;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* =========================
+   Contact / Board 강조
+========================= */
+
+nav ul li:nth-child(5) a,
+nav ul li:nth-child(6) a {
+  color: blueviolet !important;
+}
+
+/* Contact / Board hover */
+nav ul li:nth-child(5) a:hover,
+nav ul li:nth-child(6) a:hover {
+  color: #1f5fbf !important;
+}
