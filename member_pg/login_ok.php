@@ -38,7 +38,11 @@
                 echo "
                     <script>
                         alert('로그인 성공');
-                        location.href='../main_pg/01main_pg.html';
+
+                        // 로그인 후에는 세션을 확인할 수 있는 PHP 페이지로 이동
+                        // .html 페이지는 $_SESSION 값을 확인할 수 없기 때문에
+                        // 로그인 상태 표시가 바뀌지 않음 
+                        location.href='../main_pg/01main_pg.php';
                     </script>
                 ";
             }else{

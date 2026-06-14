@@ -101,3 +101,42 @@
     flex-direction: column;
   }
 }
+
+/* 관리자 테이블 영역 */
+.admin_table_area {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 25px;
+}
+
+/* 관리자 테이블 */
+.admin_table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.admin_table caption {
+  display: none;
+}
+
+.admin_table th {
+  padding: 14px 10px;
+  border: 1px solid #ddd;
+  background-color: #eef5f7;
+
+  font-size: 14px;
+  color: #222;
+}
+
+.admin_table td {
+  padding: 13px 10px;
+  border: 1px solid #ddd;
+
+  font-size: 14px;
+  text-align: center;
+  color: #333;
+}
+
+.admin_table tbody tr:hover {
+  background-color: #f7fbff;
+}

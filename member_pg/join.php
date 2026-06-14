@@ -34,9 +34,6 @@
   </div>
 </header>
 
-  </div>
-</header>
-
 <main>
 
   <section id="member_visual">

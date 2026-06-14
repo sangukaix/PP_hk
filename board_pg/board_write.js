@@ -56,8 +56,6 @@ function submitCheck() {
     return false;
   }
 
-  alert("문의가 등록되었습니다.");
-
-  // 지금은 PHP/DB 연결 전이라 실제 제출은 막아둠
-  return false;
+  // PHP 파일로 실제 제출
+  return true;
 }
