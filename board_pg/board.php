@@ -10,18 +10,74 @@
   // common/db.php 안에서 $db 변수로 MySQL에 연결됨
   include "../common/db.php";
 
-  // hk_board 테이블에서 문의글을 최신순으로 가져오기
-  // no가 큰 글이 최근 글이므로 DESC 사용
-  $sql = "SELECT * FROM hk_board ORDER BY no DESC";
+    // 검색 유형 받기
+    // 검색창 select의 name="search_type"에서 넘어오는 값
+    // 값이 없으면 기본값은 title
+    $search_type = $_GET['search_type'] ?? 'title';
 
-  // SQL 실행
-  $result = mysqli_query($db, $sql);
+    // 검색어 받기
+    // 검색창 input의 name="keyword"에서 넘어오는 값
+    // 값이 없으면 빈 문자열
+    $keyword = $_GET['keyword'] ?? '';
+
+    // 검색 유형에 따라 실제 DB 컬럼 이름을 정함
+    // 사용자가 선택한 값을 그대로 SQL에 넣지 않고, 우리가 허용한 값만 사용
+    if($search_type == 'writer'){
+      $search_column = 'writer';
+    }else if($search_type == 'content'){
+      $search_column = 'message';
+    }else{
+      $search_column = 'title';
+    }
+
+    // 검색어가 있을 때와 없을 때 SQL을 다르게 만듦
+    if($keyword != ''){
+
+      // 검색어를 SQL에 안전하게 넣기 위해 처리
+      $safe_keyword = mysqli_real_escape_string($db, $keyword);
+
+      // 선택한 컬럼에서 검색어가 포함된 글만 가져오기
+      $sql = "SELECT * FROM hk_board
+              WHERE $search_column LIKE '%$safe_keyword%'
+              ORDER BY no DESC";
+
+    }else{
+
+      // 검색어가 없으면 전체 문의글을 최신순으로 가져오기
+      $sql = "SELECT * FROM hk_board ORDER BY no DESC";
+    }
+
+    // SQL 실행
+    $result = mysqli_query($db, $sql);
 
   // 화면에 출력할 때 특수문자를 안전하게 바꿔주는 함수
   // 사용자가 입력한 제목이나 이름에 HTML 태그가 있어도 화면이 깨지지 않게 함
   function h($str){
     return htmlspecialchars((string)$str, ENT_QUOTES, "UTF-8");
   }
+
+  // 상담유형을 화면에 보기 좋게 정리하는 함수
+// 예전 DB 값에 [신규], [기존] 같은 글자가 남아 있어도 화면에서는 깔끔하게 보여줌
+function show_category($category){
+
+  // category 값에 '신규'라는 글자가 들어 있으면 신규 문의로 표시
+  if(strpos($category, '신규') !== false){
+    return '신규 문의';
+  }
+
+  // category 값에 '기존'이라는 글자가 들어 있으면 수강중으로 표시
+  if(strpos($category, '기존') !== false){
+    return '수강중';
+  }
+
+  // 이미 수강중 또는 신규 문의로 저장된 경우 그대로 표시
+  if($category == '수강중' || $category == '신규 문의'){
+    return $category;
+  }
+
+  // 그 외 값은 그대로 표시
+  return $category;
+}
 ?>
 
 <!DOCTYPE html>
@@ -123,16 +179,32 @@
           <p>수업 신청, 레벨 테스트, 수강료 등 궁금한 내용을 확인하세요.</p>
         </div>
 
-        <!-- 검색 기능은 아직 실제로 연결하지 않음 -->
-        <!-- 나중에 keyword 값을 받아서 SQL 검색 기능으로 확장 가능 -->
-        <form action="#" method="get" class="board_search">
+        <!-- 검색 form -->
+        <!-- method="get"을 사용하면 검색어가 주소창에 표시됨 -->
+        <form action="./board.php" method="get" class="board_search">
+
           <select name="search_type">
-            <option value="title">제목</option>
-            <option value="writer">작성자</option>
-            <option value="content">내용</option>
+
+            <!-- 제목 검색 선택 유지 -->
+            <option value="title" <?php if($search_type == 'title'){ echo 'selected'; } ?>>
+              제목
+            </option>
+
+            <!-- 작성자 검색 선택 유지 -->
+            <option value="writer" <?php if($search_type == 'writer'){ echo 'selected'; } ?>>
+              작성자
+            </option>
+
+            <!-- 내용 검색 선택 유지 -->
+            <option value="content" <?php if($search_type == 'content'){ echo 'selected'; } ?>>
+              내용
+            </option>
+
           </select>
 
-          <input type="text" name="keyword" placeholder="검색어를 입력하세요">
+          <!-- 검색 후에도 입력한 검색어가 그대로 보이게 value에 넣어줌 -->
+          <input type="text" name="keyword" placeholder="검색어를 입력하세요" value="<?php echo h($keyword); ?>">
+
           <button type="submit">검색</button>
         </form>
 
@@ -145,6 +217,7 @@
           <thead>
             <tr>
               <th>번호</th>
+              <th>상담유형</th>
               <th>제목</th>
               <th>작성자</th>
               <th>작성일</th>
@@ -155,13 +228,14 @@
           <tbody>
 
             <!-- 공지사항은 DB에서 가져오지 않고 항상 맨 위에 고정 -->
-            <tr class="notice">
-              <td>공지</td>
-              <td><a href="#">수업 신청 전 꼭 확인해주세요.</a></td>
-              <td>관리자</td>
-              <td>2026-06-14</td>
-              <td><span class="status notice_text">공지</span></td>
-            </tr>
+              <tr class="notice">
+                <td>공지</td>
+                <td>공지</td>
+                <td><a href="#">수업 신청 전 꼭 확인해주세요.</a></td>
+                <td>관리자</td>
+                <td>2026-06-14</td>
+                <td><span class="status notice_text">공지</span></td>
+              </tr>
 
             <?php
               // DB에서 가져온 문의글이 1개 이상 있을 때
@@ -192,9 +266,14 @@
 
                 <!-- 제목 -->
                 <!-- 상담 유형을 제목 앞에 같이 표시 -->
+                <!-- 상담유형 -->
                 <td>
-                  <a href="#">
-                    <?php echo h($row['category']); ?>
+                  <?php echo h(show_category($row['category'])); ?>
+                </td>
+
+                <!-- 제목 -->
+                <td>
+                  <a href="./board_view.php?no=<?php echo h($row['no']); ?>">
                     <?php echo h($row['title']); ?>
                   </a>
                 </td>
@@ -220,7 +299,16 @@
 
               <!-- DB에 문의글이 없을 때 표시 -->
               <tr>
-                <td colspan="5">등록된 문의글이 없습니다.</td>
+                <td colspan="6">
+                  <?php
+                    // 검색어가 있을 때는 검색 결과 없음으로 표시
+                    if($keyword != ''){
+                      echo "검색 결과가 없습니다.";
+                    }else{
+                      echo "등록된 문의글이 없습니다.";
+                    }
+                  ?>
+                </td>
               </tr>
 
             <?php

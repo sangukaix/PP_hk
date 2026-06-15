@@ -113,11 +113,8 @@
 
           <select id="category" name="category">
             <option value="">선택하기</option>
-            <option value="[신규] 상담 문의">[신규] 상담 문의</option>
-            <option value="[기존] 매칭 문의">[기존] 매칭 문의</option>
-            <option value="[기존] DS 문의">[기존] DS 문의</option>
-            <option value="[기존] 교육 문의">[기존] 교육 문의</option>
-            <option value="[기타] 기타 이용 문의">[기타] 기타 이용 문의</option>
+            <option value="신규 문의">신규 문의</option>
+            <option value="수강중">수강중</option>
           </select>
         </div>
 

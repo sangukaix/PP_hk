@@ -24,6 +24,12 @@
   function h($str){
     return htmlspecialchars((string)$str, ENT_QUOTES, "UTF-8");
   }
+    // 현재 어떤 탭을 보여줄지 정함
+  $active_tab = $_GET['tab'] ?? 'member';
+
+  if($active_tab != 'board'){
+    $active_tab = 'member';
+  }
 ?>
 
 <!DOCTYPE html>
@@ -65,14 +71,18 @@
     <ul>
       <!-- 회원관리 탭 버튼 -->
       <li>
-        <button type="button" class="admin_tab_btn active" onclick="showAdminTab('member')">
-          회원관리
-        </button>
+      <!-- 회원관리 탭 버튼 -->
+      <!-- $active_tab 값이 member일 때만 active 클래스를 붙임 -->
+      <button type="button" class="admin_tab_btn <?php if($active_tab == 'member'){ echo 'active'; } ?>" onclick="showAdminTab('member')">
+        회원관리
+      </button>
       </li>
 
       <!-- 문의글관리 탭 버튼 -->
       <li>
-        <button type="button" class="admin_tab_btn" onclick="showAdminTab('board')">
+        <!-- 문의글관리 탭 버튼 -->
+        <!-- $active_tab 값이 board일 때만 active 클래스를 붙임 -->
+        <button type="button" class="admin_tab_btn <?php if($active_tab == 'board'){ echo 'active'; } ?>" onclick="showAdminTab('board')">
           문의글관리
         </button>
       </li>
@@ -89,8 +99,9 @@
       <p>회원 정보와 문의글을 관리하는 페이지입니다.</p>
     </section>
 
-    <!-- 회원관리 탭 내용 -->
-    <section id="member_panel" class="admin_panel active">
+      <!-- 회원관리 내용 영역 -->
+      <!-- $active_tab 값이 member일 때만 active 클래스를 붙여서 화면에 보이게 함 -->
+      <section id="member_panel" class="admin_panel <?php if($active_tab == 'member'){ echo 'active'; } ?>">
 
       <div class="admin_panel_title">
         <h3>회원관리</h3>
@@ -151,8 +162,9 @@
 
     </section>
 
-    <!-- 문의글관리 탭 내용 -->
-    <section id="board_panel" class="admin_panel">
+      <!-- 문의글관리 내용 영역 -->
+      <!-- $active_tab 값이 board일 때만 active 클래스를 붙여서 화면에 보이게 함 -->
+      <section id="board_panel" class="admin_panel <?php if($active_tab == 'board'){ echo 'active'; } ?>">
 
       <div class="admin_panel_title">
         <h3>문의글관리</h3>
@@ -172,6 +184,7 @@
               <th>내용</th>
               <th>상태</th>
               <th>작성일</th>
+              <th>관리</th>
             </tr>
           </thead>
 
@@ -188,10 +201,27 @@
                 <td><?php echo h($board['no']); ?></td>
                 <td><?php echo h($board['writer']); ?></td>
                 <td><?php echo h($board['category']); ?></td>
-                <td class="text_left"><?php echo h($board['title']); ?></td>
+                <td class="text_left">
+                  <!-- 제목을 누르면 관리자용 문의글 상세보기 페이지로 이동 -->
+                  <a href="./board_view.php?no=<?php echo h($board['no']); ?>">
+                    <?php echo h($board['title']); ?>
+                  </a>
+                </td>
                 <td class="text_left"><?php echo h(mb_strimwidth($board['message'], 0, 60, "...", "UTF-8")); ?></td>
                 <td><?php echo h($board['status']); ?></td>
                 <td><?php echo h($board['date']); ?></td>
+              <td>
+                  <!-- 삭제 버튼 form -->
+                  <!-- POST 방식으로 글 번호를 board_delete.php에 보냄 -->
+                  <form action="./board_delete.php" method="post" onsubmit="return confirm('정말 이 문의글을 삭제하시겠습니까?');">
+
+                    <!-- 삭제할 문의글 번호를 hidden으로 보냄 -->
+                    <input type="hidden" name="no" value="<?php echo h($board['no']); ?>">
+
+                    <!-- 삭제 버튼 -->
+                    <button type="submit" class="delete_btn">삭제</button>
+                  </form>
+                </td>
               </tr>
 
             <?php
@@ -201,7 +231,7 @@
 
               <!-- 문의글이 없을 때 -->
               <tr>
-                <td colspan="7">등록된 문의글이 없습니다.</td>
+                <td colspan="8">등록된 문의글이 없습니다.</td>
               </tr>
 
             <?php

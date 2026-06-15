@@ -726,3 +726,10 @@ nav ul {
   background-color: #1f5fae;
   color: #fff;
 }
+
+/* 수정 페이지에서 작성자 input은 수정 불가 표시 */
+.readonly_input {
+  background-color: #eee;
+  color: #666;
+  cursor: not-allowed;
+}
