@@ -1,4 +1,9 @@
 <?php
+  // 관리자 로그인 체크 파일 불러오기
+  // 관리자 로그인이 안 되어 있으면 admin_login.php로 이동시킴
+  include "./admin_check.php";
+
+
     header("Content-Type:text/html; charset=utf-8");
 
     include "../common/db.php";
