@@ -202,7 +202,7 @@ nav ul li a:hover {
 /* 제목 칸만 왼쪽 정렬 */
 .board_table th:nth-child(2),
 .board_table td:nth-child(2) {
-  text-align: left;
+  text-align: center;
 }
 
 /* 번호 칸 너비 */
@@ -732,4 +732,220 @@ nav ul {
   background-color: #eee;
   color: #666;
   cursor: not-allowed;
+}
+
+/* Board 테이블 제목 컬럼 위치 조정 */
+/* 3번째 컬럼 = 제목 컬럼 */
+.board_table th:nth-child(3),
+.board_table td:nth-child(3) {
+  text-align: center;
+  padding-left: 0;
+}
+
+/* 제목 링크도 왼쪽 정렬 느낌으로 보이게 함 */
+.board_table td:nth-child(3) a {
+  display: inline-block;
+  text-align: left;
+}
+
+/* Board 테이블 컬럼 너비 조정 */
+.board_table th:nth-child(1),
+.board_table td:nth-child(1) {
+  width: 8%;
+}
+
+.board_table th:nth-child(2),
+.board_table td:nth-child(2) {
+  width: 15%;
+}
+
+.board_table th:nth-child(3),
+.board_table td:nth-child(3) {
+  width: 38%;
+}
+
+.board_table th:nth-child(4),
+.board_table td:nth-child(4) {
+  width: 13%;
+}
+
+.board_table th:nth-child(5),
+.board_table td:nth-child(5) {
+  width: 14%;
+}
+
+.board_table th:nth-child(6),
+.board_table td:nth-child(6) {
+  width: 12%;
+}
+
+/* 게시판 제목 컬럼 가운데 정렬 */
+/* 3번째 컬럼 = 제목 컬럼 */
+.board_table th:nth-child(3),
+.board_table td:nth-child(3) {
+  text-align: center;
+}
+
+/* 게시판 제목 링크 기본 상태 */
+.board_table td:nth-child(3) a {
+  color: #1f5fbf;          /* 제목 글씨 파란색 */
+  text-decoration: none;   /* 평소에는 밑줄 없음 */
+  font-weight: 500;
+}
+
+/* 제목 링크에 마우스를 올렸을 때 */
+.board_table td:nth-child(3) a:hover {
+  text-decoration: underline; /* 마우스 올리면 밑줄 표시 */
+}
+
+/* 페이지네이션 비활성 버튼 */
+/* 첫 페이지의 이전 버튼, 마지막 페이지의 다음 버튼에 사용 */
+.pagination a.disabled {
+  color: #aaa;
+  background-color: #f2f2f2;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* Board 페이지 전체 내용 폭 줄이기 */
+#board_content .container {
+  max-width: 1100px;
+}
+
+/* Board 상단 제목 영역도 게시판 폭과 맞춤 */
+#board_visual .container {
+  max-width: 1100px;
+}
+
+/* 게시판 테이블 글자 크기 조금 줄이기 */
+.board_table {
+  font-size: 14px;
+}
+
+/* 테이블 안쪽 여백 줄이기 */
+.board_table th,
+.board_table td {
+  padding: 14px 10px;
+}
+
+/* 상세보기 하단 버튼 영역 */
+.view_btn_area {
+  margin-top: -15px;
+  text-align: center;
+}
+
+/* 삭제 form을 버튼 옆에 배치 */
+.delete_form {
+  display: inline-block;
+}
+
+/* 사용자 삭제 버튼 */
+.user_delete_btn {
+  padding: 10px 18px;
+  border: none;
+  background-color: #d93025;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* 삭제 버튼 hover */
+.user_delete_btn:hover {
+  background-color: #b3261e;
+}
+
+/* 상세보기 삭제 버튼만 정확히 선택 */
+#board_content .view_btn_area .delete_form {
+  display: inline-block;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+/* 상세보기 삭제 버튼 */
+#board_content .view_btn_area .delete_form .user_delete_btn {
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 4px !important;
+  background-color: #d93025 !important;
+  color: #fff !important;
+
+  font-size: 15px !important;
+  font-weight: bold !important;
+  cursor: pointer !important;
+}
+
+/* 삭제 버튼에 마우스를 올렸을 때 */
+#board_content .view_btn_area .delete_form .user_delete_btn:hover {
+  background-color: #b3261e !important;
+}
+
+/* 상세보기 하단 버튼 전체 영역 ====================================================*/
+#board_content .view_btn_area {
+  margin-top: -20px; /* 버튼 전체를 위로 올리는 값 */
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+}
+
+/* 삭제 form도 버튼 하나처럼 보이게 정렬 */
+#board_content .view_btn_area .delete_form {
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+/* 목록으로, 수정하기, 삭제하기 공통 버튼 크기/폰트 통일 */
+#board_content .view_btn_area a,
+#board_content .view_btn_area .user_delete_btn {
+  width: 70px;
+  height: 40px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 0;
+  margin: 0;
+  border-radius: 4px;
+  box-sizing: border-box;
+
+  font-family: Arial, sans-serif;
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 1;
+
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* 목록으로 / 수정하기 버튼 */
+#board_content .view_btn_area .list_btn,
+#board_content .view_btn_area .edit_btn {
+  background-color: #1f5fbf;
+  color: #fff;
+  border: none;
+}
+
+/* 삭제하기 버튼 */
+#board_content .view_btn_area .user_delete_btn {
+  background-color: #d93025;
+  color: #fff;
+  border: none;
+
+  font-family: Arial, sans-serif;
+  font-size: 5px;
+  font-weight: bold;
+}
+
+/* 삭제하기 hover */
+#board_content .view_btn_area .user_delete_btn:hover {
+  background-color: #b3261e;
+}
+
+/* 목록으로 / 수정하기 버튼 hover */
+#board_content .view_btn_area .list_btn:hover,
+#board_content .view_btn_area .edit_btn:hover {
+  background-color: #174a96;
+  color: #fff;
 }

@@ -6,11 +6,28 @@
 }
 
 /* 2. body 기본 설정 */
+/* 2. body 기본 설정 */
 body {
   font-family: Arial, sans-serif;
   color: #222;
   line-height: 1.6;
   background-color: #f7f9fc;
+
+  /* 화면 높이만큼 body를 사용 */
+  min-height: 100vh;
+
+  /* header, visual, content, footer를 세로로 배치 */
+  display: flex;
+  flex-direction: column;
+}
+
+/* main 영역이 남는 공간을 차지해서 footer를 아래로 밀어냄 */
+main {
+  flex: 1;
+
+  /* main 안의 member_visual, member_content를 세로로 배치 */
+  display: flex;
+  flex-direction: column;
 }
 
 /* 3. a 태그 기본 설정 */
@@ -104,6 +121,9 @@ nav ul li a:hover {
 /* 8. 로그인 / 회원가입 내용 영역 */
 #member_content {
   padding: 50px 0;
+
+  /* 남는 세로 공간을 이 영역이 차지해서 footer를 아래로 밀어냄 */
+  flex: 1;
 }
 
 /* 회원 박스 */
@@ -208,11 +228,15 @@ nav ul li a:hover {
 }
 
 /* 9. footer 영역 */
+/* 9. footer 영역 */
 footer {
   padding: 26px 0;
   background-color: #222;
   color: #fff;
   text-align: center;
+
+  /* footer를 아래쪽으로 밀어냄 */
+  margin-top: auto;
 }
 
 footer p {
@@ -263,4 +287,60 @@ footer p {
     width: 100%;
     padding: 28px 22px;
   }
+}
+
+/* 로그인 페이지 footer 최종 위치 보정 */
+html,
+body {
+  min-height: 100vh;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+#member_content {
+  flex: 1;
+}
+
+footer {
+  margin-top: auto;
+}
+
+/* 로그인/회원가입 페이지 footer 위치 최종 보정 */
+html,
+body {
+  min-height: 100%;
+}
+
+/* body를 화면 전체 높이로 만들고 세로 배치 */
+body {
+  min-height: 100vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* main이 남는 화면 높이를 차지하게 함 */
+main {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* 로그인 박스가 있는 영역이 남는 공간을 차지 */
+#member_content {
+  flex: 1 !important;
+}
+
+/* footer는 아래쪽으로 밀림 */
+footer {
+  margin-top: auto !important;
+  flex-shrink: 0;
 }

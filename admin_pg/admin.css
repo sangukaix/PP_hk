@@ -446,3 +446,38 @@ body {
 .delete_btn:hover {
   background-color: #c9302c;
 }
+
+/* 관리자 페이지네이션 */
+.pagination {
+  margin-top: 28px;
+  text-align: center;
+}
+
+.pagination a {
+  display: inline-block;
+  min-width: 34px;
+  height: 34px;
+  line-height: 34px;
+  margin: 0 3px;
+
+  border: 1px solid #ddd;
+  background-color: #fff;
+  color: #333;
+
+  font-size: 14px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.pagination a.active {
+  background-color: #1f5fbf;
+  border-color: #1f5fbf;
+  color: #fff;
+}
+
+.pagination a.disabled {
+  color: #aaa;
+  background-color: #f2f2f2;
+  cursor: default;
+  pointer-events: none;
+}

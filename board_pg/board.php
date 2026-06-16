@@ -10,45 +10,83 @@
   // common/db.php 안에서 $db 변수로 MySQL에 연결됨
   include "../common/db.php";
 
-    // 검색 유형 받기
-    // 검색창 select의 name="search_type"에서 넘어오는 값
-    // 값이 없으면 기본값은 title
-    $search_type = $_GET['search_type'] ?? 'title';
+  // 검색 유형 받기
+  // 검색창 select의 name="search_type"에서 넘어오는 값
+  $search_type = $_GET['search_type'] ?? 'title';
 
-    // 검색어 받기
-    // 검색창 input의 name="keyword"에서 넘어오는 값
-    // 값이 없으면 빈 문자열
-    $keyword = $_GET['keyword'] ?? '';
+  // 검색어 받기
+  // 검색창 input의 name="keyword"에서 넘어오는 값
+  $keyword = $_GET['keyword'] ?? '';
 
-    // 검색 유형에 따라 실제 DB 컬럼 이름을 정함
-    // 사용자가 선택한 값을 그대로 SQL에 넣지 않고, 우리가 허용한 값만 사용
-    if($search_type == 'writer'){
-      $search_column = 'writer';
-    }else if($search_type == 'content'){
-      $search_column = 'message';
-    }else{
-      $search_column = 'title';
-    }
+  // 검색 유형에 따라 실제 DB 컬럼 이름을 정함
+  // 사용자가 선택한 값을 그대로 SQL에 넣지 않고, 우리가 허용한 값만 사용
+  if($search_type == 'writer'){
+    $search_column = 'writer';
+  }else if($search_type == 'content'){
+    $search_column = 'message';
+  }else{
+    $search_column = 'title';
+  }
 
-    // 검색어가 있을 때와 없을 때 SQL을 다르게 만듦
-    if($keyword != ''){
+  // 현재 페이지 번호 받기
+  // 주소에 page 값이 없으면 기본값은 1페이지
+  $page = $_GET['page'] ?? 1;
 
-      // 검색어를 SQL에 안전하게 넣기 위해 처리
-      $safe_keyword = mysqli_real_escape_string($db, $keyword);
+  // 페이지 번호는 숫자로만 사용하기 위해 정수로 변환
+  $page = (int)$page;
 
-      // 선택한 컬럼에서 검색어가 포함된 글만 가져오기
-      $sql = "SELECT * FROM hk_board
-              WHERE $search_column LIKE '%$safe_keyword%'
-              ORDER BY no DESC";
+  // page 값이 1보다 작으면 1로 고정
+  if($page < 1){
+    $page = 1;
+  }
 
-    }else{
+  // 한 페이지에 보여줄 문의글 개수
+  $list_num = 10;
 
-      // 검색어가 없으면 전체 문의글을 최신순으로 가져오기
-      $sql = "SELECT * FROM hk_board ORDER BY no DESC";
-    }
+  // 현재 페이지에서 몇 번째 글부터 가져올지 계산
+  // 1페이지: 0번부터, 2페이지: 10번부터, 3페이지: 20번부터
+  $start = ($page - 1) * $list_num;
 
-    // SQL 실행
-    $result = mysqli_query($db, $sql);
+  // 검색 조건 SQL을 담을 변수
+  $where_sql = "";
+
+  // 검색어가 있을 때만 WHERE 조건을 만듦
+  if($keyword != ''){
+
+    // 검색어를 SQL에 안전하게 넣기 위해 처리
+    $safe_keyword = mysqli_real_escape_string($db, $keyword);
+
+    // 선택한 컬럼에서 검색어가 포함된 글만 찾음
+    $where_sql = "WHERE $search_column LIKE '%$safe_keyword%'";
+  }
+
+  // 전체 문의글 개수 구하기
+  // 페이지 수를 계산하기 위해 필요함
+  $count_sql = "SELECT COUNT(*) AS total FROM hk_board $where_sql";
+  $count_result = mysqli_query($db, $count_sql);
+  $count_row = mysqli_fetch_array($count_result, MYSQLI_ASSOC);
+
+  // 전체 문의글 개수
+  $total_count = $count_row['total'];
+
+  // 전체 페이지 수 계산
+  // 예: 글 23개 / 10개씩 보기 = 3페이지
+  $total_page = ceil($total_count / $list_num);
+
+  // 문의글이 하나도 없을 때도 최소 1페이지로 처리
+  if($total_page < 1){
+    $total_page = 1;
+  }
+
+  // 현재 페이지에 보여줄 문의글만 가져오기
+  // LIMIT 시작번호, 가져올개수
+  $sql = "SELECT * FROM hk_board
+          $where_sql
+          ORDER BY no DESC
+          LIMIT $start, $list_num";
+
+  // SQL 실행
+  $result = mysqli_query($db, $sql);
 
   // 화면에 출력할 때 특수문자를 안전하게 바꿔주는 함수
   // 사용자가 입력한 제목이나 이름에 HTML 태그가 있어도 화면이 깨지지 않게 함
@@ -229,9 +267,9 @@ function show_category($category){
 
             <!-- 공지사항은 DB에서 가져오지 않고 항상 맨 위에 고정 -->
               <tr class="notice">
-                <td>공지</td>
-                <td>공지</td>
-                <td><a href="#">수업 신청 전 꼭 확인해주세요.</a></td>
+                <td>-</td>
+                <td style="text-align:left; padding-left:26px;">공지</td>
+                <td><a href="#">■문의글 작성시 필독■</a></td>
                 <td>관리자</td>
                 <td>2026-06-14</td>
                 <td><span class="status notice_text">공지</span></td>
@@ -321,12 +359,55 @@ function show_category($category){
 
       <div class="board_bottom">
 
-        <!-- 페이지 번호는 아직 실제 기능 없음 -->
-        <!-- 나중에 글이 많아지면 페이지네이션 기능을 추가할 수 있음 -->
         <div class="pagination">
-          <a href="#">이전</a>
-          <a href="#" class="active">1</a>
-          <a href="#">다음</a>
+
+          <?php
+            // 검색어를 페이지 링크에 넣기 위해 URL 형식으로 변환
+            $url_keyword = urlencode($keyword);
+          ?>
+
+          <?php
+            // 현재 페이지가 1보다 크면 이전 버튼 활성화
+            if($page > 1){
+          ?>
+            <a href="./board.php?page=<?php echo $page - 1; ?>&search_type=<?php echo h($search_type); ?>&keyword=<?php echo $url_keyword; ?>">이전</a>
+          <?php
+            }else{
+          ?>
+            <!-- 1페이지에서는 이전 버튼 비활성화 -->
+            <a href="#" class="disabled">이전</a>
+          <?php
+            }
+          ?>
+
+          <?php
+            // 1페이지부터 마지막 페이지까지 번호 출력
+            for($i = 1; $i <= $total_page; $i++){
+          ?>
+
+            <a href="./board.php?page=<?php echo $i; ?>&search_type=<?php echo h($search_type); ?>&keyword=<?php echo $url_keyword; ?>"
+              class="<?php if($i == $page){ echo 'active'; } ?>">
+              <?php echo $i; ?>
+            </a>
+
+          <?php
+            }
+          ?>
+
+          <?php
+            // 현재 페이지가 마지막 페이지보다 작으면 다음 버튼 활성화
+            if($page < $total_page){
+          ?>
+            <a href="./board.php?page=<?php echo $page + 1; ?>&search_type=<?php echo h($search_type); ?>&keyword=<?php echo $url_keyword; ?>">다음</a>
+          <?php
+            }else{
+          ?>
+            <!-- 마지막 페이지에서는 다음 버튼 비활성화 -->
+            <a href="#" class="disabled">다음</a>
+          <?php
+            }
+          ?>
+
         </div>
 
         <!-- 글쓰기 버튼 -->

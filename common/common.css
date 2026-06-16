@@ -179,3 +179,25 @@ nav ul li:nth-child(5) a:hover,
 nav ul li:nth-child(6) a:hover {
   color: #1f5fbf !important;
 }
+
+/* footer를 화면 맨 아래에 고정 */
+footer {
+  position: fixed;      /* 화면에 고정 */
+  left: 0;              /* 왼쪽 끝에 붙임 */
+  bottom: 0;            /* 화면 맨 아래에 붙임 */
+  width: 100%;          /* 가로 전체 사용 */
+  height: 60px;         /* footer 높이 */
+  background-color: #222;
+  color: #fff;
+
+  display: flex;        /* 글씨 가운데 정렬용 */
+  justify-content: center;
+  align-items: center;
+
+  z-index: 999;         /* 다른 요소보다 위에 보이게 */
+}
+
+/* footer가 본문을 가리지 않도록 body 아래 여백 추가 */
+body {
+  padding-bottom: 60px;
+}

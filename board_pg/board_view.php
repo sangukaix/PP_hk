@@ -232,11 +232,26 @@
             <!-- 버튼 영역 -->
             <div class="write_btn">
 
-                <!-- 목록으로 버튼: 게시판 목록으로 이동 -->
-                <a href="./board.php">목록으로</a>
+                <!-- 상세보기 하단 버튼 영역 -->
+                  <div class="view_btn_area">
 
-                <!-- 수정하기 버튼: 현재 보고 있는 글 번호를 가지고 수정 페이지로 이동 -->
-                <a href="./board_edit.php?no=<?php echo h($row['no']); ?>">수정하기</a>
+                    <!-- 목록으로 이동 -->
+                    <a href="./board.php" class="list_btn">목록으로</a>
+
+                    <!-- 수정하기 이동 -->
+                    <a href="./board_edit.php?no=<?php echo h($row['no']); ?>" class="edit_btn">수정하기</a>
+
+                    <!-- 삭제하기 -->
+                    <form action="./board_delete.php" method="post" class="delete_form" onsubmit="return confirm('정말 이 글을 삭제하시겠습니까?');">
+
+                      <!-- 삭제할 글 번호 -->
+                      <input type="hidden" name="no" value="<?php echo h($row['no']); ?>">
+
+                      <!-- 삭제 버튼 -->
+                      <button type="submit" class="user_delete_btn">삭제</button>
+                    </form>
+
+                  </div>
 
             </div>
 

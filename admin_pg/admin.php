@@ -10,14 +10,99 @@
   // 회원 목록과 문의글 목록을 admin.php 안에서 보여주기 위해 필요함
   include "../common/db.php";
 
-  // 회원 목록 가져오기
-  // hk_members 테이블에서 최근 가입자 순서로 가져옴
-  $member_sql = "SELECT * FROM hk_members ORDER BY no DESC";
+  // ==============================
+  // 회원관리 페이지네이션
+  // ==============================
+
+  // 현재 회원관리 페이지 번호 받기
+  // 주소에 member_page 값이 없으면 기본값은 1페이지
+  $member_page = $_GET['member_page'] ?? 1;
+
+  // 페이지 번호는 숫자로 사용해야 하므로 정수로 변환
+  $member_page = (int)$member_page;
+
+  // 페이지 번호가 1보다 작으면 1로 고정
+  if($member_page < 1){
+    $member_page = 1;
+  }
+
+  // 한 페이지에 보여줄 회원 수
+  $member_list_num = 10;
+
+  // 현재 페이지에서 몇 번째 회원부터 가져올지 계산
+  // 1페이지: 0번부터, 2페이지: 10번부터
+  $member_start = ($member_page - 1) * $member_list_num;
+
+  // 전체 회원 수 구하기
+  $member_count_sql = "SELECT COUNT(*) AS total FROM hk_members";
+  $member_count_result = mysqli_query($db, $member_count_sql);
+  $member_count_row = mysqli_fetch_array($member_count_result, MYSQLI_ASSOC);
+
+  // 전체 회원 수
+  $member_total_count = (int)$member_count_row['total'];
+
+  // 전체 회원 페이지 수 계산
+  $member_total_page = ceil($member_total_count / $member_list_num);
+
+  // 회원이 없어도 최소 1페이지로 처리
+  if($member_total_page < 1){
+    $member_total_page = 1;
+  }
+
+  // 현재 페이지에 보여줄 회원만 가져오기
+  $member_sql = "SELECT * FROM hk_members
+                ORDER BY no DESC
+                LIMIT $member_start, $member_list_num";
+
+  // SQL 실행
   $member_result = mysqli_query($db, $member_sql);
 
-  // 문의글 목록 가져오기
-  // hk_board 테이블에서 최근 문의글 순서로 가져옴
-  $board_sql = "SELECT * FROM hk_board ORDER BY no DESC";
+
+  // ==============================
+  // 문의글관리 페이지네이션
+  // ==============================
+
+  // 현재 문의글관리 페이지 번호 받기
+  // 주소에 board_page 값이 없으면 기본값은 1페이지
+  $board_page = $_GET['board_page'] ?? 1;
+
+  // 페이지 번호는 숫자로 사용해야 하므로 정수로 변환
+  $board_page = (int)$board_page;
+
+  // 페이지 번호가 1보다 작으면 1로 고정
+  if($board_page < 1){
+    $board_page = 1;
+  }
+
+  // 한 페이지에 보여줄 문의글 수
+  $board_list_num = 10;
+
+  // 현재 페이지에서 몇 번째 문의글부터 가져올지 계산
+  // 1페이지: 0번부터, 2페이지: 10번부터
+  $board_start = ($board_page - 1) * $board_list_num;
+
+  // 전체 문의글 수 구하기
+  $board_count_sql = "SELECT COUNT(*) AS total FROM hk_board";
+  $board_count_result = mysqli_query($db, $board_count_sql);
+  $board_count_row = mysqli_fetch_array($board_count_result, MYSQLI_ASSOC);
+
+  // 전체 문의글 수
+  $board_total_count = (int)$board_count_row['total'];
+
+  // 전체 문의글 페이지 수 계산
+  $board_total_page = ceil($board_total_count / $board_list_num);
+
+  // 문의글이 없어도 최소 1페이지로 처리
+  if($board_total_page < 1){
+    $board_total_page = 1;
+  }
+
+  // 현재 페이지에 보여줄 문의글만 가져오기
+  $board_sql = "SELECT * FROM hk_board
+                ORDER BY no DESC
+                LIMIT $board_start, $board_list_num";
+
+  // SQL 실행
   $board_result = mysqli_query($db, $board_sql);
 
   // 화면에 출력할 때 특수문자를 안전하게 바꿔주는 함수
@@ -160,6 +245,49 @@
         </table>
       </div>
 
+    <!-- 회원관리 페이지 번호 -->
+    <div class="pagination">
+
+      <?php
+        // 이전 버튼
+        if($member_page > 1){
+      ?>
+        <a href="./admin.php?tab=member&member_page=<?php echo $member_page - 1; ?>">이전</a>
+      <?php
+        }else{
+      ?>
+        <a href="#" class="disabled">이전</a>
+      <?php
+        }
+      ?>
+
+      <?php
+        // 회원관리 페이지 번호 출력
+        for($i = 1; $i <= $member_total_page; $i++){
+      ?>
+        <a href="./admin.php?tab=member&member_page=<?php echo $i; ?>"
+          class="<?php if($i == $member_page){ echo 'active'; } ?>">
+          <?php echo $i; ?>
+        </a>
+      <?php
+        }
+      ?>
+
+      <?php
+        // 다음 버튼
+        if($member_page < $member_total_page){
+      ?>
+        <a href="./admin.php?tab=member&member_page=<?php echo $member_page + 1; ?>">다음</a>
+      <?php
+        }else{
+      ?>
+        <a href="#" class="disabled">다음</a>
+      <?php
+        }
+      ?>
+
+    </div>
+
     </section>
 
       <!-- 문의글관리 내용 영역 -->
@@ -240,7 +368,48 @@
           </tbody>
         </table>
       </div>
+      <!-- 문의글관리 페이지 번호 -->
+      <div class="pagination">
 
+        <?php
+          // 이전 버튼
+          if($board_page > 1){
+        ?>
+          <a href="./admin.php?tab=board&board_page=<?php echo $board_page - 1; ?>">이전</a>
+        <?php
+          }else{
+        ?>
+          <a href="#" class="disabled">이전</a>
+        <?php
+          }
+        ?>
+
+        <?php
+          // 문의글관리 페이지 번호 출력
+          for($i = 1; $i <= $board_total_page; $i++){
+        ?>
+          <a href="./admin.php?tab=board&board_page=<?php echo $i; ?>"
+            class="<?php if($i == $board_page){ echo 'active'; } ?>">
+            <?php echo $i; ?>
+          </a>
+        <?php
+          }
+        ?>
+
+        <?php
+          // 다음 버튼
+          if($board_page < $board_total_page){
+        ?>
+          <a href="./admin.php?tab=board&board_page=<?php echo $board_page + 1; ?>">다음</a>
+        <?php
+          }else{
+        ?>
+          <a href="#" class="disabled">다음</a>
+        <?php
+          }
+        ?>
+
+      </div>
     </section>
 
   </div>

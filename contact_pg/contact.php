@@ -28,7 +28,7 @@
 <header>
   <div class="container">
 
-    <a href="../main_pg/01main_pg.html">
+    <a href="../main_pg/01main_pg.php">
       <img src="../main_pg/image/logo.png" alt="main_logo" class="logo">
     </a>
 

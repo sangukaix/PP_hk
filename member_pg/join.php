@@ -14,18 +14,18 @@
 <header>
   <div class="container">
 
-    <a href="../main_pg/01main_pg.html">
+    <a href="../main_pg/01main_pg.php">
       <img src="../main_pg/image/logo.png" alt="main_logo" class="logo">
     </a>
 
     <nav>
       <ul>
-        <li><a href="../main_pg/01main_pg.html">Home</a></li>
+        <li><a href="../main_pg/01main_pg.php">Home</a></li>
         <li><a href="#">Course</a></li>
         <li><a href="#">Teacher</a></li>
         <li><a href="#">Price</a></li>
-        <li><a href="../contact_pg/contact.html">Contact</a></li>
-        <li><a href="../board_pg/board.html" class="board">Board</a></li>
+        <li><a href="../contact_pg/contact.php">Contact</a></li>
+        <li><a href="../board_pg/board.php" class="board">Board</a></li>
         <li><a href="../member_pg/login.php" class="login_btn">로그인</a></li>
         <li><a href="../member_pg/join.php" class="join_btn">회원가입</a></li>
       </ul>
