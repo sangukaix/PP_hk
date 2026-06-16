@@ -86,7 +86,7 @@ nav ul li a:hover {
 
 /* 7. main_visual 영역 */
 #main_visual {
-  height: 500px;
+  height: 300px;
   background-color: #eaf3ff;
 
   display: flex;
@@ -96,14 +96,14 @@ nav ul li a:hover {
 
 /* main_visual 안의 제목 */
 #main_visual h2 {
-  font-size: 52px;
+  font-size: 45px;
   color: #1f5fbf;
   margin-bottom: 20px;
 }
 
 /* main_visual 안의 설명 */
 #main_visual p {
-  font-size: 22px;
+  font-size: 20px;
   color: #333;
 }
 

@@ -106,6 +106,20 @@
 
         <!-- Board -->
         <li><a href="../board_pg/board.php" class="board">Board</a></li>
+        <!-- My page -->
+        <li>
+          <?php
+            if(isset($_SESSION['user_id'])){
+          ?>
+            <a href="../mypage_pg/mypage.php" class="mypage_btn">My page</a>
+          <?php
+            }else{
+          ?>
+            <a href="#" class="mypage_btn" onclick="alert('로그인 후 접속해주세요.'); return false;">My page</a>
+          <?php
+            }
+          ?>
+        </li>
 
         <?php
           // 로그인한 상태인지 확인
@@ -227,35 +241,53 @@
             </tr>
           </tbody>
         </table>
-            <div class="board_bottom">
+          <div class="board_bottom">
 
-            <!-- 버튼 영역 -->
-            <div class="write_btn">
+          <!-- 버튼 영역 -->
+          <div class="write_btn">
 
-                <!-- 상세보기 하단 버튼 영역 -->
-                  <div class="view_btn_area">
+            <!-- 상세보기 하단 버튼 영역 -->
+            <div class="view_btn_area">
 
-                    <!-- 목록으로 이동 -->
-                    <a href="./board.php" class="list_btn">목록으로</a>
+              <!-- 목록으로 이동 -->
+              <a href="./board.php" class="list_btn">목록으로</a>
 
-                    <!-- 수정하기 이동 -->
-                    <a href="./board_edit.php?no=<?php echo h($row['no']); ?>" class="edit_btn">수정하기</a>
+              <?php
+                // 로그인한 사람이고,
+                // 현재 로그인한 회원 번호와 글 작성자의 회원 번호가 같고,
+                // 아직 답변완료 상태가 아니라면 수정/삭제 버튼을 보여준다.
+                if(
+                  isset($_SESSION['user_no']) &&
+                  $_SESSION['user_no'] == $row['member_no'] &&
+                  $status != '답변완료'
+                ){
+              ?>
 
-                    <!-- 삭제하기 -->
-                    <form action="./board_delete.php" method="post" class="delete_form" onsubmit="return confirm('정말 이 글을 삭제하시겠습니까?');">
+                <!-- 수정하기 이동 -->
+                <a href="./board_edit.php?no=<?php echo h($row['no']); ?>" class="edit_btn">수정하기</a>
 
-                      <!-- 삭제할 글 번호 -->
-                      <input type="hidden" name="no" value="<?php echo h($row['no']); ?>">
+                <!-- 삭제하기 -->
+                <form action="./board_delete.php" method="post" class="delete_form" onsubmit="return confirm('정말 이 글을 삭제하시겠습니까?');">
 
-                      <!-- 삭제 버튼 -->
-                      <button type="submit" class="user_delete_btn">삭제</button>
-                    </form>
+                  <!-- 삭제할 글 번호 -->
+                  <input type="hidden" name="no" value="<?php echo h($row['no']); ?>">
 
-                  </div>
+                  <!-- 삭제 버튼 -->
+                  <button type="submit" class="user_delete_btn">삭제</button>
+                </form>
+
+              <?php
+                }
+              ?>
 
             </div>
 
-            </div>
+            <!-- 안내 문구 -->
+            <p class="btn_notice">※ 수정 및 삭제는 본인이 작성한 게시물만 가능합니다.</p>
+
+          </div>
+
+        </div>
 
     </div>
   </section>

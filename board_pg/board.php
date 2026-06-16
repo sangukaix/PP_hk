@@ -157,6 +157,20 @@ function show_category($category){
 
         <!-- Board도 로그인 상태를 확인할 수 있는 PHP 페이지로 이동 -->
         <li><a href="../board_pg/board.php" class="board">Board</a></li>
+        <!-- My page -->
+        <li>
+          <?php
+            if(isset($_SESSION['user_id'])){
+          ?>
+            <a href="../mypage_pg/mypage.php" class="mypage_btn">My page</a>
+          <?php
+            }else{
+          ?>
+            <a href="#" class="mypage_btn" onclick="alert('로그인 후 접속해주세요.'); return false;">My page</a>
+          <?php
+            }
+          ?>
+        </li>
 
         <?php
           // 로그인한 상태인지 확인
@@ -268,7 +282,7 @@ function show_category($category){
             <!-- 공지사항은 DB에서 가져오지 않고 항상 맨 위에 고정 -->
               <tr class="notice">
                 <td>-</td>
-                <td style="text-align:left; padding-left:26px;">공지</td>
+                <td>공지</td>
                 <td><a href="#">■문의글 작성시 필독■</a></td>
                 <td>관리자</td>
                 <td>2026-06-14</td>

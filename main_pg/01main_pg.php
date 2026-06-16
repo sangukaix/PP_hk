@@ -2,6 +2,11 @@
   // 세션 시작
   // 로그인 상태를 확인하려면 PHP 페이지 맨 위에서 session_start()를 실행해야 함
   session_start();
+
+  // 화면에 출력할 때 특수문자를 안전하게 바꿔주는 함수
+  function h($str){
+    return htmlspecialchars((string)$str, ENT_QUOTES, "UTF-8");
+  }
 ?>
 
 <!DOCTYPE html>
@@ -41,6 +46,20 @@
 
     <!-- Board도 로그인 상태를 확인해야 하므로 board.php로 이동 -->
     <li><a href="../board_pg/board.php" class="board">Board</a></li>
+    <!-- My page -->
+    <li>
+      <?php
+        if(isset($_SESSION['user_id'])){
+      ?>
+        <a href="../mypage_pg/mypage.php" class="mypage_btn">My page</a>
+      <?php
+        }else{
+      ?>
+        <a href="#" class="mypage_btn" onclick="alert('로그인 후 접속해주세요.'); return false;">My page</a>
+      <?php
+        }
+      ?>
+    </li>
 
     <?php
       // 로그인한 상태인지 확인
@@ -55,7 +74,7 @@
 
       <!-- 로그인한 상태일 때: 사용자 아이디 표시 -->
       <li>
-        <a href="#" class="join_btn"><?php echo $_SESSION['user_id']; ?>님</a>
+        <a href="#" class="join_btn"><?php echo h($_SESSION['user_id']); ?>님</a>
       </li>
 
     <?php

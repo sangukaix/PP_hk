@@ -201,3 +201,19 @@ footer {
 body {
   padding-bottom: 60px;
 }
+
+/* My page 버튼 */
+nav ul li a.mypage_btn {
+  background-color: #f1f5ff;
+  color: #1f5fbf;
+  padding: 8px 14px;
+  border-radius: 18px;
+  box-shadow: 0 2px 6px rgba(31, 95, 191, 0.18);
+  font-weight: 600;
+}
+
+/* My page 버튼 hover */
+nav ul li a.mypage_btn:hover {
+  background-color: #dfeaff;
+  color: #164a99;
+}

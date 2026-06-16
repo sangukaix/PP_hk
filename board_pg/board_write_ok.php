@@ -65,9 +65,10 @@
   // title: 제목
   // category: 상담 유형
   // message: 문의 내용
+  // status: 답변 상태
   // date: 작성 날짜
-  $sql = "INSERT INTO hk_board(member_no, writer, title, category, message, date)
-          VALUES('$member_no', '$writer', '$title', '$category', '$content', '$now')";
+  $sql = "INSERT INTO hk_board(member_no, writer, title, category, message, status, date)
+          VALUES('$member_no', '$writer', '$title', '$category', '$content', '답변대기', '$now')";
 
   // SQL 실행
   $result = mysqli_query($db, $sql);

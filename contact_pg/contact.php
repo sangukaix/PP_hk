@@ -40,6 +40,21 @@
         <li><a href="#">Price</a></li>
         <li><a href="../contact_pg/contact.php">Contact</a></li>
         <li><a href="../board_pg/board.php" class="board">Board</a></li>
+
+        <!-- My page -->
+        <li>
+          <?php
+            if(isset($_SESSION['user_id'])){
+          ?>
+            <a href="../mypage_pg/mypage.php" class="mypage_btn">My page</a>
+          <?php
+            }else{
+          ?>
+            <a href="#" class="mypage_btn" onclick="alert('로그인 후 접속해주세요.'); return false;">My page</a>
+          <?php
+            }
+          ?>
+        </li>
         <?php
         // 로그인한 상태인지 확인
         // login_ok.php에서 로그인 성공 시 $_SESSION['user_id']를 저장했음

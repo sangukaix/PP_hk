@@ -82,7 +82,7 @@ nav ul li a:hover {
 
 /* 7. Board 상단 영역 */
 #board_visual {
-  height: 280px;
+  height: 200px;
   background-color: #eaf3ff;
 
   display: flex;
@@ -91,13 +91,13 @@ nav ul li a:hover {
 }
 
 #board_visual h2 {
-  font-size: 42px;
+  font-size: 35px;
   color: #1f5fbf;
   margin-bottom: 15px;
 }
 
 #board_visual p {
-  font-size: 20px;
+  font-size: 15px;
   color: #333;
 }
 
@@ -117,13 +117,13 @@ nav ul li a:hover {
 }
 
 .board_title h3 {
-  font-size: 28px;
+  font-size: 24px;
   color: #1f5fbf;
-  margin-bottom: 8px;
+  margin-bottom: 7px;
 }
 
 .board_title p {
-  font-size: 16px;
+  font-size: 14px;
   color: #555;
 }
 
@@ -809,12 +809,12 @@ nav ul {
 
 /* Board 페이지 전체 내용 폭 줄이기 */
 #board_content .container {
-  max-width: 1100px;
+  max-width: 900px;
 }
 
 /* Board 상단 제목 영역도 게시판 폭과 맞춤 */
 #board_visual .container {
-  max-width: 1100px;
+  max-width: 1000px;
 }
 
 /* 게시판 테이블 글자 크기 조금 줄이기 */
@@ -825,7 +825,7 @@ nav ul {
 /* 테이블 안쪽 여백 줄이기 */
 .board_table th,
 .board_table td {
-  padding: 14px 10px;
+  padding: 10px 8px;
 }
 
 /* 상세보기 하단 버튼 영역 */
@@ -948,4 +948,34 @@ nav ul {
 #board_content .view_btn_area .edit_btn:hover {
   background-color: #174a96;
   color: #fff;
+}
+
+.btn_notice {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #999;
+}
+
+/* 상세보기 안내 문구 */
+#board_content .btn_notice {
+  margin-top: 18px;
+  font-size: 13px;
+  color: #999;
+  text-align: right;
+}
+
+/* 게시판 목록 글씨 크기 줄이기 */
+.board_table td {
+  font-size: 13px;
+}
+
+/* 게시판 목록 제목줄 글씨 크기 */
+.board_table thead th {
+  font-size: 13.5px;
+}
+
+/* 답변 상태 표시 크기 줄이기 */
+.board_table .status {
+  font-size: 10px;
+  padding: 3.5px 7px;
 }

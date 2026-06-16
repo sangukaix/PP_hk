@@ -75,7 +75,7 @@ nav ul li a:hover {
 
 /* 7. Contact 상단 영역 */
 #contact_visual {
-  height: 280px;
+  height: 200px;
   background-color: #eaf3ff;
 
   display: flex;
@@ -84,19 +84,19 @@ nav ul li a:hover {
 }
 
 #contact_visual h2 {
-  font-size: 42px;
+  font-size: 35px;
   color: #1f5fbf;
   margin-bottom: 15px;
 }
 
 #contact_visual p {
-  font-size: 20px;
+  font-size: 15px;
   color: #333;
 }
 
 /* 8. Contact 내용 영역 */
 #contact_content {
-  padding: 80px 0;
+  padding: 120px 0 45px;
 }
 
 #contact_content .container {
@@ -107,13 +107,13 @@ nav ul li a:hover {
 
 /* 회사 정보 박스 */
 .contact_info {
-  width: 40%;
+  width: 38%;
 }
 
 .contact_info h3 {
-  font-size: 28px;
+  font-size: 24px;
   color: #1f5fbf;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
 }
 
 .contact_info p {
@@ -124,8 +124,8 @@ nav ul li a:hover {
 /* 카카오지도 영역 */
 /* 지도는 반드시 사이즈를 지정해야 화면에 보임 */
 #map {
-  width: 55%;
-  height: 400px;
+  width: 50%;
+  height: 320px;
   border: 1px solid #ddd;
 }
 
@@ -205,7 +205,7 @@ footer p {
 /* 현재 위치 지도 영역 */
 /* 현재 위치 지도 영역 */
 #my_location {
-  padding: 80px 0;
+  padding: 45px 0;
   background-color: #f7f9fc;
 }
 
@@ -218,13 +218,13 @@ footer p {
 
 /* 현재 위치 설명 박스 */
 .current_info {
-  width: 40%;
+  width: 38%;
 }
 
 .current_info h3 {
-  font-size: 28px;
+  font-size: 24px;
   color: #1f5fbf;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
 }
 
 .current_info p {
@@ -234,8 +234,8 @@ footer p {
 
 /* 현재 위치 지도 박스 */
 #current_map {
-  width: 55%;
-  height: 400px;
+  width: 50%;
+  height: 320px;
   border: 1px solid #ddd;
 }
 
@@ -243,7 +243,7 @@ footer p {
 
 /* 여러 개 마커 제어 지도 영역 */
 #marker_control {
-  padding: 80px 0;
+  padding: 30px 0;
   background-color: #fff;
 }
 
@@ -260,14 +260,14 @@ footer p {
 }
 
 .marker_info h3 {
-  font-size: 28px;
+  font-size: 24px;
   color: #1f5fbf;
-  margin-bottom: 20px;
+  margin-bottom: 14px;
 }
 
 .marker_info p {
   font-size: 17px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 /* 버튼 */
@@ -282,7 +282,7 @@ footer p {
 
 /* 마커 제어 지도 */
 #marker_map {
-  width: 55%;
-  height: 400px;
+  width: 50%;
+  height: 320px;
   border: 1px solid #ddd;
 }

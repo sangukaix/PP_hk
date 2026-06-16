@@ -1,3 +1,7 @@
+<?php
+  session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -26,6 +30,20 @@
         <li><a href="#">Price</a></li>
         <li><a href="../contact_pg/contact.php">Contact</a></li>
         <li><a href="../board_pg/board.php" class="board">Board</a></li>
+        <!-- My page -->
+        <li>
+          <?php
+            if(isset($_SESSION['user_id'])){
+          ?>
+            <a href="../mypage_pg/mypage.php" class="mypage_btn">My page</a>
+          <?php
+            }else{
+          ?>
+            <a href="#" class="mypage_btn" onclick="alert('로그인 후 접속해주세요.'); return false;">My page</a>
+          <?php
+            }
+          ?>
+        </li>
         <li><a href="../member_pg/login.php" class="login_btn">로그인</a></li>
         <li><a href="../member_pg/join.php" class="join_btn">회원가입</a></li>
       </ul>
