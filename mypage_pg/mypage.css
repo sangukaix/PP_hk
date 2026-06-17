@@ -1,0 +1,836 @@
+/* 마이페이지 상단 영역 */
+#mypage_visual {
+  height: 70px;
+  background-color: whitesmoke;
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+#mypage_visual h2 {
+  font-size: 30px;
+  color: black;
+  margin-bottom: 0;
+}
+
+/* 상단 영역이 낮기 때문에 설명문은 숨김 */
+#mypage_visual p {
+  display: none;
+}
+
+/* 마이페이지 전체 내용 영역 */
+#mypage_content {
+  padding: 60px 0;
+  background-color: #fff;
+}
+
+/* 마이페이지 내용 전체 폭 */
+#mypage_content .container {
+  max-width: 900px;
+}
+
+/* 마이페이지 전용 네비게이션 */
+.mypage_nav {
+  margin-bottom: 35px;
+}
+
+.mypage_nav ul {
+  display: flex;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.mypage_nav ul li {
+  flex: 1;
+}
+
+/* 마이페이지 전용 메뉴 버튼 */
+.mypage_nav ul li a {
+  display: block;
+  padding: 11px 10px;
+  text-align: center;
+  font-size: 13.5px;
+  color: #333;
+  background-color: #fff;
+  border-right: 1px solid #ddd;
+}
+
+/* 마지막 메뉴는 오른쪽 선 제거 */
+.mypage_nav ul li:last-child a {
+  border-right: none;
+}
+
+/* 현재 보고 있는 메뉴 */
+.mypage_nav ul li a.active {
+  background-color: #1f5fbf;
+  color: #fff;
+  font-weight: bold;
+}
+
+/* 클릭 가능한 메뉴 hover */
+.mypage_nav ul li a:hover {
+  background-color: #eaf3ff;
+  color: #1f5fbf;
+}
+
+/* 비활성화 메뉴 */
+.mypage_nav ul li a.disabled {
+  background-color: #f1f1f1;
+  color: #aaa;
+  cursor: default;
+}
+
+/* 비활성화 메뉴는 hover 해도 변화 없음 */
+.mypage_nav ul li a.disabled:hover {
+  background-color: #f1f1f1;
+  color: #aaa;
+}
+
+/* 마이페이지 공통 박스 */
+.mypage_box {
+  max-width: 600px;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  padding: 35px;
+  background-color: #fff;
+}
+
+/* 과정명 */
+.course_name {
+  font-size: 20px;
+  color: #222;
+  margin-bottom: 22px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* 수강 정보 상단 영역 */
+.course_status_inner {
+  display: flex;
+  justify-content: space-between;
+  gap: 25px;
+  margin-bottom: 22px;
+}
+
+/* 왼쪽 강의 정보 */
+.course_detail {
+  width: 66%;
+}
+
+/* 기간 / 시간 / 강사 정보 */
+.course_detail dl {
+  display: grid;
+  grid-template-columns: 75px 1fr;
+  row-gap: 10px;
+  margin-bottom: 22px;
+}
+
+.course_detail dt {
+  font-size: 13px;
+  font-weight: bold;
+  color: #222;
+}
+
+.course_detail dd {
+  font-size: 13px;
+  color: #444;
+}
+
+/* 오른쪽 프로필 영역 */
+.course_profile {
+  width: 28%;
+  text-align: center;
+}
+
+/* 프로필 사진 자리 */
+.profile_circle {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+
+  background-color: #eaf3ff;
+  border: 1px solid #c7dcff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile_circle.big {
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 13px;
+}
+
+.profile_circle span {
+  font-size: 13px;
+  color: #1f5fbf;
+}
+
+.course_profile p {
+  font-size: 13px;
+  color: #222;
+}
+
+/* 진척도 / 출석률 */
+.progress_row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 11px;
+}
+
+.progress_row span {
+  width: 55px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #222;
+}
+
+/* 회색 진행 바 */
+.progress_bar {
+  flex: 1;
+  height: 8px;
+  background-color: #e8e8e8;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* 파란 진행 바 */
+.progress_fill {
+  height: 100%;
+  background-color: #1f5fbf;
+}
+
+/* 퍼센트 글씨 */
+.progress_row strong {
+  width: 70px;
+  font-size: 12px;
+  color: #222;
+  text-align: right;
+}
+
+/* 홀드 신청 / 취소 표 */
+.hold_table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 14px;
+  font-size: 12px;
+  text-align: center;
+}
+
+.hold_table th {
+  padding: 8px;
+  background-color: #f3f5f8;
+  border: 1px solid #ddd;
+  color: #333;
+  font-weight: bold;
+}
+
+.hold_table td {
+  padding: 8px;
+  border: 1px solid #ddd;
+  color: #333;
+}
+
+/* 남은 횟수 강조 */
+.remain_count {
+  color: #d92828;
+  font-weight: bold;
+}
+
+/* 수강중인 강의가 없을 때 */
+.empty_course {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.empty_icon {
+  width: 85px;
+  height: 85px;
+  margin: 0 auto 22px;
+
+  border-radius: 50%;
+  background-color: #eaf3ff;
+  color: #1f5fbf;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.empty_course h4 {
+  font-size: 21px;
+  color: #222;
+  margin-bottom: 12px;
+}
+
+.empty_course p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 25px;
+}
+
+.course_apply_btn {
+  display: inline-block;
+  width: 240px;
+  padding: 13px 0;
+
+  background-color: #1f5fbf;
+  color: #fff;
+  border-radius: 8px;
+
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.course_apply_btn:hover {
+  background-color: #164a99;
+}
+
+/* schedule=============================================================================== */
+
+/* 수업스케줄 박스는 달력이 들어가므로 넓게 사용 */
+.schedule_box {
+  max-width: 900px;
+}
+
+/* 예정수업 영역 */
+.top_lesson_section {
+  margin-bottom: 35px;
+}
+
+.lesson_title_row {
+  margin-bottom: 18px;
+}
+
+.lesson_title_row h4 {
+  font-size: 18px;
+  color: #1f5fbf;
+  margin-bottom: 6px;
+}
+
+.lesson_title_row p {
+  font-size: 13px;
+  color: #666;
+}
+
+/* 새 수업 카드 */
+.lesson_card_new {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 110px;
+  gap: 20px;
+
+  padding: 26px 26px 58px;
+  margin-bottom: 22px;
+
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background-color: #fff;
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.08);
+}
+
+/* 예정수업 탭 */
+.lesson_status_tab {
+  position: absolute;
+  top: -1px;
+  left: -1px;
+
+  padding: 8px 24px;
+  border: 2px solid #1f5fbf;
+  border-bottom: none;
+  border-radius: 10px 10px 0 0;
+
+  background-color: #fff;
+  color: #222;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+/* 가운데 수업 정보 */
+.lesson_main_info {
+  padding-top: 35px;
+}
+
+.lesson_date_line {
+  font-size: 13px;
+  color: #333;
+  margin-bottom: 14px;
+}
+
+.lesson_course_line {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 15px;
+}
+
+.lesson_course_line span {
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #f1f3f5;
+
+  font-size: 15px;
+  font-weight: bold;
+  color: #222;
+}
+
+.lesson_course_line strong {
+  font-size: 18px;
+  color: #222;
+}
+
+.lesson_teacher_line {
+  display: flex;
+  gap: 25px;
+  font-size: 13px;
+  color: #444;
+}
+
+.lesson_teacher_line span {
+  font-weight: bold;
+}
+
+.lesson_teacher_line strong {
+  font-weight: normal;
+}
+
+/* 수업 입장 영역 */
+.lesson_enter_area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 수업 입장 버튼 */
+.enter_circle_btn {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  border: 1px solid #17458f;
+
+  background-color: #bfc5cf;
+  color: #fff;
+
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 1.3;
+
+  cursor: pointer;
+}
+
+/* 지금은 hover 시 활성 느낌만 보여줌 */
+.enter_circle_btn:hover {
+  background-color: #1f5fbf;
+}
+
+/* 카드 하단 버튼 영역 */
+.lesson_bottom_buttons {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+
+  width: 100%;
+  display: flex;
+  border-top: 1px solid #ddd;
+}
+
+/* 하단 버튼 */
+.lesson_bottom_buttons button {
+  flex: 1;
+  padding: 13px 0;
+
+  border: none;
+  border-right: 1px solid #ddd;
+  background-color: #fafafa;
+
+  font-size: 13px;
+  color: #aaa;
+  cursor: default;
+}
+
+.lesson_bottom_buttons button:last-child {
+  border-right: none;
+}
+
+/* 예정수업 페이지네이션 */
+.lesson_pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+
+  margin: 10px 0 35px;
+}
+
+.lesson_pagination a,
+.lesson_pagination span {
+  font-size: 13px;
+}
+
+.lesson_pagination a {
+  padding: 6px 13px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  color: #333;
+}
+
+.lesson_pagination a:hover {
+  background-color: #eaf3ff;
+  color: #1f5fbf;
+}
+
+.page_disabled {
+  padding: 6px 13px;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  color: #bbb;
+}
+
+.page_info {
+  color: #333;
+  font-weight: bold;
+}
+
+/* 공휴일 안내 박스 */
+.holiday_notice {
+  padding: 18px 20px;
+  margin-bottom: 25px;
+
+  border: 1px solid #dbe7ff;
+  border-radius: 10px;
+  background-color: #f7fbff;
+}
+
+.holiday_notice h4 {
+  font-size: 16px;
+  color: #1f5fbf;
+  margin-bottom: 8px;
+}
+
+.holiday_notice p {
+  font-size: 13px;
+  color: #555;
+}
+
+.api_message {
+  margin-top: 8px;
+  color: #d92828 !important;
+}
+
+/* 달력 상단 */
+.calendar_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 15px;
+}
+
+.calendar_header h4 {
+  font-size: 22px;
+  color: #222;
+}
+
+.calendar_move {
+  padding: 7px 14px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+
+  font-size: 13px;
+  color: #333;
+  background-color: #fff;
+}
+
+.calendar_move:hover {
+  background-color: #eaf3ff;
+  color: #1f5fbf;
+}
+
+/* 달력 */
+.hk_calendar {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 25px;
+  table-layout: fixed;
+}
+
+.hk_calendar th {
+  padding: 9px;
+  border: 1px solid #ddd;
+  background-color: #f3f5f8;
+
+  font-size: 13px;
+  color: #333;
+}
+
+.hk_calendar th.sun {
+  color: #d92828;
+}
+
+.hk_calendar th.sat {
+  color: #1f5fbf;
+}
+
+.hk_calendar td {
+  height: 82px;
+  vertical-align: top;
+  padding: 8px;
+  border: 1px solid #ddd;
+
+  font-size: 13px;
+  background-color: #fff;
+}
+
+.hk_calendar td.empty {
+  background-color: #fafafa;
+}
+
+.calendar_day .day_num {
+  display: block;
+  font-weight: bold;
+  color: #333;
+}
+
+/* 오늘 */
+.calendar_day.today {
+  background-color: #eef5ff;
+}
+
+/* 공휴일 */
+.calendar_day.holiday {
+  background-color: #fff4f4;
+}
+
+.calendar_day.holiday .day_num {
+  color: #d92828;
+}
+
+.holiday_name {
+  display: block;
+  margin-top: 7px;
+  font-size: 12px;
+  color: #d92828;
+}
+
+/* 이번 달 공휴일 목록 */
+.holiday_list {
+  padding: 18px 20px;
+  margin-bottom: 30px;
+
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.holiday_list h4 {
+  font-size: 16px;
+  color: #222;
+  margin-bottom: 12px;
+}
+
+.holiday_list ul li {
+  font-size: 13px;
+  color: #444;
+  margin-bottom: 7px;
+}
+
+.holiday_list p {
+  font-size: 13px;
+  color: #777;
+}
+
+/* profile=============================================================================== */
+
+/* 개인정보수정 박스 */
+.profile_box {
+  max-width: 700px;
+}
+
+/* 개인정보 수정 폼 */
+.profile_form {
+  width: 100%;
+}
+
+/* 프로필 사진 영역 */
+.profile_photo_area {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+
+  padding: 20px;
+  margin-bottom: 28px;
+
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background-color: #f9fbff;
+}
+
+.profile_photo_text p {
+  font-size: 15px;
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 8px;
+}
+
+.profile_photo_text input {
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.profile_photo_text small {
+  display: block;
+  font-size: 12px;
+  color: #777;
+}
+
+/* 폼 한 줄 */
+.form_row {
+  margin-bottom: 18px;
+}
+
+.form_row label {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 8px;
+}
+
+.form_row input {
+  width: 100%;
+  height: 42px;
+  padding: 0 12px;
+
+  border: 1px solid #ddd;
+  border-radius: 6px;
+
+  font-size: 14px;
+  color: #333;
+}
+
+/* readonly input */
+.form_row input[readonly] {
+  background-color: #f1f1f1;
+  color: #777;
+  cursor: default;
+}
+
+/* 버튼 영역 */
+.profile_btn_area {
+  margin-top: 28px;
+  text-align: right;
+}
+
+/* 수정하기 버튼 */
+.profile_submit_btn {
+  width: 160px;
+  height: 42px;
+
+  border: none;
+  border-radius: 6px;
+
+  background-color: #1f5fbf;
+  color: #fff;
+
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.profile_submit_btn:hover {
+  background-color: #164a99;
+}
+
+/* 실제 파일 선택 input 숨기기 */
+.hidden_file_input {
+  display: none;
+}
+
+/* 프로필 사진 미리보기 원 */
+.profile_preview_circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+
+  background-color: #eaf3ff;
+  border: 1px solid #c7dcff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+/* 사진등록 글씨 */
+.profile_preview_circle span {
+  font-size: 13px;
+  color: #1f5fbf;
+}
+
+/* 업로드된 이미지 */
+.profile_preview_circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 동그라미에 마우스를 올렸을 때 */
+.upload_circle:hover {
+  border-color: #1f5fbf;
+  transform: scale(1.03);
+}
+
+/* 프로필 사진 삭제 버튼 */
+.profile_delete_btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 6px 13px;
+
+  border: 1px solid #ddd;
+  border-radius: 5px;
+
+  background-color: #fff;
+  color: #777;
+
+  font-size: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+/* 삭제 버튼 hover */
+.profile_delete_btn:hover {
+  background-color: #fff4f4;
+  color: #d92828;
+  border-color: #f0b8b8;
+}
+
+/* 삭제 안내 문구 - 지금 안 쓰더라도 남겨둬도 됨 */
+.profile_delete_notice {
+  display: none;
+  margin-top: 7px;
+
+  font-size: 12px;
+  color: #d92828;
+}
+
+/* 수강신청현황 프로필 이미지 */
+.profile_circle {
+  overflow: hidden;
+}
+
+.profile_circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

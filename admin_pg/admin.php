@@ -105,16 +105,39 @@
   // SQL 실행
   $board_result = mysqli_query($db, $board_sql);
 
+        // ==============================
+      // 결제회원 목록
+      // ==============================
+
+      // 결제회원 목록 가져오기
+      // hk_payments와 hk_members를 연결해서 회원 아이디와 이름도 같이 가져옴
+      $payment_sql = "
+        SELECT
+          p.*,
+          m.user_id,
+          m.user_name
+        FROM hk_payments p
+        LEFT JOIN hk_members m
+        ON p.member_no = m.no
+        ORDER BY p.no DESC
+      ";
+
+      $payment_result = mysqli_query($db, $payment_sql);
+
   // 화면에 출력할 때 특수문자를 안전하게 바꿔주는 함수
   function h($str){
     return htmlspecialchars((string)$str, ENT_QUOTES, "UTF-8");
   }
     // 현재 어떤 탭을 보여줄지 정함
-  $active_tab = $_GET['tab'] ?? 'member';
+    $active_tab = $_GET['tab'] ?? 'member';
 
-  if($active_tab != 'board'){
-    $active_tab = 'member';
-  }
+    // 사용할 관리자 탭 목록
+    $tab_list = ['member', 'board', 'payment', 'lesson'];
+
+    // 이상한 tab 값이 들어오면 회원관리로 이동
+    if(!in_array($active_tab, $tab_list)){
+      $active_tab = 'member';
+    }
 ?>
 
 <!DOCTYPE html>
@@ -151,29 +174,59 @@
   </div>
 </header>
 
-<nav class="admin_nav">
-  <div class="admin_container">
-    <ul>
-      <!-- 회원관리 탭 버튼 -->
-      <li>
-      <!-- 회원관리 탭 버튼 -->
-      <!-- $active_tab 값이 member일 때만 active 클래스를 붙임 -->
-      <button type="button" class="admin_tab_btn <?php if($active_tab == 'member'){ echo 'active'; } ?>" onclick="showAdminTab('member')">
-        회원관리
-      </button>
-      </li>
+    <nav class="admin_nav">
+      <div class="admin_container">
+        <ul>
+          <!-- 회원관리 탭 -->
+          <li>
+            <button
+              type="button"
+              data-tab="member"
+              class="admin_tab_btn <?php if($active_tab == 'member'){ echo 'active'; } ?>"
+              onclick="showAdminTab('member')"
+            >
+              전체회원관리
+            </button>
+          </li>
 
-      <!-- 문의글관리 탭 버튼 -->
-      <li>
-        <!-- 문의글관리 탭 버튼 -->
-        <!-- $active_tab 값이 board일 때만 active 클래스를 붙임 -->
-        <button type="button" class="admin_tab_btn <?php if($active_tab == 'board'){ echo 'active'; } ?>" onclick="showAdminTab('board')">
-          문의글관리
-        </button>
-      </li>
-    </ul>
-  </div>
-</nav>
+          <!-- 문의글관리 탭 -->
+          <li>
+            <button
+              type="button"
+              data-tab="board"
+              class="admin_tab_btn <?php if($active_tab == 'board'){ echo 'active'; } ?>"
+              onclick="showAdminTab('board')"
+            >
+              문의글관리
+            </button>
+          </li>
+
+          <!-- 결제회원 탭 -->
+          <li>
+            <button
+              type="button"
+              data-tab="payment"
+              class="admin_tab_btn <?php if($active_tab == 'payment'){ echo 'active'; } ?>"
+              onclick="showAdminTab('payment')"
+            >
+              결제회원
+            </button>
+          </li>
+
+          <!-- 수업관리 탭 -->
+          <li>
+            <button
+              type="button"
+              data-tab="lesson"
+              class="admin_tab_btn <?php if($active_tab == 'lesson'){ echo 'active'; } ?>"
+              onclick="showAdminTab('lesson')"
+            >
+              수강생관리
+            </button>
+          </li>
+        </ul>
+      </div>
+    </nav>
 
 <main class="admin_main">
   <div class="admin_container">
@@ -412,12 +465,138 @@
       </div>
     </section>
 
+    <!-- 결제회원 내용 영역 -->
+    <section id="payment_panel" class="admin_panel <?php if($active_tab == 'payment'){ echo 'active'; } ?>">
+
+      <div class="admin_panel_title">
+        <h3>결제회원</h3>
+        <p>결제 완료 후 수강등록이 필요한 회원을 관리합니다.</p>
+      </div>
+
+      <div class="admin_table_area">
+        <table class="admin_table payment_table">
+          <caption>결제회원 목록</caption>
+
+          <thead>
+            <tr>
+              <th>번호</th>
+              <th>아이디</th>
+              <th>이름</th>
+              <th>Course</th>
+              <th>시작일</th>
+              <th>요일</th>
+              <th>수업시간</th>
+              <th>총 기간</th>
+              <th>결제상태</th>
+              <th>결제액</th>
+              <th>수강상태</th>
+            </tr>
+          </thead>
+
+      <tbody>
+        <?php
+          // 결제회원 데이터가 있을 때
+          if($payment_result && mysqli_num_rows($payment_result) > 0){
+
+            while($payment = mysqli_fetch_array($payment_result, MYSQLI_ASSOC)){
+        ?>
+
+          <tr>
+            <td><?php echo h($payment['no']); ?></td>
+            <td><?php echo h($payment['user_id']); ?></td>
+            <td><?php echo h($payment['user_name']); ?></td>
+            <td><?php echo h($payment['course_name']); ?></td>
+            <td><?php echo h($payment['start_date']); ?></td>
+            <td><?php echo h($payment['lesson_days']); ?></td>
+            <td><?php echo h($payment['lesson_time']); ?></td>
+            <td><?php echo h($payment['total_period']); ?></td>
+            <td><?php echo h($payment['payment_status']); ?></td>
+            <td><?php echo number_format($payment['payment_amount']); ?>원</td>
+              <td>
+                <?php
+                  if($payment['lesson_status'] == '수강중'){
+                ?>
+                  <span class="status_badge studying">수강중</span>
+                <?php
+                  }else if($payment['lesson_status'] == '수강종료'){
+                ?>
+                  <span class="status_badge ended">수강종료</span>
+                <?php
+                  }else{
+                ?>
+                  <span class="status_badge need">등록필요</span>
+                <?php
+                  }
+                ?>
+              </td>
+          </tr>
+
+        <?php
+            }
+          }else{
+        ?>
+
+          <tr>
+            <td colspan="11">등록된 결제회원이 없습니다.</td>
+          </tr>
+
+        <?php
+          }
+        ?>
+      </tbody>
+        </table>
+      </div>
+
+    </section>
+    <!-- 수강생관리 내용 영역 -->
+    <section id="lesson_panel" class="admin_panel <?php if($active_tab == 'lesson'){ echo 'active'; } ?>">
+
+      <div class="admin_panel_title">
+        <h3>수강생관리</h3>
+        <p>수업 중인 학생의 수업 기간, 강사, 남은 횟수, 출결 및 홀드 현황을 관리합니다.</p>
+      </div>
+
+      <div class="admin_table_area wide_table_area">
+        <table class="admin_table student_lesson_table">
+          <caption>수강생관리 목록</caption>
+
+          <thead>
+            <tr>
+              <th>번호</th>
+              <th>수강생명</th>
+              <th>아이디</th>
+              <th>휴대전화</th>
+              <th>이메일</th>
+              <th>가입일자</th>
+              <th>수업시작일</th>
+              <th>수업종료일</th>
+              <th>수강여부</th>
+              <th>요일</th>
+              <th>강사명</th>
+              <th>남은횟수</th>
+              <th>출석</th>
+              <th>결석</th>
+              <th>홀드</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td colspan="15">
+                아직 등록된 수강생 데이터가 없습니다. 결제회원에서 수강등록을 하면 이곳에 표시됩니다.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+
   </div>
 </main>
 
 <script>
   // 관리자 탭을 바꾸는 함수
-  // tabName 값으로 'member' 또는 'board'가 들어옴
   function showAdminTab(tabName){
 
     // 모든 탭 내용 영역을 가져옴
@@ -426,27 +605,32 @@
     // 모든 탭 버튼을 가져옴
     let buttons = document.querySelectorAll('.admin_tab_btn');
 
-    // 일단 모든 탭 내용을 숨김
+    // 모든 탭 내용을 숨김
     panels.forEach(function(panel){
       panel.classList.remove('active');
     });
 
-    // 일단 모든 버튼의 active 표시를 제거
+    // 모든 버튼의 active 제거
     buttons.forEach(function(button){
       button.classList.remove('active');
     });
 
-    // 회원관리 탭을 눌렀을 때
-    if(tabName === 'member'){
-      document.querySelector('#member_panel').classList.add('active');
-      buttons[0].classList.add('active');
+    // 선택한 탭 내용 보이기
+    let targetPanel = document.querySelector('#' + tabName + '_panel');
+
+    if(targetPanel){
+      targetPanel.classList.add('active');
     }
 
-    // 문의글관리 탭을 눌렀을 때
-    if(tabName === 'board'){
-      document.querySelector('#board_panel').classList.add('active');
-      buttons[1].classList.add('active');
+    // 선택한 탭 버튼 active 처리
+    let targetButton = document.querySelector('.admin_tab_btn[data-tab="' + tabName + '"]');
+
+    if(targetButton){
+      targetButton.classList.add('active');
     }
+
+    // 주소창 tab 값도 바꿔줌
+    history.pushState(null, '', './admin.php?tab=' + tabName);
   }
 </script>
 

@@ -481,3 +481,144 @@ body {
   cursor: default;
   pointer-events: none;
 }
+
+/* 관리자 탭이 많아졌을 때 줄바꿈 가능 */
+.admin_nav ul {
+  flex-wrap: wrap;
+}
+
+/* 관리자 작은 버튼 */
+.admin_small_btn {
+  display: inline-block;
+  padding: 7px 12px;
+
+  border: none;
+  background-color: #1f5fbf;
+  color: #fff;
+
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.admin_small_btn:hover {
+  background-color: #174a96;
+}
+
+/* 아직 연결 전인 버튼 */
+.admin_small_btn.disabled {
+  background-color: #aaa;
+  cursor: default;
+}
+
+/* 컬럼이 많은 관리자 테이블 가로 스크롤 */
+.wide_table_area {
+  overflow-x: auto;
+}
+
+/* 수강생관리 테이블은 컬럼이 많으므로 최소 너비를 넓게 잡음 */
+.student_lesson_table {
+  min-width: 1400px;
+}
+
+/* 결제회원 테이블도 컬럼이 많으므로 살짝 넓게 */
+.payment_table {
+  min-width: 1000px;
+}
+
+/* 관리자 테이블 안의 글씨가 줄바꿈으로 너무 커지는 것 방지 */
+.admin_table th,
+.admin_table td {
+  white-space: nowrap;
+}
+
+/* 관리자 테이블 선 정리 */
+.admin_table {
+  border-collapse: collapse;
+}
+
+.admin_table th,
+.admin_table td {
+  border: 1px solid #ddd;
+}
+
+/* 빈 칸도 최소 높이를 유지해서 선이 보이게 함 */
+.admin_table td:empty::after {
+  content: "\00a0";
+}
+
+/* 상태 뱃지 공통 */
+.status_badge {
+  display: inline-block;
+  min-width: 68px;
+  padding: 5px 8px;
+
+  border-radius: 14px;
+
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* 등록필요 */
+.status_badge.need {
+  background-color: #f1f1f1;
+  color: #777;
+  border: 1px solid #ddd;
+}
+
+/* 수강중 */
+.status_badge.studying {
+  background-color: #eaf3ff;
+  color: #1f5fbf;
+  border: 1px solid #c7dcff;
+}
+
+/* 관리자 테이블 선 정리 */
+.admin_table {
+  border-collapse: collapse;
+}
+
+.admin_table th,
+.admin_table td {
+  border: 1px solid #ddd;
+}
+
+/* 빈 칸도 최소 높이를 유지해서 회색 선이 보이게 함 */
+.admin_table td:empty::after {
+  content: "\00a0";
+}
+
+/* 수강상태 뱃지 공통 */
+.status_badge {
+  display: inline-block;
+  min-width: 72px;
+  padding: 5px 9px;
+
+  border-radius: 14px;
+
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* 등록필요 - 빨간색 */
+.status_badge.need {
+  background-color: #fff4f4;
+  color: #d92828;
+  border: 1px solid #f0b8b8;
+}
+
+/* 수강중 - 초록색 */
+.status_badge.studying {
+  background-color: #eefaf1;
+  color: #1f8a3b;
+  border: 1px solid #bfe5ca;
+}
+
+/* 수강종료 - 회색 */
+.status_badge.ended {
+  background-color: #f1f1f1;
+  color: #777;
+  border: 1px solid #ddd;
+}
