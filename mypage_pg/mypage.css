@@ -834,3 +834,15 @@
   height: 100%;
   object-fit: cover;
 }
+
+/* 수강신청 nav 버튼 */
+header nav ul li a.course_register_btn {
+  color: #7b3ff2 !important;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+/* 수강신청 hover */
+header nav ul li a.course_register_btn:hover {
+  color: #1f5fbf !important;
+}

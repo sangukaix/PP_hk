@@ -85,15 +85,15 @@
         <li><a href="../main_pg/01main_pg.php">Home</a></li>
 
         <!-- 아직 만들지 않은 메뉴 -->
-        <li><a href="#">Course</a></li>
-        <li><a href="#">Teacher</a></li>
-        <li><a href="#">Price</a></li>
+        <li><a href="#">코스</a></li>
+        <li><a href="#">강사소개</a></li>
+        <li><a href="../course_pg/course_register.php" class="course_register_btn">수강신청</a></li>
 
         <!-- Contact -->
-        <li><a href="../contact_pg/contact.php">Contact</a></li>
+        <li><a href="../contact_pg/contact.php">고객센터</a></li>
 
         <!-- Board -->
-        <li><a href="../board_pg/board.php" class="board">Board</a></li>
+        <li><a href="../board_pg/board.php" class="board">게시판</a></li>
 
         <!-- My page -->
         <li>
@@ -132,7 +132,7 @@
       <div class="mypage_nav">
         <ul>
           <!-- 현재 페이지이므로 active -->
-          <li><a href="./mypage.php" class="active">수강신청현황</a></li>
+          <li><a href="../course_pg/course_register.php" class="course_register_btn">수강신청</a></li>
 
           <!-- 수업스케줄 페이지 -->
           <li><a href="./schedule.php">수업스케줄</a></li>

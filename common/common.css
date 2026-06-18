@@ -157,9 +157,13 @@ footer p {
    Course / Teacher / Price
 ========================= */
 
+/* =========================
+   임시 비활성 메뉴
+   코스 / 강사소개
+========================= */
+
 nav ul li:nth-child(2) a,
-nav ul li:nth-child(3) a,
-nav ul li:nth-child(4) a {
+nav ul li:nth-child(3) a {
   color: #aaa !important;
   cursor: default;
   pointer-events: none;
@@ -169,12 +173,18 @@ nav ul li:nth-child(4) a {
    Contact / Board 강조
 ========================= */
 
+/* =========================
+   수강신청 / 고객센터 / 게시판 강조
+========================= */
+
+nav ul li:nth-child(4) a,
 nav ul li:nth-child(5) a,
 nav ul li:nth-child(6) a {
   color: blueviolet !important;
 }
 
-/* Contact / Board hover */
+/* 수강신청 / 고객센터 / 게시판 hover */
+nav ul li:nth-child(4) a:hover,
 nav ul li:nth-child(5) a:hover,
 nav ul li:nth-child(6) a:hover {
   color: #1f5fbf !important;
@@ -216,4 +226,18 @@ nav ul li a.mypage_btn {
 nav ul li a.mypage_btn:hover {
   background-color: #dfeaff;
   color: #164a99;
+}
+
+/* 수강신청 nav 버튼 */
+header nav ul li a.course_register_btn {
+  color: blueviolet !important;
+  font-weight: 600;
+  transition: 0.2s;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+}
+
+/* 수강신청 hover */
+header nav ul li a.course_register_btn:hover {
+  color: #1f5fbf !important;
 }

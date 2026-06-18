@@ -1,0 +1,667 @@
+/* course register=============================================================================== */
+
+/* 수강신청 상단 영역 - Contact / Board 상단과 동일 */
+#course_visual {
+  height: 200px;
+  background-color: #eaf3ff;
+
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+#course_visual h2 {
+  font-size: 35px;
+  color: #1f5fbf;
+  margin-bottom: 15px;
+}
+
+#course_visual p {
+  font-size: 15px;
+  color: #333;
+}
+
+/* 전체 수강신청 영역 */
+#course_content {
+  padding: 70px 0 90px;
+  background-color: #fff;
+}
+
+/* 왼쪽 선택 영역 + 오른쪽 아일랜드 */
+.course_layout {
+  display: flex;
+  gap: 45px;
+  align-items: flex-start;
+}
+
+/* 왼쪽 선택 영역 */
+.course_select_area {
+  flex: 1;
+}
+
+/* 오른쪽 아일랜드 */
+.apply_island {
+  width: 270px;
+  flex-shrink: 0;
+
+  position: sticky;
+  top: 95px;
+
+  max-height: calc(100vh - 110px);
+}
+
+/* 각 선택 섹션 */
+.course_section {
+  margin-bottom: 42px;
+}
+
+.section_title {
+  margin-bottom: 16px;
+}
+
+.section_title h3 {
+  font-size: 18px;
+  color: #222;
+  margin-bottom: 6px;
+}
+
+.section_title p {
+  font-size: 13px;
+  color: #1f5fbf;
+}
+
+/* 선택 버튼 공통 */
+.option_grid {
+  display: grid;
+  gap: 14px;
+}
+
+.course_grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.period_grid,
+.count_grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.select_btn {
+  min-height: 64px;
+
+  border: 1px solid #ddd;
+  border-radius: 12px;
+
+  background-color: #f5f6f8;
+  color: #333;
+
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.select_btn span {
+  display: block;
+  margin-top: 6px;
+
+  font-size: 12px;
+  font-weight: normal;
+  color: #777;
+}
+
+.select_btn:hover {
+  border-color: #1f5fbf;
+  background-color: #f0f6ff;
+}
+
+/* 선택된 버튼 */
+.select_btn.active {
+  border-color: #1f5fbf;
+  background-color: #fff;
+  color: #1f5fbf;
+  box-shadow: 0 3px 8px rgba(31, 95, 191, 0.15);
+}
+
+/* 희망 수업 시작일 */
+.start_date_input {
+  width: 260px;
+  height: 46px;
+  padding: 0 14px;
+
+  border: 1px solid #ddd;
+  border-radius: 8px;
+
+  font-size: 14px;
+  color: #333;
+}
+
+/* 시간 선택 */
+.time_grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.time_btn {
+  height: 48px;
+
+  border: 1px solid #ddd;
+  border-radius: 10px;
+
+  background-color: #f5f6f8;
+  color: #555;
+
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.time_btn:hover {
+  border-color: #1f5fbf;
+  background-color: #f0f6ff;
+}
+
+.time_btn.active {
+  border-color: #1f5fbf;
+  background-color: #fff;
+  color: #1f5fbf;
+  font-weight: bold;
+}
+
+/* 추천인 */
+.referrer_input {
+  width: 100%;
+  height: 46px;
+  padding: 0 14px;
+
+  border: 1px solid #ddd;
+  border-radius: 8px;
+
+  font-size: 14px;
+}
+
+/* 오른쪽 신청내역 카드 */
+.apply_card {
+  width: 270px;
+  padding: 18px 18px 16px;
+
+  border: 1px solid #d9e4f5;
+  border-radius: 14px;
+
+  background-color: #fff;
+  box-shadow: 0 4px 14px rgba(31, 95, 191, 0.08);
+
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+}
+
+.apply_card h3 {
+  font-size: 17px;
+  color: #222;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e5eaf2;
+}
+
+/* 신청내역 리스트 */
+.summary_list {
+  margin-bottom: 12px;
+}
+
+.summary_item {
+  padding: 10px 0;
+  border-bottom: 1px solid #edf1f7;
+}
+
+.summary_label {
+  font-size: 12px;
+  color: #8a96a8;
+  margin-bottom: 4px;
+}
+
+.summary_value {
+  font-size: 14px;
+  color: #222;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.summary_price {
+  font-size: 17px;
+  color: #1f5fbf;
+  font-weight: bold;
+}
+
+/* 안내 박스 */
+.apply_notice_box {
+  padding: 11px 12px;
+  margin-bottom: 12px;
+
+  border-radius: 8px;
+  background-color: #f1f5ff;
+}
+
+.apply_notice_box p {
+  font-size: 11.5px;
+  color: #66758f;
+  line-height: 1.5;
+}
+
+/* 수강신청 버튼 */
+.apply_btn {
+  width: 100%;
+  height: 44px;
+
+  border: none;
+  border-radius: 8px;
+
+  background-color: #1f5fbf;
+  color: #fff;
+
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.apply_btn:hover {
+  background-color: #164a99;
+}
+
+/* Course 메뉴 표시 */
+.course_active {
+  color: #1f5fbf;
+  font-weight: bold;
+}
+
+
+/* course confirm=============================================================================== */
+
+/* 신청 확인 페이지 전체 */
+#confirm_content {
+  padding: 80px 0 90px;
+  background-color: #fff;
+}
+
+#confirm_content .container {
+  max-width: 720px;
+}
+
+/* 신청 확인 공통 박스 */
+.confirm_box {
+  margin-bottom: 42px;
+}
+
+.confirm_box h3 {
+  font-size: 20px;
+  color: #222;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #1f5fbf;
+}
+
+/* 수강신청 내역 */
+.confirm_table {
+  border-top: 1px solid #ddd;
+}
+
+.confirm_row {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 15px 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.confirm_row span {
+  font-size: 14px;
+  color: #666;
+}
+
+.confirm_row strong {
+  font-size: 14px;
+  color: #222;
+  font-weight: 600;
+}
+
+/* 결제금액 */
+.price_summary {
+  border-top: 1px solid #ddd;
+}
+
+.price_summary div {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 15px 12px;
+  border-bottom: 1px solid #eee;
+}
+
+.price_summary span {
+  font-size: 14px;
+  color: #666;
+}
+
+.price_summary strong {
+  font-size: 14px;
+  color: #222;
+}
+
+.price_summary .final_price strong {
+  font-size: 19px;
+  color: #1f5fbf;
+}
+
+/* 약관 동의 */
+.agree_area {
+  border: 1px solid #eee;
+  border-radius: 10px;
+
+  padding: 18px 20px;
+  background-color: #fafafa;
+}
+
+.agree_area label {
+  display: block;
+
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.agree_area label:last-child {
+  margin-bottom: 0;
+}
+
+.agree_area input {
+  margin-right: 8px;
+}
+
+/* 결제수단 */
+.payment_method_area {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.payment_method {
+  display: block;
+}
+
+.payment_method input {
+  display: none;
+}
+
+.payment_method span {
+  display: block;
+  padding: 13px 0;
+
+  border: 1px solid #ddd;
+  border-radius: 8px;
+
+  background-color: #fff;
+  color: #333;
+
+  font-size: 13px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.payment_method span:hover {
+  border-color: #1f5fbf;
+  background-color: #f1f5ff;
+}
+
+.payment_method input:checked + span {
+  border-color: #1f5fbf;
+  background-color: #1f5fbf;
+  color: #fff;
+  font-weight: bold;
+}
+
+/* 확인 페이지 버튼 영역 */
+.confirm_btn_area {
+  display: flex;
+  gap: 12px;
+  margin-top: 35px;
+}
+
+.confirm_back_btn,
+.confirm_pay_btn {
+  flex: 1;
+  height: 48px;
+
+  border-radius: 8px;
+
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+}
+
+.confirm_back_btn {
+  line-height: 48px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  color: #555;
+}
+
+.confirm_back_btn:hover {
+  background-color: #f5f5f5;
+}
+
+.confirm_pay_btn {
+  border: none;
+  background-color: #1f5fbf;
+  color: #fff;
+}
+
+.confirm_pay_btn:hover {
+  background-color: #164a99;
+}
+
+
+/* bank modal=============================================================================== */
+
+/* 무통장입금 팝업 배경 */
+.bank_modal_bg {
+  display: none;
+
+  position: fixed;
+  left: 0;
+  top: 0;
+
+  width: 100%;
+  height: 100%;
+
+  background-color: rgba(0, 0, 0, 0.55);
+  z-index: 9999;
+
+  align-items: center;
+  justify-content: center;
+}
+
+/* 무통장입금 팝업 박스 */
+.bank_modal {
+  position: relative;
+
+  width: 430px;
+  padding: 35px 32px 30px;
+
+  border-radius: 16px;
+  background-color: #fff;
+  text-align: center;
+}
+
+/* 닫기 버튼 */
+.bank_modal_close {
+  position: absolute;
+  right: 18px;
+  top: 14px;
+
+  border: none;
+  background: none;
+
+  font-size: 26px;
+  color: #777;
+  cursor: pointer;
+}
+
+.bank_modal h3 {
+  font-size: 24px;
+  color: #1f5fbf;
+  margin-bottom: 22px;
+}
+
+/* 계좌 정보 */
+.bank_info {
+  margin-bottom: 24px;
+  padding: 22px;
+
+  border-radius: 12px;
+  background-color: #f1f5ff;
+}
+
+.bank_info p {
+  font-size: 15px;
+  color: #333;
+  line-height: 1.8;
+}
+
+.bank_info .bank_name {
+  font-size: 18px;
+  font-weight: bold;
+  color: #1f5fbf;
+}
+
+/* 입금자명 / 입금예정일 */
+.bank_input_area {
+  margin-bottom: 22px;
+  text-align: left;
+}
+
+.bank_input_area label {
+  display: block;
+
+  font-size: 13px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.bank_input_area input {
+  width: 100%;
+  height: 44px;
+  padding: 0 12px;
+  margin-bottom: 16px;
+
+  border: 1px solid #ddd;
+  border-radius: 8px;
+
+  font-size: 14px;
+}
+
+/* 팝업 안 신청 완료 버튼 */
+.bank_submit_btn {
+  width: 100%;
+  height: 48px;
+
+  border: none;
+  border-radius: 8px;
+
+  background-color: #1f5fbf;
+  color: #fff;
+
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.bank_submit_btn:hover {
+  background-color: #164a99;
+}
+
+/* course complete=============================================================================== */
+
+#complete_content {
+  padding: 90px 0 120px;
+  background-color: #fff;
+  text-align: center;
+}
+
+#complete_content .container {
+  max-width: 700px;
+}
+
+#complete_content h2 {
+  font-size: 34px;
+  color: #111;
+  margin-bottom: 45px;
+}
+
+#complete_content h2 span {
+  color: #1f5fbf;
+}
+
+.complete_table {
+  border-top: 2px solid #222;
+  margin-bottom: 38px;
+}
+
+.complete_row {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 18px 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.complete_row span {
+  font-size: 15px;
+  color: #222;
+  font-weight: bold;
+}
+
+.complete_row strong {
+  font-size: 15px;
+  color: #555;
+  font-weight: normal;
+}
+
+.complete_notice {
+  padding: 28px 30px;
+  margin-bottom: 45px;
+
+  border-radius: 10px;
+  background-color: #f3f5f8;
+
+  text-align: left;
+}
+
+.complete_notice p {
+  font-size: 15px;
+  color: #333;
+  line-height: 1.7;
+}
+
+.home_btn {
+  display: inline-block;
+  width: 170px;
+  height: 50px;
+  line-height: 50px;
+
+  border: 1px solid #ccd3dd;
+  border-radius: 8px;
+
+  color: #333;
+  background-color: #fff;
+
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.home_btn:hover {
+  background-color: #f1f5ff;
+  color: #1f5fbf;
+}

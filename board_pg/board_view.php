@@ -97,15 +97,15 @@
         <li><a href="../main_pg/01main_pg.php">Home</a></li>
 
         <!-- 아직 만들지 않은 메뉴들은 임시 링크 -->
-        <li><a href="#">Course</a></li>
-        <li><a href="#">Teacher</a></li>
-        <li><a href="#">Price</a></li>
+        <li><a href="#">코스</a></li>
+        <li><a href="#">강사소개</a></li>
+        <li><a href="#">수강신청</a></li>
 
         <!-- Contact -->
-        <li><a href="../contact_pg/contact.php">Contact</a></li>
+        <li><a href="../contact_pg/contact.php">고객센터</a></li>
 
         <!-- Board -->
-        <li><a href="../board_pg/board.php" class="board">Board</a></li>
+        <li><a href="../board_pg/board.php" class="board">게시판</a></li>
         <!-- My page -->
         <li>
           <?php
