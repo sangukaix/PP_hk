@@ -705,6 +705,16 @@
         <p>수강등록이 완료된 학생의 수업 기간, 강사, 남은 횟수, 출결 및 홀드 현황을 확인합니다.</p>
       </div>
 
+        <!-- 홀드 신청 관리 버튼 -->
+        <div style="margin-bottom:15px; text-align:right;">
+          <a
+            href="./hold_request_list.php"
+            style="display:inline-block; padding:8px 14px; background-color:#1486b8; color:#fff; font-size:13px; border-radius:4px;"
+          >
+            홀드 신청 관리
+          </a>
+        </div>
+
       <div class="admin_table_area wide_table_area">
         <table class="admin_table student_lesson_table">
           <caption>수강생관리 목록</caption>

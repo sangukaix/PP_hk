@@ -19,8 +19,8 @@
     exit;
   }
 
-    // 로그인한 회원 번호
-  $user_no = $_SESSION['user_no'];
+  // 로그인한 회원 번호
+  $user_no = (int)$_SESSION['user_no'];
 
   // 로그인한 회원 정보 가져오기
   $sql = "SELECT * FROM hk_members WHERE no = '$user_no'";
@@ -48,10 +48,150 @@
   // 프로필 이미지 경로
   $profile_path = "../upload/profile/" . $profile_img;
 
-  // 현재는 DB가 없으므로 임시로 수강 여부를 설정
-  // true  : 수강중인 강의 있음
-  // false : 수강중인 강의 없음
-  $has_course = true;
+
+  // 로그인한 학생의 수강중 강의 정보 가져오기
+  $course_sql = "
+    SELECT
+      s.payment_no,
+
+      p.course_name,
+      p.total_period,
+      p.lesson_status,
+      p.hold_limit,
+      p.hold_cancel_limit,
+
+      MIN(s.lesson_date) AS lesson_start_date,
+      MAX(s.lesson_date) AS lesson_end_date,
+
+      GROUP_CONCAT(DISTINCT s.lesson_day ORDER BY FIELD(s.lesson_day, '월', '화', '수', '목', '금', '토', '일') SEPARATOR ', ') AS lesson_days,
+      GROUP_CONCAT(DISTINCT s.lesson_time ORDER BY s.lesson_time SEPARATOR ', ') AS lesson_times,
+      GROUP_CONCAT(DISTINCT s.teacher_name SEPARATOR ', ') AS teacher_names,
+
+      COUNT(s.no) AS total_count,
+
+      SUM(CASE WHEN s.attendance_status = '출석' THEN 1 ELSE 0 END) AS attendance_count,
+      SUM(CASE WHEN s.attendance_status = '결석' THEN 1 ELSE 0 END) AS absence_count,
+
+      (
+        SELECT COUNT(*)
+        FROM hk_hold_requests hr
+        WHERE hr.payment_no = s.payment_no
+        AND hr.member_no = '$user_no'
+        AND hr.request_type = '홀드신청'
+        AND hr.request_status = '승인'
+      ) AS hold_count,
+
+      (
+        SELECT COUNT(*)
+        FROM hk_hold_requests hr
+        WHERE hr.payment_no = s.payment_no
+        AND hr.member_no = '$user_no'
+        AND hr.request_type = '홀드취소'
+        AND hr.request_status = '승인'
+      ) AS hold_cancel_count
+
+    FROM hk_lesson_schedule s
+
+    LEFT JOIN hk_payments p
+    ON s.payment_no = p.no
+
+    WHERE s.member_no = '$user_no'
+    AND p.lesson_status = '수강중'
+
+    GROUP BY
+      s.payment_no,
+      p.course_name,
+      p.total_period,
+      p.lesson_status,
+      p.hold_limit,
+      p.hold_cancel_limit
+
+    ORDER BY lesson_start_date DESC
+    LIMIT 1
+  ";
+
+  $course_result = mysqli_query($db, $course_sql);
+
+  // 기본값
+  $has_course = false;
+  $course = null;
+
+  $total_count = 0;
+  $attendance_count = 0;
+  $absence_count = 0;
+  $hold_count = 0;
+  $hold_cancel_count = 0;
+
+  $used_count = 0;
+  $remain_count = 0;
+
+  $hold_limit = 1;
+  $hold_cancel_limit = 1;
+
+  $hold_remain = 0;
+  $hold_cancel_remain = 0;
+
+  $progress_percent = 0;
+  $attendance_percent = 0;
+
+
+  if($course_result && mysqli_num_rows($course_result) > 0){
+
+    $course = mysqli_fetch_array($course_result, MYSQLI_ASSOC);
+    $has_course = true;
+
+    // 총 수업횟수
+    $total_count = (int)$course['total_count'];
+
+    // 출석 / 결석 / 홀드 횟수
+    $attendance_count = (int)$course['attendance_count'];
+    $absence_count = (int)$course['absence_count'];
+    $hold_count = (int)$course['hold_count'];
+    $hold_cancel_count = (int)$course['hold_cancel_count'];
+
+    // DB에 저장된 홀드/홀드취소 가능 횟수
+    if($course['hold_limit'] !== null && $course['hold_limit'] !== ""){
+      $hold_limit = (int)$course['hold_limit'];
+    }
+
+    if($course['hold_cancel_limit'] !== null && $course['hold_cancel_limit'] !== ""){
+      $hold_cancel_limit = (int)$course['hold_cancel_limit'];
+    }
+
+    // 출석과 결석은 수업을 사용한 것으로 계산
+    $used_count = $attendance_count + $absence_count;
+
+    // 남은 수업횟수
+    $remain_count = $total_count - $used_count;
+
+    if($remain_count < 0){
+      $remain_count = 0;
+    }
+
+    // 진척도: 사용한 수업 / 전체 수업
+    if($total_count > 0){
+      $progress_percent = round(($used_count / $total_count) * 100);
+    }
+
+    // 출석률: 출석 / 출석+결석
+    if($used_count > 0){
+      $attendance_percent = round(($attendance_count / $used_count) * 100);
+    }
+
+    // 홀드 남은 횟수
+    $hold_remain = $hold_limit - $hold_count;
+
+    if($hold_remain < 0){
+      $hold_remain = 0;
+    }
+
+    // 홀드취소 남은 횟수
+    $hold_cancel_remain = $hold_cancel_limit - $hold_cancel_count;
+
+    if($hold_cancel_remain < 0){
+      $hold_cancel_remain = 0;
+    }
+  }
 ?>
 
 <!DOCTYPE html>
@@ -131,17 +271,10 @@
       <!-- 마이페이지 전용 네비게이션 -->
       <div class="mypage_nav">
         <ul>
-          <!-- 현재 페이지이므로 active -->
           <li><a href="../course_pg/course_register.php" class="course_register_btn">수강신청</a></li>
-
-          <!-- 수업스케줄 페이지 -->
           <li><a href="./schedule.php">수업스케줄</a></li>
-
-          <!-- 아직 만들지 않을 메뉴는 비활성화 -->
           <li><a href="#" class="disabled" onclick="return false;">쿠폰관리</a></li>
           <li><a href="#" class="disabled" onclick="return false;">결제내역</a></li>
-
-          <!-- 개인정보수정은 나중에 profile.php로 만들 예정 -->
           <li><a href="./profile.php">개인정보수정</a></li>
         </ul>
       </div>
@@ -155,7 +288,7 @@
         ?>
 
           <!-- 과정명 -->
-          <h4 class="course_name">화상 한국어 - 일반과정</h4>
+          <h4 class="course_name"><?php echo h($course['course_name']); ?></h4>
 
           <!-- 수강 정보 영역 -->
           <div class="course_status_inner">
@@ -165,19 +298,23 @@
 
               <dl>
                 <dt>기간</dt>
-                <dd>2026-06-19 ~ 2026-07-19</dd>
+                <dd>
+                  <?php echo h($course['lesson_start_date']); ?>
+                  ~
+                  <?php echo h($course['lesson_end_date']); ?>
+                </dd>
 
                 <dt>시간</dt>
-                <dd>09:00 ~ 09:50</dd>
+                <dd><?php echo h($course['lesson_times']); ?></dd>
 
                 <dt>스케줄</dt>
-                <dd>주 2회 10분</dd>
+                <dd>
+                  <?php echo h($course['lesson_days']); ?>요일 /
+                  <?php echo h($course['total_period']); ?>
+                </dd>
 
                 <dt>강사</dt>
-                <dd>배정 예정</dd>
-
-                <dt>교재</dt>
-                <dd>Hello Korean Basic</dd>
+                <dd><?php echo h($course['teacher_names']); ?></dd>
               </dl>
 
               <!-- 진척도 -->
@@ -185,10 +322,13 @@
                 <span>진척도</span>
 
                 <div class="progress_bar">
-                  <div class="progress_fill" style="width:0%;"></div>
+                  <div class="progress_fill" style="width:<?php echo h($progress_percent); ?>%;"></div>
                 </div>
 
-                <strong>0% (0/8)</strong>
+                <strong>
+                  <?php echo h($progress_percent); ?>%
+                  (<?php echo h($used_count); ?>/<?php echo h($total_count); ?>)
+                </strong>
               </div>
 
               <!-- 출석률 -->
@@ -196,10 +336,13 @@
                 <span>출석률</span>
 
                 <div class="progress_bar">
-                  <div class="progress_fill" style="width:0%;"></div>
+                  <div class="progress_fill" style="width:<?php echo h($attendance_percent); ?>%;"></div>
                 </div>
 
-                <strong>0% (0/8)</strong>
+                <strong>
+                  <?php echo h($attendance_percent); ?>%
+                  (<?php echo h($attendance_count); ?>/<?php echo h($used_count); ?>)
+                </strong>
               </div>
 
             </div>
@@ -207,27 +350,27 @@
             <!-- 오른쪽 프로필 영역 -->
             <div class="course_profile">
 
-            <div class="profile_circle big">
+              <div class="profile_circle big">
 
-              <?php
-                if($profile_img != "" && file_exists($profile_path)){
-              ?>
+                <?php
+                  if($profile_img != "" && file_exists($profile_path)){
+                ?>
 
-                <img src="<?php echo h($profile_path); ?>" alt="profile image">
+                  <img src="<?php echo h($profile_path); ?>" alt="profile image">
 
-              <?php
-                }else{
-              ?>
+                <?php
+                  }else{
+                ?>
 
-                <span>사진없음</span>
+                  <span>사진없음</span>
 
-              <?php
-                }
-              ?>
+                <?php
+                  }
+                ?>
 
-            </div>
+              </div>
 
-            <p><?php echo h($_SESSION['user_id']); ?>님 반갑습니다!</p>
+              <p><?php echo h($_SESSION['user_id']); ?>님 반갑습니다!</p>
 
             </div>
 
@@ -244,9 +387,9 @@
 
             <tr>
               <td></td>
-              <td>1회</td>
-              <td>0회</td>
-              <td><span class="remain_count">1회</span></td>
+              <td><?php echo h($hold_limit); ?>회</td>
+              <td><?php echo h($hold_count); ?>회</td>
+              <td><span class="remain_count"><?php echo h($hold_remain); ?>회</span></td>
             </tr>
           </table>
 
@@ -261,9 +404,9 @@
 
             <tr>
               <td></td>
-              <td>1회</td>
-              <td>0회</td>
-              <td><span class="remain_count">1회</span></td>
+              <td><?php echo h($hold_cancel_limit); ?>회</td>
+              <td><?php echo h($hold_cancel_count); ?>회</td>
+              <td><span class="remain_count"><?php echo h($hold_cancel_remain); ?>회</span></td>
             </tr>
           </table>
 
@@ -284,7 +427,7 @@
               수강신청 후 나의 수업 일정과 학습 정보를 확인할 수 있습니다.
             </p>
 
-            <a href="#" class="course_apply_btn" onclick="alert('수강신청 페이지는 추후 연결 예정입니다.'); return false;">
+            <a href="../course_pg/course_register.php" class="course_apply_btn">
               수강신청하기
             </a>
 

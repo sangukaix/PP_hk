@@ -223,6 +223,78 @@
 
 </section>
 
+
+    <!-- 수업 입장 링크 관리 -->
+    <section class="lesson_zoom_box">
+
+      <div class="lesson_zoom_title">
+        <h3>수업 입장 링크</h3>
+        <p>학생이 마이페이지에서 수업입장 버튼을 눌렀을 때 이동할 링크입니다.</p>
+      </div>
+
+      <form action="./lesson_zoom_update_ok.php" method="post" class="lesson_zoom_form">
+
+        <input type="hidden" name="payment_no" value="<?php echo h($payment_no); ?>">
+
+        <input
+          type="text"
+          name="zoom_link"
+          value="<?php echo h($info['zoom_link'] ?? ''); ?>"
+          placeholder="예: https://zoom.us/j/..."
+          class="lesson_zoom_input"
+        >
+
+        <button type="submit" class="lesson_zoom_btn">링크 저장</button>
+
+      </form>
+        <div class="admin_info_box" style="margin-top:20px;">
+          <h3>홀드 횟수 설정</h3>
+
+          <form action="./lesson_hold_limit_update_ok.php" method="post">
+            <input type="hidden" name="payment_no" value="<?php echo h($info['payment_no']); ?>">
+
+            <table class="admin_detail_table">
+              <tr>
+                <th>홀드 가능 횟수</th>
+                <td>
+                  <input 
+                    type="number" 
+                    name="hold_limit" 
+                    min="0"
+                    value="<?php echo h($info['hold_limit'] ?? 1); ?>"
+                    style="width:80px; padding:6px;"
+                  > 회
+                </td>
+              </tr>
+
+              <tr>
+                <th>홀드취소 가능 횟수</th>
+                <td>
+                  <input 
+                    type="number" 
+                    name="hold_cancel_limit" 
+                    min="0"
+                    value="<?php echo h($info['hold_cancel_limit'] ?? 1); ?>"
+                    style="width:80px; padding:6px;"
+                  > 회
+                </td>
+              </tr>
+            </table>
+
+            <p style="margin-top:8px; font-size:12px; color:#777;">
+              ※홀드 및 홀드 취소는 관리자 승인 전까지는 횟수가 차감되지 않습니다.
+            </p>
+
+            <div style="margin-top:12px; text-align:right;">
+              <button type="submit" class="admin_btn blue_btn">
+                홀드 횟수 저장
+              </button>
+            </div>
+          </form>
+        </div>
+
+    </section>
+
     <!-- 수업일정 상세 -->
 <!-- 수업일정 상세 -->
         <section class="lesson_register_box">

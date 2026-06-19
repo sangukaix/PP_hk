@@ -18,6 +18,12 @@
     exit;
   }
 
+    // DB 연결
+  include "../common/db.php";
+
+  // 로그인한 회원 번호
+  $user_no = (int)$_SESSION['user_no'];
+
   // 공공데이터포털 인증키 파일 불러오기
   $holiday_service_key = "";
 
@@ -109,58 +115,148 @@
 
   $today_key = date("Ymd");
 
-  // 현재는 DB가 없으므로 임시 수업 데이터 사용
-  // 나중에는 DB에서 로그인한 회원의 수업 일정만 가져오게 됨
-  $lessons = [
-    [
-      "date" => "2026.06.19",
-      "weekday" => "금요일",
-      "course" => "화상 한국어 - 일반과정",
-      "time" => "09:00 ~ 09:50",
-      "teacher" => "배정 예정",
-      "status" => "예정수업"
-    ],
-    [
-      "date" => "2026.06.22",
-      "weekday" => "월요일",
-      "course" => "화상 한국어 - 일반과정",
-      "time" => "09:00 ~ 09:50",
-      "teacher" => "배정 예정",
-      "status" => "예정수업"
-    ],
-    [
-      "date" => "2026.06.24",
-      "weekday" => "수요일",
-      "course" => "화상 한국어 - 일반과정",
-      "time" => "09:00 ~ 09:50",
-      "teacher" => "배정 예정",
-      "status" => "예정수업"
-    ],
-    [
-      "date" => "2026.06.26",
-      "weekday" => "금요일",
-      "course" => "화상 한국어 - 일반과정",
-      "time" => "09:00 ~ 09:50",
-      "teacher" => "배정 예정",
-      "status" => "예정수업"
-    ],
-    [
-      "date" => "2026.06.29",
-      "weekday" => "월요일",
-      "course" => "화상 한국어 - 일반과정",
-      "time" => "09:00 ~ 09:50",
-      "teacher" => "배정 예정",
-      "status" => "예정수업"
-    ],
-    [
-      "date" => "2026.07.01",
-      "weekday" => "수요일",
-      "course" => "화상 한국어 - 일반과정",
-      "time" => "09:00 ~ 09:50",
-      "teacher" => "배정 예정",
-      "status" => "예정수업"
-    ]
-  ];
+  function get_status_text($status){
+    if($status == "출석"){
+      return "출석";
+    }else if($status == "결석"){
+      return "결석";
+    }else if($status == "홀드"){
+      return "홀드";
+    }else if($status == "홀드신청중"){
+      return "홀드신청중";
+    }else if($status == "홀드취소요청중"){
+      return "홀드취소요청중";
+    }else{
+      return "예정";
+    }
+  }
+
+  // 수업 상태별 CSS 클래스 이름
+    function get_status_class($status){
+      if($status == "출석"){
+        return "status_attend";
+      }else if($status == "결석"){
+        return "status_absent";
+      }else if($status == "홀드"){
+        return "status_hold";
+      }else if($status == "홀드신청중"){
+        return "status_hold_wait";
+      }else if($status == "홀드취소요청중"){
+        return "status_hold_cancel_wait";
+      }else{
+        return "status_plan";
+      }
+    }
+  // DB에서 로그인한 학생의 수업 일정 가져오기
+    $lesson_sql = "
+      SELECT
+        s.*,
+        p.course_name,
+        p.zoom_link,
+        m.user_name,
+
+        (
+          SELECT COUNT(*)
+          FROM hk_hold_requests hr
+          WHERE hr.lesson_no = s.no
+          AND hr.member_no = s.member_no
+          AND hr.request_type = '홀드신청'
+          AND hr.request_status = '대기'
+        ) AS hold_request_wait_count,
+
+        (
+          SELECT COUNT(*)
+          FROM hk_hold_requests hr
+          WHERE hr.lesson_no = s.no
+          AND hr.member_no = s.member_no
+          AND hr.request_type = '홀드취소'
+          AND hr.request_status = '대기'
+        ) AS hold_cancel_wait_count
+
+      FROM hk_lesson_schedule s
+
+      LEFT JOIN hk_payments p
+      ON s.payment_no = p.no
+
+      LEFT JOIN hk_members m
+      ON s.member_no = m.no
+
+      WHERE s.member_no = '$user_no'
+
+      ORDER BY s.lesson_date ASC, s.lesson_time ASC, s.no ASC
+    ";
+
+  $lesson_result = mysqli_query($db, $lesson_sql);
+
+  // 위쪽 카드 목록용 배열
+  $lessons = [];
+
+  // 달력 표시용 배열
+  $calendar_lessons = [];
+
+  if($lesson_result){
+    while($row = mysqli_fetch_array($lesson_result, MYSQLI_ASSOC)){
+
+      $lesson_time = strtotime($row['lesson_date']);
+
+      if($lesson_time === false){
+        continue;
+      }
+
+      // 20260619 형태. 달력 날짜와 비교할 때 사용
+      $date_key = date("Ymd", $lesson_time);
+
+      // 화면 출력용 날짜
+      $date_text = date("Y.m.d", $lesson_time);
+
+      // 상태값
+      $raw_status = $row['attendance_status'] ?? '예정';
+
+      // 아직 예정 수업인데 홀드 신청이 대기 중이면
+      if($raw_status == "예정" && (int)$row['hold_request_wait_count'] > 0){
+        $raw_status = "홀드신청중";
+      }
+
+      // 이미 홀드된 수업인데 홀드 취소 요청이 대기 중이면
+      if($raw_status == "홀드" && (int)$row['hold_cancel_wait_count'] > 0){
+        $raw_status = "홀드취소요청중";
+      }
+
+      $status_text = get_status_text($raw_status);
+
+      // 위쪽 카드에서는 예정을 예정수업으로 보여줌
+      $card_status_text = $status_text;
+
+      if($status_text == "예정"){
+        $card_status_text = "예정수업";
+      }
+            
+      $lesson_item = [
+        "lesson_no" => $row['no'],
+        "date_key" => $date_key,
+        "date" => $date_text,
+        "weekday" => $row['lesson_day'],
+        "course" => $row['course_name'] ?? "화상 한국어",
+        "time" => $row['lesson_time'],
+        "teacher" => $row['teacher_name'],
+        "student" => $row['user_name'],
+        "zoom_link" => $row['zoom_link'] ?? "",
+        "status" => $card_status_text,
+        "calendar_status" => $status_text,
+        "status_class" => get_status_class($raw_status)
+      ];
+
+      // 카드 목록에 넣기
+      $lessons[] = $lesson_item;
+
+      // 달력용 배열에 날짜별로 넣기
+      if(!isset($calendar_lessons[$date_key])){
+        $calendar_lessons[$date_key] = [];
+      }
+
+      $calendar_lessons[$date_key][] = $lesson_item;
+    }
+  }
 
   // 수업 목록 페이지네이션
   $lesson_page = $_GET['lesson_page'] ?? 1;
@@ -173,6 +269,11 @@
   $per_page = 5;
   $total_lessons = count($lessons);
   $total_pages = ceil($total_lessons / $per_page);
+
+  if($total_pages < 1){
+    $total_pages = 1;
+  }
+  
 
   if($lesson_page > $total_pages){
     $lesson_page = $total_pages;
@@ -267,16 +368,11 @@
             <div class="lesson_card_new">
 
               <!-- 왼쪽 상태 탭 -->
-              <div class="lesson_status_tab">
-                <?php echo h($lesson['status']); ?>
-              </div>
+                <div class="lesson_main_info">
 
-              <!-- 가운데 수업 정보 -->
-              <div class="lesson_main_info">
-
-                <div class="lesson_date_line">
-                  <?php echo h($lesson['date']); ?> (<?php echo h($lesson['weekday']); ?>)
-                </div>
+                  <div class="lesson_status_tab">
+                    <?php echo h($lesson['date']); ?> (<?php echo h($lesson['weekday']); ?>)
+                  </div>
 
                 <div class="lesson_course_line">
                   <span><?php echo h($lesson['course']); ?></span>
@@ -291,18 +387,93 @@
               </div>
 
               <!-- 오른쪽 수업 입장 -->
-              <div class="lesson_enter_area">
-                <button type="button" class="enter_circle_btn" onclick="alert('수업 5분전부터 입장이 가능합니다.');">
-                  수업<br>입장
-                </button>
-              </div>
+                  <div class="lesson_enter_area">
+
+                    <?php
+                      if($lesson['zoom_link'] != ""){
+                    ?>
+
+                      <button
+                        type="button"
+                        class="enter_circle_btn enter_active"
+                        onclick="window.open('<?php echo h($lesson['zoom_link']); ?>', '_blank');"
+                      >
+                        수업<br>입장
+                      </button>
+
+                    <?php
+                      }else{
+                    ?>
+
+                      <button
+                        type="button"
+                        class="enter_circle_btn"
+                        onclick="alert('수업시작 5분전부터 입장이 가능합니다.');"
+                      >
+                        수업<br>입장
+                      </button>
+
+                    <?php
+                      }
+                    ?>
+
+                  </div>
 
               <!-- 하단 버튼 -->
-              <div class="lesson_bottom_buttons">
-                <button type="button" disabled>교재보기</button>
-                <button type="button" disabled>수업 홀드 신청</button>
-                <button type="button" disabled>Teacher's 피드백</button>
-              </div>
+                <div class="lesson_bottom_buttons">
+
+                  <button type="button" onclick="alert('교재보기 기능은 추후 연결 예정입니다.');">
+                    교재보기
+                  </button>
+
+                  <button type="button" onclick="alert('출석확인 기능은 추후 연결 예정입니다.');">
+                    출석확인
+                  </button>
+                      <?php
+                        // 수업 상태에 따라 홀드 버튼 이름 변경
+                        $hold_btn_text = "홀드신청";
+
+                        if($lesson['calendar_status'] == "홀드신청중"){
+                          $hold_btn_text = "신청취소";
+                        }else if($lesson['calendar_status'] == "홀드"){
+                          $hold_btn_text = "홀드취소";
+                        }else if($lesson['calendar_status'] == "홀드취소요청중"){
+                          $hold_btn_text = "취소요청중";
+                        }else if($lesson['calendar_status'] == "출석" || $lesson['calendar_status'] == "결석"){
+                          $hold_btn_text = "홀드불가";
+                        }
+
+                        if(
+                          $lesson['calendar_status'] == "예정" ||
+                          $lesson['calendar_status'] == "홀드신청중" ||
+                          $lesson['calendar_status'] == "홀드" ||
+                          $lesson['calendar_status'] == "홀드취소요청중"
+                        ){
+                      ?>
+
+                        <button
+                          type="button"
+                          onclick="location.href='./hold_request.php?lesson_no=<?php echo h($lesson['lesson_no']); ?>';"
+                        >
+                          <?php echo h($hold_btn_text); ?>
+                        </button>
+
+                      <?php
+                        }else{
+                      ?>
+
+                        <button
+                          type="button"
+                          onclick="alert('출석 또는 결석 처리된 수업은 홀드 신청/취소를 할 수 없습니다.');"
+                        >
+                          <?php echo h($hold_btn_text); ?>
+                        </button>
+
+                      <?php
+                        }
+                      ?>
+
+                </div>
 
             </div>
 
@@ -407,9 +578,37 @@
                   echo "<td class='" . $class_name . "'>";
                   echo "<span class='day_num'>" . $day . "</span>";
 
+                  // 공휴일 표시
                   if(isset($holidays[$date_key])){
                     echo "<span class='holiday_name'>" . h($holidays[$date_key]) . "</span>";
                   }
+
+                  // 수업 일정 표시
+                  if(isset($calendar_lessons[$date_key])){
+                    foreach($calendar_lessons[$date_key] as $calendar_lesson){
+
+                      echo "<div class='calendar_lesson_item'>";
+
+                      echo "  <div class='calendar_student_name'>";
+                      echo      h($calendar_lesson['student']);
+                      echo "  </div>";
+
+                      echo "  <div class='calendar_teacher_name'>";
+                      echo      h($calendar_lesson['teacher']) . " 강사님";
+                      echo "  </div>";
+
+                      echo "  <div class='calendar_time_status'>";
+                      echo      h($calendar_lesson['time']);
+
+                      echo "    <span class='calendar_status_badge " . h($calendar_lesson['status_class']) . "'>";
+                      echo        h($calendar_lesson['calendar_status']);
+                      echo "    </span>";
+
+                      echo "  </div>";
+
+                      echo "</div>";
+                  }
+                }
 
                   echo "</td>";
 

@@ -665,3 +665,60 @@
   background-color: #f1f5ff;
   color: #1f5fbf;
 }
+
+/* 달력 안 수업 일정 표시 */
+.calendar_lesson_item {
+  margin-top: 6px;
+  padding: 6px;
+
+  border: 1px solid #e1e5ee;
+  border-radius: 6px;
+  background-color: #f8faff;
+}
+
+/* 달력 안 수업 글자 */
+.calendar_lesson_text {
+  font-size: 11px;
+  line-height: 1.35;
+  color: #222;
+  word-break: keep-all;
+}
+
+/* 출석/결석/홀드/예정 뱃지 공통 */
+.calendar_status_badge {
+  display: inline-block;
+  margin-top: 5px;
+  padding: 2px 6px;
+
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+/* 예정 */
+.calendar_status_badge.status_plan {
+  background-color: #eaf3ff;
+  border: 1px solid #9cc7ff;
+  color: #1f5fbf;
+}
+
+/* 출석 */
+.calendar_status_badge.status_attend {
+  background-color: #d8ffd8;
+  border: 1px solid #53c653;
+  color: #078307;
+}
+
+/* 결석 */
+.calendar_status_badge.status_absent {
+  background-color: #ffe1e1;
+  border: 1px solid #e05757;
+  color: #d92828;
+}
+
+/* 홀드 */
+.calendar_status_badge.status_hold {
+  background-color: #f1e7ff;
+  border: 1px solid #9b6bdb;
+  color: #6d35b8;
+}

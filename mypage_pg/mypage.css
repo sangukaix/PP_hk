@@ -156,6 +156,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  overflow: hidden;
 }
 
 .profile_circle.big {
@@ -167,6 +169,12 @@
 .profile_circle span {
   font-size: 13px;
   color: #1f5fbf;
+}
+
+.profile_circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .course_profile p {
@@ -321,7 +329,7 @@
   color: #666;
 }
 
-/* 새 수업 카드 */
+/* 수업 카드 */
 .lesson_card_new {
   position: relative;
   display: grid;
@@ -329,6 +337,7 @@
   gap: 20px;
 
   padding: 26px 26px 58px;
+  margin-top: 0;
   margin-bottom: 22px;
 
   border: 1px solid #ddd;
@@ -338,25 +347,31 @@
 }
 
 /* 예정수업 탭 */
+/* 수업 카드 위 날짜 라벨 */
 .lesson_status_tab {
-  position: absolute;
-  top: -1px;
-  left: -1px;
+  display: inline-block;
+  position: static;
 
-  padding: 8px 24px;
-  border: 2px solid #1f5fbf;
-  border-bottom: none;
-  border-radius: 10px 10px 0 0;
+  width: auto;
+  padding: 7px 15px;
+  margin-top: -30px;
+  margin-bottom: 25px;
 
+  border: 1px solid #dbe7ff;
+  border-radius: 2px;
   background-color: #fff;
-  color: #222;
-  font-size: 13px;
+
+  color: #1f5fbf;
+  font-size: 15px;
   font-weight: bold;
+  white-space: nowrap;
+
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
 }
 
 /* 가운데 수업 정보 */
 .lesson_main_info {
-  padding-top: 35px;
+  padding-top: 0;
 }
 
 .lesson_date_line {
@@ -389,17 +404,26 @@
 
 .lesson_teacher_line {
   display: flex;
-  gap: 25px;
-  font-size: 13px;
+  align-items: center;
+  gap: 32px;
+
+  padding-left: 17px;
+
+  font-size: 14px;
   color: #444;
 }
 
+/* '강사' 글씨 */
 .lesson_teacher_line span {
   font-weight: bold;
+  color: #222;
 }
 
+/* 선생님 이름 */
 .lesson_teacher_line strong {
   font-weight: normal;
+  color: #1f5fbf;
+  font-size: 14px;
 }
 
 /* 수업 입장 영역 */
@@ -410,25 +434,33 @@
 }
 
 /* 수업 입장 버튼 */
+/* 수업 입장 / 수업 상태 원형 버튼 */
 .enter_circle_btn {
-  width: 76px;
-  height: 76px;
-  border-radius: 50%;
-  border: 1px solid #17458f;
+  width: 82px;
+  height: 82px;
 
-  background-color: #bfc5cf;
+  border-radius: 50%;
+  border: none;
+
+  background-color: #1f5fbf;
   color: #fff;
 
   font-size: 15px;
   font-weight: bold;
   line-height: 1.3;
+  text-align: center;
 
   cursor: pointer;
+
+  box-shadow: 0 5px 13px rgba(31, 95, 191, 0.28);
+  transition: 0.2s;
 }
 
-/* 지금은 hover 시 활성 느낌만 보여줌 */
+/* 예정 수업 입장 버튼 hover */
 .enter_circle_btn:hover {
-  background-color: #1f5fbf;
+  background-color: #245db1;
+  transform: translateY(-2px);
+  box-shadow: 0 7px 16px rgba(31, 95, 191, 0.35);
 }
 
 /* 카드 하단 버튼 영역 */
@@ -563,6 +595,7 @@
 }
 
 .hk_calendar th {
+  width: 14.285%;
   padding: 9px;
   border: 1px solid #ddd;
   background-color: #f3f5f8;
@@ -580,7 +613,8 @@
 }
 
 .hk_calendar td {
-  height: 82px;
+  width: 14.285%;
+  height: 125px;
   vertical-align: top;
   padding: 8px;
   border: 1px solid #ddd;
@@ -595,6 +629,7 @@
 
 .calendar_day .day_num {
   display: block;
+  margin-bottom: 4px;
   font-weight: bold;
   color: #333;
 }
@@ -616,8 +651,82 @@
 .holiday_name {
   display: block;
   margin-top: 7px;
+  margin-bottom: 4px;
   font-size: 12px;
   color: #d92828;
+}
+
+/* 달력 안 수업 표시 */
+.calendar_lesson_item {
+  margin-top: 6px;
+  padding: 5px 6px;
+
+  background-color: #f8fbff;
+  border: 1px solid #dbe7ff;
+  border-radius: 5px;
+
+  font-size: 11px;
+  line-height: 1.45;
+  color: #222;
+}
+
+/* 같은 날짜에 수업이 여러 개 있을 때 간격 */
+.calendar_lesson_item + .calendar_lesson_item {
+  margin-top: 5px;
+}
+
+/* 학생 이름 */
+.calendar_student_name {
+  font-weight: bold;
+  color: #222;
+}
+
+/* 강사명 */
+.calendar_teacher_name {
+  margin-top: 1px;
+  color: #333;
+}
+
+/* 시간 + 상태 */
+.calendar_time_status {
+  margin-top: 1px;
+  color: #333;
+}
+
+/* 예정 / 출석 / 결석 / 홀드 상태 글자 */
+.calendar_status_badge {
+  display: inline-block;
+  margin-left: 4px;
+  padding: 1px 5px;
+
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+/* 예정 - 회색 */
+.calendar_status_badge.status_plan {
+  background-color: #eeeeee;
+  color: #555555;
+}
+
+/* 출석 - 초록 */
+.calendar_status_badge.status_attend {
+  background-color: #d8ffd8;
+  color: #078307;
+}
+
+/* 결석 - 빨강 */
+.calendar_status_badge.status_absent {
+  background-color: #ffe0e0;
+  color: #d62828;
+}
+
+/* 홀드 - 갈색 */
+.calendar_status_badge.status_hold {
+  background-color: #f2e2d2;
+  color: #7a3f16;
 }
 
 /* 이번 달 공휴일 목록 */
@@ -824,17 +933,6 @@
   color: #d92828;
 }
 
-/* 수강신청현황 프로필 이미지 */
-.profile_circle {
-  overflow: hidden;
-}
-
-.profile_circle img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
 /* 수강신청 nav 버튼 */
 header nav ul li a.course_register_btn {
   color: #7b3ff2 !important;
@@ -845,4 +943,92 @@ header nav ul li a.course_register_btn {
 /* 수강신청 hover */
 header nav ul li a.course_register_btn:hover {
   color: #1f5fbf !important;
+}
+
+/* 모바일 */
+@media (max-width: 768px) {
+  #mypage_content {
+    padding: 40px 0;
+  }
+
+  .mypage_nav ul {
+    flex-wrap: wrap;
+  }
+
+  .mypage_nav ul li {
+    flex: 50%;
+  }
+
+  .mypage_box {
+    padding: 25px;
+  }
+
+  .course_status_inner {
+    display: block;
+  }
+
+  .course_detail,
+  .course_profile {
+    width: 100%;
+  }
+
+  .course_profile {
+    margin-top: 25px;
+  }
+
+  .lesson_card_new {
+    display: block;
+    padding: 26px 20px 58px;
+  }
+
+  .lesson_enter_area {
+    margin-top: 20px;
+  }
+
+  .hk_calendar td {
+    height: 110px;
+    padding: 5px;
+  }
+
+  .calendar_lesson_item {
+    padding: 4px;
+    font-size: 10px;
+  }
+
+  .calendar_status_badge {
+    font-size: 10px;
+    padding: 1px 4px;
+  }
+
+  .profile_photo_area {
+    display: block;
+    text-align: center;
+  }
+
+  .profile_preview_circle {
+    margin: 0 auto 15px;
+  }
+}
+
+/* 수업입장 가능할 때 살짝 뛰는 효과 */
+.enter_circle_btn.enter_active {
+  animation: enterPulse 1.6s ease-in-out infinite;
+}
+
+/* 심장 뛰듯이 살짝 커졌다가 돌아오는 효과 */
+@keyframes enterPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 5px 13px rgba(31, 95, 191, 0.28);
+  }
+
+  50% {
+    transform: scale(1.06);
+    box-shadow: 0 8px 18px rgba(31, 95, 191, 0.42);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 5px 13px rgba(31, 95, 191, 0.28);
+  }
 }

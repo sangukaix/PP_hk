@@ -198,6 +198,71 @@
     exit;
   }
 
+  // 수강기간/횟수에 따라 홀드 기본 횟수 계산
+  function get_hold_default_count($total_period){
+
+    // 1개월
+    if(strpos($total_period, "1개월") !== false){
+      if(strpos($total_period, "주5회") !== false || strpos($total_period, "주 5회") !== false || strpos($total_period, "20회") !== false){
+        return 2;
+      }else{
+        return 1;
+      }
+    }
+
+    // 3개월
+    if(strpos($total_period, "3개월") !== false){
+      if(strpos($total_period, "주5회") !== false || strpos($total_period, "주 5회") !== false || strpos($total_period, "60회") !== false){
+        return 7;
+      }else if(strpos($total_period, "주3회") !== false || strpos($total_period, "주 3회") !== false || strpos($total_period, "36회") !== false){
+        return 4;
+      }else if(strpos($total_period, "주2회") !== false || strpos($total_period, "주 2회") !== false || strpos($total_period, "24회") !== false){
+        return 3;
+      }
+    }
+
+    // 6개월
+    if(strpos($total_period, "6개월") !== false){
+      if(strpos($total_period, "주5회") !== false || strpos($total_period, "주 5회") !== false || strpos($total_period, "120회") !== false){
+        return 15;
+      }else if(strpos($total_period, "주3회") !== false || strpos($total_period, "주 3회") !== false || strpos($total_period, "72회") !== false){
+        return 9;
+      }else if(strpos($total_period, "주2회") !== false || strpos($total_period, "주 2회") !== false || strpos($total_period, "48회") !== false){
+        return 6;
+      }
+    }
+
+    // 혹시 위 조건에 안 맞으면 기본 1회
+    return 1;
+  }
+
+
+  // 현재 결제정보의 total_period 가져오기
+  $hold_sql = "
+    SELECT total_period
+    FROM hk_payments
+    WHERE no='$payment_no'
+  ";
+
+  $hold_result = mysqli_query($db, $hold_sql);
+
+  if($hold_result && mysqli_num_rows($hold_result) > 0){
+
+    $hold_row = mysqli_fetch_array($hold_result);
+    $default_hold_count = get_hold_default_count($hold_row['total_period']);
+
+    // 홀드/홀드취소 기본 횟수 저장
+    $hold_update_sql = "
+      UPDATE hk_payments
+      SET
+        hold_limit='$default_hold_count',
+        hold_cancel_limit='$default_hold_count'
+      WHERE no='$payment_no'
+    ";
+
+    mysqli_query($db, $hold_update_sql);
+  }
+
   // 결제회원의 수강상태를 수강중으로 변경
   $update_sql = "
     UPDATE hk_payments
