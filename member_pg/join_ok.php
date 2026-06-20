@@ -32,6 +32,25 @@
 
     $now = date('Y-m-d H:i:s');
 
+    // 아이디 중복 체크
+    $check_sql = "
+    SELECT no
+    FROM hk_members
+    WHERE user_id = '$user_id'
+    ";
+
+    $check_result = mysqli_query($db, $check_sql);
+
+    if($check_result && mysqli_num_rows($check_result) > 0){
+    echo "
+        <script>
+        alert('이미 사용 중인 아이디입니다.');
+        history.back();
+        </script>
+    ";
+    exit;
+    }
+
     $sql = "INSERT INTO hk_members(user_id, user_pw, user_name, phone, email, date)
             VALUES('$user_id', '$user_pw', '$user_name', '$phone', '$email', '$now')";
 

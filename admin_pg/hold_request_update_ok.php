@@ -117,6 +117,27 @@
       $payment_no = (int)$origin_lesson['payment_no'];
       $member_no = (int)$origin_lesson['member_no'];
 
+      // 학생 아이디 가져오기
+      $student_id = $origin_lesson['student_id'] ?? "";
+
+      if($student_id == ""){
+        $member_sql = "
+          SELECT user_id
+          FROM hk_members
+          WHERE no = '$member_no'
+          LIMIT 1
+        ";
+
+        $member_result = mysqli_query($db, $member_sql);
+
+        if($member_result && mysqli_num_rows($member_result) > 0){
+          $member_row = mysqli_fetch_array($member_result, MYSQLI_ASSOC);
+          $student_id = $member_row['user_id'];
+        }
+      }
+
+      $student_id = mysqli_real_escape_string($db, $student_id);
+
       // 원래 수업을 홀드 상태로 변경
       $update_lesson_sql = "
         UPDATE hk_lesson_schedule
@@ -232,30 +253,32 @@
 
         // 보강수업 추가
         $makeup_insert_sql = "
-          INSERT INTO hk_lesson_schedule
-          (
-            payment_no,
-            member_no,
-            teacher_name,
-            lesson_date,
-            lesson_day,
-            lesson_time,
-            lesson_type,
-            makeup_for_lesson_no,
-            attendance_status
-          )
-          VALUES
-          (
-            '$payment_no',
-            '$member_no',
-            '$teacher_name',
-            '$makeup_date',
-            '$makeup_day',
-            '$lesson_time',
-            '홀드 보강수업',
-            '$lesson_no',
-            '예정'
-          )
+            INSERT INTO hk_lesson_schedule
+            (
+              payment_no,
+              member_no,
+              student_id,
+              teacher_name,
+              lesson_date,
+              lesson_day,
+              lesson_time,
+              lesson_type,
+              makeup_for_lesson_no,
+              attendance_status
+            )
+            VALUES
+            (
+              '$payment_no',
+              '$member_no',
+              '$student_id',
+              '$teacher_name',
+              '$makeup_date',
+              '$makeup_day',
+              '$lesson_time',
+              '홀드 보강수업',
+              '$lesson_no',
+              '예정'
+            )
         ";
 
         $makeup_result = mysqli_query($db, $makeup_insert_sql);

@@ -55,14 +55,17 @@
     exit;
   }
 
-  // 수업일정 목록 가져오기
-  $schedule_sql = "
-    SELECT *
-    FROM hk_lesson_schedule
-    WHERE payment_no = '$payment_no'
-    ORDER BY lesson_date ASC, no ASC
-  ";
-
+ // 수업일정 목록 가져오기
+    $schedule_sql = "
+      SELECT
+        s.*,
+        origin.lesson_date AS makeup_origin_date
+      FROM hk_lesson_schedule s
+      LEFT JOIN hk_lesson_schedule origin
+      ON s.makeup_for_lesson_no = origin.no
+      WHERE s.payment_no = '$payment_no'
+      ORDER BY s.lesson_date ASC, s.no ASC
+    ";
   $schedule_result = mysqli_query($db, $schedule_sql);
 
   // 수업 요약정보 가져오기
@@ -384,7 +387,27 @@
 
                 <tr>
                     <td><?php echo h($round); ?>회차</td>
-                    <td><?php echo h($schedule['lesson_date']); ?></td>
+                    <td>
+                      <?php echo h($schedule['lesson_date']); ?>
+
+                      <?php
+                        if(($schedule['lesson_type'] ?? '') == "홀드 보강수업"){
+
+                          $origin_date_text = "";
+
+                          if(($schedule['makeup_origin_date'] ?? '') != ""){
+                            $origin_date_text = date("Y.m.d", strtotime($schedule['makeup_origin_date']));
+                          }
+                      ?>
+                        <div style="margin-top:5px;">
+                          <span style="display:inline-block; padding:3px 8px; background-color:#6c63ff; color:#fff; border-radius:14px; font-size:11px;">
+                            <?php echo h($origin_date_text); ?>의 보강수업
+                          </span>
+                        </div>
+                      <?php
+                        }
+                      ?>
+                    </td>
                     <td><?php echo h($schedule['lesson_day']); ?></td>
                     <td><?php echo h($schedule['lesson_time']); ?></td>
                     <td><?php echo h($schedule['teacher_name']); ?></td>

@@ -121,6 +121,22 @@
 
   // 회원번호
   $member_no = (int)$payment['member_no'];
+  // 학생 아이디 가져오기
+  $student_id = "";
+
+  $member_sql = "
+    SELECT user_id
+    FROM hk_members
+    WHERE no = '$member_no'
+    LIMIT 1
+  ";
+
+  $member_result = mysqli_query($db, $member_sql);
+
+  if($member_result && mysqli_num_rows($member_result) > 0){
+    $member_row = mysqli_fetch_array($member_result, MYSQLI_ASSOC);
+    $student_id = mysqli_real_escape_string($db, $member_row['user_id']);
+  }
 
   // 생성된 수업횟수
   $insert_count = 0;
@@ -151,6 +167,7 @@
         (
           payment_no,
           member_no,
+          student_id,
           teacher_name,
           lesson_date,
           lesson_day,
@@ -160,6 +177,7 @@
         (
           '$payment_no',
           '$member_no',
+          '$student_id',
           '$teacher_name',
           '$lesson_date_db',
           '$lesson_day_db',

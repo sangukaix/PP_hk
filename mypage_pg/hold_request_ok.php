@@ -82,17 +82,17 @@
         // 수업 1주일 전까지만 홀드 신청 가능
         // 예: 오늘이 6월 19일이면 6월 26일 수업부터 신청 가능
         // ==============================
-        $limit_date = date('Y-m-d', strtotime('+7 days'));
+$limit_date = date('Y-m-d', strtotime('+3 days'));
 
-        if($lesson['lesson_date'] < $limit_date){
-        echo "
-            <script>
-            alert('홀드 및 홀드취소는 수업 1주일 이전에만 가능합니다.');
-            location.href='./schedule.php';
-            </script>
-        ";
-        exit;
-        }
+if($lesson['lesson_date'] < $limit_date){
+  echo "
+    <script>
+      alert('홀드 신청은 수업일 기준 3일 전까지만 가능합니다.');
+      location.href='./schedule.php';
+    </script>
+  ";
+  exit;
+}
 
   // 이미 홀드된 수업이면 홀드신청이 아니라 홀드취소를 해야 함
   if($lesson['attendance_status'] == "홀드"){
