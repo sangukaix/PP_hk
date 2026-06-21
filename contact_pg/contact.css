@@ -286,3 +286,13 @@ footer p {
   height: 320px;
   border: 1px solid #ddd;
 }
+
+/* =========================
+   Contact 설명 영역 오른쪽 이동
+========================= */
+
+.contact_info,
+.current_info,
+.marker_info {
+  padding-left: 80px;
+}

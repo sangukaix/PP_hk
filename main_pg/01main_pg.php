@@ -105,10 +105,10 @@
 
     <div class="container">
 
-      <h2>Learn Korean Online</h2>
+      <h2>Online Education Solution</h2>
 
       <p>
-        외국인을 위한 온라인 한국어 회화 수업
+        꿈꾸던 커리어와 실력을 만드는 온라인 언어 학습
       </p>
 
     </div>
@@ -120,18 +120,19 @@
     <div class="container">
 
       <article>
-        <h3>1:1 Korean Class</h3>
-        <p>전 세계 어디에서든 휴대폰만 있으면 온라인으로 수업을 들을 수 있습니다.</p>
+        <h3>영미권 원어민 강사</h3>
+        <p>TESOL수료 명문대 출신 원어민<br> 튜터와 1:1 화상영어</p>
       </article>
 
       <article>
-        <h3>Professional Teacher</h3>
-        <p>TOPIK 시험대비 과정으로 한국 국립대학교 유학 및 취업까지 연계.</p>
+        <h3>맞춤 튜터 추천</h3>
+        <p>원하는 스타일과 목적에 딱<br>
+          맞는 튜터를 추천해드려요</p>
       </article>
 
       <article>
-        <h3>Flexible Schedule</h3>
-        <p>선생님과 수업 후 AI와 24시간 무한반복 연습.</p>
+        <h3>무제한 AI 연습</h3>
+        <p>선생님과 수업 후 AI와 24시간 무한반복 연습</p>
       </article>
 
     </div>

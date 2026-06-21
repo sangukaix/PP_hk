@@ -36,13 +36,15 @@
 
 /* 왼쪽 선택 영역 */
 .course_select_area {
-  flex: 1;
+  flex: 0 0 750px;
+  margin-left: auto;
 }
 
 /* 오른쪽 아일랜드 */
 .apply_island {
   width: 270px;
   flex-shrink: 0;
+  margin-right: auto;
 
   position: sticky;
   top: 95px;
@@ -721,4 +723,104 @@
   background-color: #f1e7ff;
   border: 1px solid #9b6bdb;
   color: #6d35b8;
+}
+
+/* 최종 결제금액 라벨 강조 */
+.final_price_label {
+  font-weight: bold;
+  color: #222;
+}
+
+/* =========================
+   최종 결제금액 표시 조정
+========================= */
+
+.total_price_item .summary_price #price_total {
+  display: block;
+  color: #1f5fbf;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.total_price_item .summary_price #price_monthly {
+  display: block !important;
+  margin-top: 4px;
+  color: #777 !important;
+  font-size: 12px !important;
+  font-weight: normal !important;
+  line-height: 1.3;
+}
+
+/* =========================
+   course_complete.php 입금 안내 박스
+========================= */
+
+.bank_complete_row {
+  align-items: flex-start;
+}
+
+.bank_deadline {
+  margin-bottom: 14px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #1f5fbf;
+  line-height: 1.6;
+  text-align: right;
+}
+
+.bank_info_box {
+  width: 85%;
+  margin: 0 auto;
+
+  padding: 14px 16px;
+  border-radius: 8px;
+  background-color: #f5f8ff;
+  border: 1px solid #dce7f8;
+}
+
+.bank_info_row {
+  display: flex;
+  justify-content: space-between;
+  padding: 7px 0;
+  border-bottom: 1px solid #e4ebf5;
+}
+
+.bank_info_row:last-child {
+  border-bottom: none;
+}
+
+.bank_info_row em {
+  font-style: normal;
+  font-size: 13px;
+  color: #777;
+}
+
+.bank_info_row strong {
+  font-size: 13px;
+  color: #222;
+  font-weight: bold;
+}
+
+/* 입금 안내 줄만 전체 폭 기준으로 정리 */
+.complete_row.bank_complete_row {
+  display: block;
+}
+
+.complete_row.bank_complete_row > span {
+  display: block;
+  margin-bottom: 14px;
+  text-align: left;
+}
+
+.bank_complete_info {
+  width: 100%;
+}
+
+.bank_deadline {
+  text-align: center;
+}
+
+.bank_info_box {
+  width: 430px;
+  margin: 0 auto;
 }

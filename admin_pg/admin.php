@@ -821,7 +821,7 @@ if(!$board_notice){
                       }else{
                     ?>
                       <a href="./lesson_register.php?payment_no=<?php echo h($payment['no']); ?>" class="status_badge need lesson_register_btn">
-                        등록필요
+                        수강등록
                       </a>
                     <?php
                       }
@@ -876,20 +876,18 @@ if(!$board_notice){
     <!-- 수강생관리 내용 영역 -->
     <section id="lesson_panel" class="admin_panel <?php if($active_tab == 'lesson'){ echo 'active'; } ?>">
 
-      <div class="admin_panel_title">
+    <div class="admin_panel_title admin_panel_title_flex">
+
+      <div>
         <h3>수강생관리</h3>
         <p>재학생 및 졸업자 관리</p>
       </div>
 
-        <!-- 홀드 신청 관리 버튼 -->
-        <div style="margin-bottom:15px; text-align:right;">
-          <a
-            href="./hold_request_list.php"
-            style="display:inline-block; padding:8px 14px; background-color:#1486b8; color:#fff; font-size:13px; border-radius:4px;"
-          >
-            홀드 신청 관리
-          </a>
-        </div>
+      <a href="./hold_request_list.php" class="notice_edit_btn">
+        홀드 신청 관리
+      </a>
+
+    </div>
 
       <div class="admin_table_area wide_table_area">
         <table class="admin_table student_lesson_table">

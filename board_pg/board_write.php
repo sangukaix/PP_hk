@@ -87,8 +87,8 @@
   </section>
 
   <!-- 글쓰기 영역 -->
-  <section id="write_content">
-    <div class="container">
+    <section id="write_content">
+      <div class="container board_write_container">
 
       <div class="write_header">
         <h3>문의 작성</h3>

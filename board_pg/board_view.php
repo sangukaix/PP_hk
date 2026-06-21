@@ -170,7 +170,7 @@
 
   <!-- 상세보기 영역 -->
   <section id="board_content">
-    <div class="container">
+    <div class="container board_view_container">
 
       <div class="board_header">
         <div class="board_title">
@@ -220,27 +220,50 @@
             </tr>
 
             <tr>
-              <th>관리자 답변</th>
-              <td class="text_left">
-                <?php
-                  // 관리자 답변이 있을 때
-                  if(isset($row['answer']) && $row['answer'] != ''){
-                    echo nl2br(h($row['answer']));
 
-                    // 답변 날짜가 있으면 같이 표시
-                    if(isset($row['answer_date']) && $row['answer_date'] != ''){
-                      echo "<br><br>";
-                      echo "<small>답변일: " . h($row['answer_date']) . "</small>";
-                    }
-                  }else{
-                    // 아직 답변이 없을 때
-                    echo "아직 등록된 답변이 없습니다.";
-                  }
-                ?>
-              </td>
-            </tr>
           </tbody>
         </table>
+        <!-- 관리자 답변 영역 -->
+          <div class="answer_section">
+
+            <h4>답변</h4>
+
+            <div class="answer_card">
+
+              <?php
+                // 관리자 답변이 있을 때
+                if(isset($row['answer']) && $row['answer'] != ''){
+              ?>
+
+                <p class="answer_writer">Hello Korean Staff</p>
+
+                <div class="answer_text">
+                  <?php echo nl2br(h($row['answer'])); ?>
+                </div>
+
+                <?php
+                  // 답변 날짜가 있으면 표시
+                  if(isset($row['answer_date']) && $row['answer_date'] != ''){
+                ?>
+                  <p class="answer_date"><?php echo h($row['answer_date']); ?></p>
+                <?php
+                  }
+                ?>
+
+              <?php
+                }else{
+              ?>
+
+                <p class="answer_wait">아직 답변이 등록되지 않았습니다.</p>
+                <p class="answer_wait_sub">관리자가 확인 후 답변드릴 예정입니다.</p>
+
+              <?php
+                }
+              ?>
+
+            </div>
+
+          </div>
           <div class="board_bottom">
 
           <!-- 버튼 영역 -->

@@ -262,8 +262,12 @@
             </div>
 
             <div class="summary_item total_price_item">
-                <p class="summary_label">총 결제금액</p>
-                <p class="summary_price" id="summary_price">추후 연결</p>
+                <p class="summary_label final_price_label">최종 결제금액</p>
+
+                <p class="summary_price" id="summary_price">
+                  <span id="price_total">선택 전</span>
+                  <span id="price_monthly"></span>
+                </p>
             </div>
 
             </div>

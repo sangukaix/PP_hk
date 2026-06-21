@@ -1,7 +1,10 @@
 <?php
-  session_start();
+session_start();
 
-  include "../common/db.php";
+// 한국 시간 기준으로 날짜 계산
+date_default_timezone_set('Asia/Seoul');
+
+include "../common/db.php";
 
   // 로그인 확인
   if(!isset($_SESSION['user_no'])){
@@ -131,6 +134,12 @@
     $_SESSION['apply_course_name'] = $course_name;
     $_SESSION['apply_start_date'] = $start_date;
     $_SESSION['apply_lesson_time'] = $lesson_time;
+
+        // 무통장입금 안내에서 보여줄 값 저장
+    $_SESSION['apply_depositor_name'] = $depositor_name;
+
+    // 신청 완료 시점 기준 48시간 뒤 입금 마감일
+    $_SESSION['apply_deposit_deadline'] = date('Y년 m월 d일 H:i', strtotime('+48 hours'));
 
     echo "
       <script>

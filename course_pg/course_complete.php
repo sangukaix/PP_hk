@@ -1,7 +1,10 @@
 <?php
-  session_start();
+session_start();
 
-  function h($str){
+// 한국 시간 기준
+date_default_timezone_set('Asia/Seoul');
+
+function h($str){
     return htmlspecialchars((string)$str, ENT_QUOTES, "UTF-8");
   }
 
@@ -19,6 +22,19 @@
   $course_name = $_SESSION['apply_course_name'] ?? '';
   $start_date = $_SESSION['apply_start_date'] ?? '';
   $lesson_time = $_SESSION['apply_lesson_time'] ?? '';
+
+  // 무통장입금 안내 값
+  $depositor_name = $_SESSION['apply_depositor_name'] ?? '';
+  $deposit_deadline = $_SESSION['apply_deposit_deadline'] ?? '';
+
+  // 혹시 세션값이 비어 있으면 기본값으로 표시
+  if($depositor_name == ''){
+    $depositor_name = $_SESSION['user_id'] ?? '';
+  }
+
+  if($deposit_deadline == ''){
+    $deposit_deadline = date('Y년 m월 d일 H:i', strtotime('+48 hours'));
+  }
 
   // 값이 없으면 다시 수강신청 페이지로 이동
   if($course_name == '' || $start_date == '' || $lesson_time == ''){
@@ -94,6 +110,42 @@
           <span>희망 수업 시간</span>
           <strong><?php echo h($lesson_time); ?></strong>
         </div>
+
+    <div class="complete_row bank_complete_row">
+      <span>입금 안내</span>
+
+      <div class="bank_complete_info">
+
+        <p class="bank_deadline">
+          <?php echo h($deposit_deadline); ?>까지 입금해주셔야 수강신청이 완료됩니다.
+        </p>
+
+        <div class="bank_info_box">
+
+          <div class="bank_info_row">
+            <em>계좌번호</em>
+            <strong>1005-004-848255</strong>
+          </div>
+
+          <div class="bank_info_row">
+            <em>은행명</em>
+            <strong>우리은행</strong>
+          </div>
+
+          <div class="bank_info_row">
+            <em>예금주</em>
+            <strong>주식회사 글로벌링크</strong>
+          </div>
+
+          <div class="bank_info_row">
+            <em>입금자명</em>
+            <strong><?php echo h($depositor_name); ?></strong>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
 
       </div>
 

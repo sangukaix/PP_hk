@@ -98,7 +98,7 @@
   <section id="contact_visual">
     <div class="container">
       <h2>Contact Us</h2>
-      <p>Hello Korean 한국어 수업 상담 대해 문의</p>
+      <p>HelloKorean 고객센터</p>
     </div>
   </section>
 
@@ -106,11 +106,10 @@
     <div class="container">
 
       <div class="contact_info">
-        <h3>HelloKorean 사무실 주소</h3>
-        <p>Online Korean Language Education</p>
+        <h3>오시는길</h3>
+        <p>Hello Korean</p>
         <p>서울시 관악구 신림로 64길 46</p>
         <p>Email : hellokedu@naver.com</p>
-        <p>Location : Seoul, Korea</p>
       </div>
 
       <!-- 지도가 그려질 영역 -->
@@ -125,8 +124,7 @@
 
     <div class="current_info">
       <h3>현재 내 위치</h3>
-      <p>브라우저에서 위치 정보 사용을 허용하면 현재 위치가 지도에 표시됩니다.</p>
-      <p>Location : Your current location</p>
+      <p>현재 내 위치가 표시됩니다</p>
     </div>
 
     <!-- 현재 위치 지도가 들어갈 영역 -->
@@ -139,8 +137,8 @@
   <div class="container">
 
     <div class="marker_info">
-      <h3>마커 테스트</h3>
-      <p>지도를 클릭하면 클릭한 위치에 마커가 추가됩니다.</p>
+      <h3>마커</h3>
+      <p>지도를 클릭해서 마커를 추가해보세요</p>
 
       <button onclick="hideControlMarkers()">마커 감추기</button>
       <button onclick="showControlMarkers()">마커 보이기</button>

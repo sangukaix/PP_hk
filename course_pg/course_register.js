@@ -14,7 +14,10 @@ let timeButtons = document.querySelectorAll('.time_btn');
 let summaryCourse = document.querySelector('#summary_course');
 let summaryPeriodCount = document.querySelector('#summary_period_count');
 let summaryTimes = document.querySelector('#summary_times');
-let summaryPrice = document.querySelector('#summary_price');
+
+// 결제금액 표시
+let priceTotal = document.querySelector('#price_total');
+let priceMonthly = document.querySelector('#price_monthly');
 
 // hidden input
 let courseInput = document.querySelector('#course_name');
@@ -26,6 +29,53 @@ let secondTimeInput = document.querySelector('#second_time');
 // 희망 수업 시작일 input
 let startDateInput = document.querySelector('#start_date');
 
+    // 수업기간 + 수업횟수별 가격표
+    let priceTable = {
+      "1개월": {
+        "주 2회": {
+          total: "250,000원",
+          monthly: ""
+        },
+        "주 3회": {
+          total: "총 337,000원",
+          monthly: ""
+        },
+        "주 5회": {
+          total: "490,000원",
+          monthly: ""
+        }
+      },
+
+      "3개월": {
+        "주 2회": {
+          total: "646,000원",
+          monthly: "(월 215,600원)"
+        },
+        "주 3회": {
+          total: "865,000원",
+          monthly: "(월 288,640원)"
+        },
+        "주 5회": {
+          total: "1,309,000원",
+          monthly: "(월 436,480원)"
+        }
+      },
+
+      "6개월": {
+        "주 2회": {
+          total: "1,122,000원",
+          monthly: "(월 187,000원)"
+        },
+        "주 3회": {
+          total: "1,563,000원",
+          monthly: "(월 260,525원)"
+        },
+        "주 5회": {
+          total: "2,279,000원",
+          monthly: "(월 379,950원)"
+        }
+      }
+    };
 
 // 희망 수업 시작일은 오늘 기준 3일 뒤부터 선택 가능
 let today = new Date();
@@ -144,8 +194,16 @@ function updateSummary(){
     summaryTimes.innerText = "선택 전";
   }
 
-  // 가격은 아직 계산 기능 전이라 임시 표시
-  summaryPrice.innerText = "추후 연결";
+  // 결제금액 표시
+  if(selectedPeriod != "" && selectedCount != ""){
+    let priceInfo = priceTable[selectedPeriod][selectedCount];
+
+    priceTotal.innerText = priceInfo.total;
+    priceMonthly.innerText = priceInfo.monthly;
+  }else{
+    priceTotal.innerText = "선택 전";
+    priceMonthly.innerText = "";
+  }
 
   // hidden input 값 저장
   firstTimeInput.value = selectedTimes[0] || "";

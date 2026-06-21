@@ -36,8 +36,35 @@
     exit;
   }
 
-  // 아직 가격 계산 전이라 임시 표시
-  $payment_amount = "추후 연결";
+    // 수업기간 + 수업횟수별 가격표
+    $price_table = array(
+      "1개월" => array(
+        "주 2회" => array("total" => 250000, "monthly" => "월 250,000원"),
+        "주 3회" => array("total" => 337000, "monthly" => "월 337,000원"),
+        "주 5회" => array("total" => 490000, "monthly" => "월 490,000원")
+      ),
+
+      "3개월" => array(
+        "주 2회" => array("total" => 646000, "monthly" => "월 215,600원"),
+        "주 3회" => array("total" => 865000, "monthly" => "월 288,640원"),
+        "주 5회" => array("total" => 1309000, "monthly" => "월 436,480원")
+      ),
+
+      "6개월" => array(
+        "주 2회" => array("total" => 1122000, "monthly" => "월 187,000원"),
+        "주 3회" => array("total" => 1563000, "monthly" => "월 260,525원"),
+        "주 5회" => array("total" => 2279000, "monthly" => "월 379,950원")
+      )
+    );
+
+    // 선택한 기간/횟수에 맞는 가격 찾기
+    $payment_amount = "0원";
+    $payment_monthly = "";
+
+    if(isset($price_table[$course_period][$lesson_count])){
+      $payment_amount = number_format($price_table[$course_period][$lesson_count]["total"]) . "원";
+      $payment_monthly = $price_table[$course_period][$lesson_count]["monthly"];
+    }
 
   // 희망 수업시간
   $hope_time = $first_time . " / " . $second_time;
@@ -146,7 +173,18 @@
           <div class="price_summary">
             <div>
               <span>수강 금액</span>
-              <strong><?php echo h($payment_amount); ?></strong>
+
+              <strong class="course_price_text">
+                <?php echo h($payment_amount); ?>
+
+                <?php
+                  if($payment_monthly != ''){
+                ?>
+                  <em>(<?php echo h($payment_monthly); ?>)</em>
+                <?php
+                  }
+                ?>
+              </strong>
             </div>
 
             <div>
