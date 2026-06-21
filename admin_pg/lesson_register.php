@@ -298,7 +298,7 @@ $mapping_result = mysqli_query($db, $mapping_sql);
       <input type="hidden" name="payment_no" value="<?php echo h($payment['no']); ?>">
       <input type="hidden" name="total_lessons" id="total_lessons" value="<?php echo h($total_lessons); ?>">
       <input type="hidden" name="weekly_count" id="weekly_count" value="<?php echo h($weekly_count); ?>">
-      <input type="hidden" name="start_date" id="start_date" value="<?php echo h($payment['start_date']); ?>">
+      <input type="hidden" id="hope_start_date" value="<?php echo h($payment['start_date']); ?>">
       <input type="hidden" name="teacher_name" id="teacher_name" value="">
 
       <!-- 수업요일 / 수업시간 선택 -->
@@ -307,6 +307,22 @@ $mapping_result = mysqli_query($db, $mapping_sql);
         <div class="lesson_register_title">
           <h3>수업요일 / 수업시간 선택</h3>
           <p>이 신청건은 주 <?php echo h($weekly_count); ?>회 수업입니다. 수업요일을 <?php echo h($weekly_count); ?>개 선택해주세요.</p>
+        </div>
+
+        <div class="lesson_form_row">
+          <strong>실제 수업 시작일</strong>
+
+          <input
+            type="date"
+            name="start_date"
+            id="start_date"
+            class="lesson_start_date_input"
+            value="<?php echo h($payment['start_date']); ?>"
+          >
+
+          <span class="hope_time_text">
+            희망 시작일: <?php echo h($payment['start_date']); ?>
+          </span>
         </div>
 
         <div class="lesson_form_row">

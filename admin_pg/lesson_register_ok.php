@@ -184,9 +184,22 @@
   // 요일 배열
   $day_names = ['일', '월', '화', '수', '목', '금', '토'];
 
-  // 시작일
-  $start_date = $payment['start_date'];
-  $current_time = strtotime($start_date);
+    // 시작일
+    // 어드민이 수강등록 화면에서 선택한 실제 수업 시작일 사용
+    $start_date = $_POST['start_date'] ?? '';
+
+    if($start_date == ''){
+      echo "
+        <script>
+          alert('실제 수업 시작일을 선택해주세요.');
+          history.back();
+        </script>
+      ";
+      exit;
+    }
+
+    $start_date = mysqli_real_escape_string($db, $start_date);
+    $current_time = strtotime($start_date);
 
   // 회원번호
   $member_no = (int)$payment['member_no'];

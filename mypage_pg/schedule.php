@@ -439,14 +439,31 @@
       $next_params['lesson_start'] = $next_start_index;
       $next_lesson_url = "./schedule.php?" . http_build_query($next_params);
 
-      // 기존 코드에서 쓰고 있을 수 있는 변수 에러 방지용
-      $total_pages = ceil($total_lessons / $per_page);
+   
+
+      // 전체 페이지 수
+      // 마지막 페이지도 수업 카드 3개가 보이도록 max_start_index 기준으로 계산
+      $total_pages = floor($max_start_index / $per_page) + 1;
 
       if($total_pages < 1){
         $total_pages = 1;
       }
 
       $lesson_page = floor($start_index / $per_page) + 1;
+
+      // 처음 버튼 URL
+      $first_params = $_GET;
+      unset($first_params['lesson_page']);
+      $first_params['lesson_start'] = 0;
+      $first_lesson_url = "./schedule.php?" . http_build_query($first_params);
+
+      // 마지막 버튼 URL
+      $last_start_index = $max_start_index;
+
+      $last_params = $_GET;
+      unset($last_params['lesson_page']);
+      $last_params['lesson_start'] = $last_start_index;
+      $last_lesson_url = "./schedule.php?" . http_build_query($last_params);
     ?>
 
 <!DOCTYPE html>
@@ -795,37 +812,41 @@
           ?>
 
           <!-- 예정수업 페이지네이션 -->
-          <div class="lesson_pagination">
+        <div class="lesson_pagination">
 
-            <?php
-              if($has_prev_lesson_page){
-            ?>
-              <a href="<?php echo h($prev_lesson_url); ?>">이전</a>
-            <?php
-              }else{
-            ?>
-              <span class="page_disabled">이전</span>
-            <?php
-              }
-            ?>
+          <?php
+            if($has_prev_lesson_page){
+          ?>
+            <a href="<?php echo h($first_lesson_url); ?>">처음</a>
+            <a href="<?php echo h($prev_lesson_url); ?>">이전</a>
+          <?php
+            }else{
+          ?>
+            <span class="page_disabled">처음</span>
+            <span class="page_disabled">이전</span>
+          <?php
+            }
+          ?>
 
-            <span class="page_info">
-              <?php echo h($lesson_page); ?> / <?php echo h($total_pages); ?>
-            </span>
+          <span class="page_info">
+            <?php echo h($lesson_page); ?> / <?php echo h($total_pages); ?>
+          </span>
 
-            <?php
-              if($has_next_lesson_page){
-            ?>
-              <a href="<?php echo h($next_lesson_url); ?>">다음</a>
-            <?php
-              }else{
-            ?>
-              <span class="page_disabled">다음</span>
-            <?php
-              }
-            ?>
+          <?php
+            if($has_next_lesson_page){
+          ?>
+            <a href="<?php echo h($next_lesson_url); ?>">다음</a>
+            <a href="<?php echo h($last_lesson_url); ?>">마지막</a>
+          <?php
+            }else{
+          ?>
+            <span class="page_disabled">다음</span>
+            <span class="page_disabled">마지막</span>
+          <?php
+            }
+          ?>
 
-          </div>
+        </div>
 
         </div>
 
