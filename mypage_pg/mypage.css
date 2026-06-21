@@ -75,6 +75,12 @@
   color: #1f5fbf;
 }
 
+/* 현재 선택된 메뉴는 마우스를 올려도 파란색 유지 */
+.mypage_nav ul li a.active:hover {
+  background-color: #1f5fbf;
+  color: #fff;
+}
+
 /* 비활성화 메뉴 */
 .mypage_nav ul li a.disabled {
   background-color: #f1f1f1;
@@ -1214,4 +1220,20 @@ header nav ul li a.course_register_btn:hover {
 /* 홀드 신청 가능 버튼은 마우스 올리면 손모양 */
 .lesson_hold_btn:not(.hold_disabled_btn){
   cursor: pointer !important;
+}
+
+/* 홀드신청중 신청취소 form도 하단 버튼 칸 전체를 차지하게 함 */
+.lesson_hold_cancel_form {
+  flex: 1;
+  display: flex;
+  margin: 0;
+}
+
+.lesson_hold_cancel_form button {
+  width: 100%;
+}
+
+/* 수업카드 하단 홀드 버튼 글씨 두께 조정 */
+.lesson_hold_btn {
+  font-weight: 400;
 }

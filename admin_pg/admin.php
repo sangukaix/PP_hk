@@ -187,6 +187,63 @@
 
     $lesson_result = mysqli_query($db, $lesson_sql);
 
+      // ==============================
+      // 접수된 내용 요약 카운트
+      // ==============================
+
+      // 한국 시간 기준
+      date_default_timezone_set('Asia/Seoul');
+
+      // 오늘 날짜 표시용
+      $day_name_arr = ['일', '월', '화', '수', '목', '금', '토'];
+      $today_day = $day_name_arr[date('w')];
+      $today_update_text = date('Y/m/d') . " (" . $today_day . "요일) 업데이트";
+
+      // 신규 가입자 수
+      $today_member_sql = "
+        SELECT COUNT(*) AS total
+        FROM hk_members
+        WHERE admin_checked_at IS NULL
+      ";
+
+      $today_member_result = mysqli_query($db, $today_member_sql);
+      $today_member_row = mysqli_fetch_array($today_member_result, MYSQLI_ASSOC);
+      $today_member_count = (int)$today_member_row['total'];
+
+      // 신규 문의글 수
+      $today_board_sql = "
+        SELECT COUNT(*) AS total
+        FROM hk_board
+        WHERE admin_checked_at IS NULL
+      ";
+
+      $today_board_result = mysqli_query($db, $today_board_sql);
+      $today_board_row = mysqli_fetch_array($today_board_result, MYSQLI_ASSOC);
+      $today_board_count = (int)$today_board_row['total'];
+
+      // 신규 결제 신청 수
+      $today_payment_sql = "
+        SELECT COUNT(*) AS total
+        FROM hk_payments
+        WHERE admin_checked_at IS NULL
+      ";
+
+      $today_payment_result = mysqli_query($db, $today_payment_sql);
+      $today_payment_row = mysqli_fetch_array($today_payment_result, MYSQLI_ASSOC);
+      $today_payment_count = (int)$today_payment_row['total'];
+
+      // 홀드/홀드취소 신청 수
+      $today_hold_sql = "
+        SELECT COUNT(*) AS total
+        FROM hk_hold_requests
+        WHERE admin_checked_at IS NULL
+        AND request_status = '대기'
+      ";
+
+      $today_hold_result = mysqli_query($db, $today_hold_sql);
+      $today_hold_row = mysqli_fetch_array($today_hold_result, MYSQLI_ASSOC);
+      $today_hold_count = (int)$today_hold_row['total'];
+
 
   // 화면에 출력할 때 특수문자를 안전하게 바꿔주는 함수
   function h($str){
@@ -297,19 +354,103 @@
 <main class="admin_main">
   <div class="admin_container">
 
-    <!-- 관리자 화면 제목 -->
-    <section class="admin_title">
-      <h2>HelloKorean 관리자 화면</h2>
-      <p>회원 정보와 문의글을 관리하는 페이지입니다.</p>
-    </section>
-
     <!-- 회원관리 내용 영역 -->
     <!-- $active_tab 값이 member일 때만 active 클래스를 붙여서 화면에 보이게 함 -->
     <section id="member_panel" class="admin_panel <?php if($active_tab == 'member'){ echo 'active'; } ?>">
 
+          <!-- 접수된 내용 요약 -->
+      <div class="admin_today_box">
+
+        <div class="admin_today_head">
+          <h3>미처리 건</h3>
+          <p><?php echo h($today_update_text); ?></p>
+        </div>
+
+        <div class="admin_today_grid">
+
+        <div class="admin_today_item">
+          <a href="./admin.php?tab=member" class="admin_today_link">
+            신규 가입자
+          </a>
+
+          <div class="admin_today_count">
+            <strong><?php echo h($today_member_count); ?>명</strong>
+
+            <form
+              action="./admin_today_done_ok.php"
+              method="post"
+              onsubmit="return confirm('신규 가입자를 0명으로 리셋하시겠습니까?');"
+            >
+              <input type="hidden" name="done_type" value="member">
+              <button type="submit" class="admin_today_done_btn">처리완료</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="admin_today_item">
+          <a href="./admin.php?tab=board" class="admin_today_link">
+            문의글
+          </a>
+
+          <div class="admin_today_count">
+            <strong><?php echo h($today_board_count); ?>건</strong>
+
+            <form
+              action="./admin_today_done_ok.php"
+              method="post"
+              onsubmit="return confirm('문의글을 0건으로 리셋하시겠습니까?');"
+            >
+              <input type="hidden" name="done_type" value="board">
+              <button type="submit" class="admin_today_done_btn">처리완료</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="admin_today_item">
+          <a href="./admin.php?tab=payment" class="admin_today_link">
+            신규 결제
+          </a>
+
+          <div class="admin_today_count">
+            <strong><?php echo h($today_payment_count); ?>건</strong>
+
+            <form
+              action="./admin_today_done_ok.php"
+              method="post"
+              onsubmit="return confirm('신규 결제를 0건으로 리셋하시겠습니까?');"
+            >
+              <input type="hidden" name="done_type" value="payment">
+              <button type="submit" class="admin_today_done_btn">처리완료</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="admin_today_item">
+          <a href="./hold_request_list.php" class="admin_today_link">
+            홀드/홀드취소 신청
+          </a>
+
+          <div class="admin_today_count">
+            <strong><?php echo h($today_hold_count); ?>건</strong>
+
+            <form
+              action="./admin_today_done_ok.php"
+              method="post"
+              onsubmit="return confirm('홀드/홀드취소 신청을 0건으로 리셋하시겠습니까?');"
+            >
+              <input type="hidden" name="done_type" value="hold">
+              <button type="submit" class="admin_today_done_btn">처리완료</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+
+      </div>
+
       <div class="admin_panel_title">
         <h3>회원관리</h3>
-        <p>가입한 회원 목록을 확인합니다.</p>
+        <p>가입한 회원 목록</p>
       </div>
 
       <div class="admin_table_area">
@@ -325,6 +466,7 @@
               <th>이메일</th>
               <th>권한</th>
               <th>가입일</th>
+              <th>관리</th>
             </tr>
           </thead>
 
@@ -345,6 +487,16 @@
                 <td><?php echo h($member['email']); ?></td>
                 <td><?php echo h($member['role']); ?></td>
                 <td><?php echo h($member['date']); ?></td>
+                <td>
+                <form
+                  action="./member_delete_ok.php"
+                  method="post"
+                  onsubmit="return confirm('정말로 이 회원을 삭제하시겠습니까? 관련 문의글, 수강신청, 수업일정, 홀드 기록이 모두 삭제됩니다.');"
+                >
+                  <input type="hidden" name="member_no" value="<?php echo h($member['no']); ?>">
+                  <button type="submit" class="delete_btn">회원삭제</button>
+                </form>
+              </td>
               </tr>
 
             <?php
@@ -354,7 +506,7 @@
 
               <!-- 회원이 없을 때 -->
               <tr>
-                <td colspan="7">등록된 회원이 없습니다.</td>
+                <td colspan="8">등록된 회원이 없습니다.</td>
               </tr>
 
             <?php
@@ -415,7 +567,7 @@
 
       <div class="admin_panel_title">
         <h3>문의글관리</h3>
-        <p>학생들이 작성한 문의글을 확인합니다.</p>
+        <p>문의글 답변</p>
       </div>
 
       <div class="admin_table_area">
@@ -537,7 +689,7 @@
 
       <div class="admin_panel_title">
         <h3>결제회원</h3>
-        <p>무통장입금 신청 내역을 확인하고 결제상태와 결제액을 관리합니다.</p>
+        <p>결제내역 확인 후 수업등록</p>
       </div>
 
       <div class="admin_table_area wide_table_area">
@@ -702,7 +854,7 @@
 
       <div class="admin_panel_title">
         <h3>수강생관리</h3>
-        <p>수강등록이 완료된 학생의 수업 기간, 강사, 남은 횟수, 출결 및 홀드 현황을 확인합니다.</p>
+        <p>재학생 및 졸업자 관리</p>
       </div>
 
         <!-- 홀드 신청 관리 버튼 -->

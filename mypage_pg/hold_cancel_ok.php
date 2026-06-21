@@ -62,22 +62,8 @@
   $lesson = mysqli_fetch_array($lesson_result, MYSQLI_ASSOC);
 
   // ==============================
-    // 수업 1주일 전까지만 홀드취소 가능
-    // 예: 오늘이 6월 19일이면 6월 26일 수업부터 가능
-    // ==============================
-    $limit_date = date('Y-m-d', strtotime('+3 days'));
-
-    if($lesson['lesson_date'] < $limit_date){
-      echo "
-        <script>
-          alert('홀드취소는 수업일 기준 3일 전까지만 가능합니다.');
-          location.href='./schedule.php';
-        </script>
-      ";
-      exit;
-    }
-
-  // 1. 아직 승인 전인 홀드신청중인지 확인
+      // 1. 아직 승인 전인 홀드신청중인지 확인
+  // 이 경우는 관리자 승인 전 취소라서 3일 제한도 적용하지 않고, 홀드 횟수도 차감하지 않음
   $pending_hold_sql = "
     SELECT no
     FROM hk_hold_requests
@@ -91,27 +77,24 @@
 
   $pending_hold_result = mysqli_query($db, $pending_hold_sql);
 
-  // 홀드신청중이면 학생이 직접 취소 가능
-  // 이건 관리자 승인 전 취소라서 홀드취소 횟수 차감 대상 아님
   if($pending_hold_result && mysqli_num_rows($pending_hold_result) > 0){
 
     $pending_hold = mysqli_fetch_array($pending_hold_result, MYSQLI_ASSOC);
     $request_no = (int)$pending_hold['no'];
 
-    $cancel_sql = "
-      UPDATE hk_hold_requests
-      SET
-        request_status = '취소',
-        processed_date = NOW()
+    // 승인 전 홀드신청은 그냥 삭제
+    // 삭제되면 관리자 접수된 내용의 홀드/홀드취소 신청 건수도 자동으로 줄어듦
+    $delete_sql = "
+      DELETE FROM hk_hold_requests
       WHERE no = '$request_no'
     ";
 
-    $cancel_result = mysqli_query($db, $cancel_sql);
+    $delete_result = mysqli_query($db, $delete_sql);
 
-    if($cancel_result){
+    if($delete_result){
       echo "
         <script>
-          alert('홀드 신청이 취소되었습니다.');
+          alert('홀드 신청이 취소되었습니다. 수락전에 취소된 건은 홀드횟수에서 차감되지 않습니다.');
           location.href='./schedule.php';
         </script>
       ";
@@ -127,7 +110,20 @@
     exit;
   }
 
-  // 2. 이미 홀드 승인된 수업이면 홀드취소요청으로 접수
+  // ==============================
+  // 이미 승인된 홀드 수업의 홀드취소는 수업일 기준 3일 전까지만 가능
+  // ==============================
+  $limit_date = date('Y-m-d', strtotime('+3 days'));
+
+  if($lesson['lesson_date'] < $limit_date){
+    echo "
+      <script>
+        alert('홀드취소는 수업일 기준 3일 전까지만 가능합니다.');
+        location.href='./schedule.php';
+      </script>
+    ";
+    exit;
+  }
   if($lesson['attendance_status'] == "홀드"){
 
     // ==============================

@@ -8,6 +8,75 @@
   // DB 연결
   include "../common/db.php";
 
+  // 공휴일 API 인증키 불러오기
+    $holiday_service_key = "";
+
+    if(file_exists("../common/holiday_key.php")){
+      include "../common/holiday_key.php";
+    }
+
+    // 공휴일 API 호출 함수
+    function getHolidayInfo($year, $month_text, $service_key){
+      $holiday_list = [];
+      $message = "";
+
+      if($service_key == ""){
+        return [$holiday_list, "공공데이터포털 인증키가 없습니다."];
+      }
+
+      // 공공데이터포털 공휴일 정보 조회 API 주소
+      $api_url = "http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo";
+
+      $request_url = $api_url
+        . "?ServiceKey=" . $service_key
+        . "&solYear=" . $year
+        . "&solMonth=" . $month_text;
+
+      if(!function_exists("curl_init")){
+        return [$holiday_list, "서버에서 curl 기능을 사용할 수 없습니다."];
+      }
+
+      $ch = curl_init();
+
+      curl_setopt($ch, CURLOPT_URL, $request_url);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+
+      $xml_data = curl_exec($ch);
+      $curl_error = curl_error($ch);
+
+      curl_close($ch);
+
+      if($xml_data === false || $xml_data == ""){
+        return [$holiday_list, "공휴일 API 호출에 실패했습니다. " . $curl_error];
+      }
+
+      $xml = @simplexml_load_string($xml_data);
+
+      if($xml === false){
+        return [$holiday_list, "공휴일 API 응답을 읽을 수 없습니다."];
+      }
+
+      if(isset($xml->header->resultCode) && (string)$xml->header->resultCode != "00"){
+        $message = "API 오류: " . (string)$xml->header->resultMsg;
+        return [$holiday_list, $message];
+      }
+
+      if(isset($xml->body->items->item)){
+        foreach($xml->body->items->item as $item){
+          $locdate = (string)$item->locdate;
+          $dateName = (string)$item->dateName;
+          $isHoliday = (string)$item->isHoliday;
+
+          if($isHoliday == "Y"){
+            $holiday_list[$locdate] = $dateName;
+          }
+        }
+      }
+
+      return [$holiday_list, $message];
+    }
+
   // 총 수업횟수 계산 함수
   function get_total_lessons($total_period){
     $month = 1;
@@ -138,11 +207,14 @@
     $student_id = mysqli_real_escape_string($db, $member_row['user_id']);
   }
 
-  // 생성된 수업횟수
-  $insert_count = 0;
+    // 생성된 수업횟수
+    $insert_count = 0;
 
-  // 반복 안전장치
-  $loop_count = 0;
+    // 월별 공휴일 저장 배열
+    $holiday_cache = [];
+
+    // 반복 안전장치
+    $loop_count = 0;
 
   // 총 수업횟수만큼 일정 생성
   while($insert_count < $total_lessons && $loop_count < 500){
@@ -158,6 +230,25 @@
     if(in_array($lesson_day, $lesson_days)){
 
       $lesson_date = date('Y-m-d', $current_time);
+
+      // 공휴일 확인용 날짜값
+      $holiday_year = date('Y', $current_time);
+      $holiday_month = date('m', $current_time);
+      $holiday_key = $holiday_year . $holiday_month;
+      $lesson_date_key = date('Ymd', $current_time);
+
+      // 해당 월 공휴일 정보를 아직 안 가져왔으면 API로 가져오기
+      if(!isset($holiday_cache[$holiday_key])){
+        list($month_holidays, $holiday_message) = getHolidayInfo($holiday_year, $holiday_month, $holiday_service_key);
+        $holiday_cache[$holiday_key] = $month_holidays;
+      }
+
+      // 공휴일이면 수업을 만들지 않고 건너뛰기
+      if(isset($holiday_cache[$holiday_key][$lesson_date_key])){
+        $current_time = strtotime("+1 day", $current_time);
+        $loop_count++;
+        continue;
+      }         
 
       $lesson_day_db = mysqli_real_escape_string($db, $lesson_day);
       $lesson_date_db = mysqli_real_escape_string($db, $lesson_date);

@@ -24,6 +24,24 @@
   // 로그인한 회원 번호
   $user_no = (int)$_SESSION['user_no'];
 
+    // 수강신청은 했지만 아직 관리자가 수업등록 전인지 확인
+  $apply_sql = "
+    SELECT *
+    FROM hk_payments
+    WHERE member_no = '$user_no'
+    AND lesson_status = '등록필요'
+    ORDER BY no DESC
+    LIMIT 1
+  ";
+
+  $apply_result = mysqli_query($db, $apply_sql);
+
+  $has_apply = false;
+
+  if($apply_result && mysqli_num_rows($apply_result) > 0){
+    $has_apply = true;
+  }
+
   // 공공데이터포털 인증키 파일 불러오기
   $holiday_service_key = "";
 
@@ -49,6 +67,7 @@
   $api_message = "";
 
   // 공휴일 API 호출 함수
+  // 공휴일 API 호출 함수
   function getHolidayInfo($year, $month_text, $service_key){
     $holiday_list = [];
     $message = "";
@@ -57,17 +76,33 @@
       return [$holiday_list, "공공데이터포털 인증키를 입력해주세요."];
     }
 
-    $api_url = "http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getHoliDeInfo";
+    // 공공데이터포털 공휴일 정보 조회 API 주소
+    $api_url = "http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo";
 
     $request_url = $api_url
       . "?ServiceKey=" . $service_key
       . "&solYear=" . $year
       . "&solMonth=" . $month_text;
 
-    $xml_data = @file_get_contents($request_url);
+    // curl 기능이 서버에 있는지 확인
+    if(!function_exists("curl_init")){
+      return [$holiday_list, "서버에서 curl 기능을 사용할 수 없습니다."];
+    }
 
-    if($xml_data === false){
-      return [$holiday_list, "공휴일 API 호출에 실패했습니다."];
+    // file_get_contents 대신 curl로 API 호출
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $request_url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+
+    $xml_data = curl_exec($ch);
+    $curl_error = curl_error($ch);
+
+    curl_close($ch);
+
+    if($xml_data === false || $xml_data == ""){
+      return [$holiday_list, "공휴일 API 호출에 실패했습니다. " . $curl_error];
     }
 
     $xml = @simplexml_load_string($xml_data);
@@ -152,6 +187,7 @@
         SELECT
           s.*,
           p.course_name,
+          p.zoom_link AS payment_zoom_link,
           m.user_name,
           origin.lesson_date AS makeup_origin_date,
 
@@ -285,6 +321,7 @@
 
       $lesson_item = [
         "lesson_no" => $row['no'],
+        "payment_no" => $row['payment_no'],
         "date_key" => $date_key,
         "date" => $date_text,
         "weekday" => $row['lesson_day'],
@@ -292,7 +329,7 @@
         "time" => $lesson_time_display,
         "teacher" => $row['teacher_name'],
         "student" => $row['user_name'],
-        "zoom_link" => $row['zoom_link'] ?? "",
+        "zoom_link" => $row['payment_zoom_link'] ?? "",
         "can_enter" => $can_enter,
         "can_hold_request" => $can_hold_request,
         "status" => $card_status_text,
@@ -482,6 +519,50 @@
 
       <div class="mypage_box schedule_box">
 
+        <?php
+          if($total_lessons == 0){
+        ?>
+
+          <div class="empty_course">
+
+            <div class="empty_icon">
+              HK
+            </div>
+
+            <?php
+              if($has_apply == true){
+            ?>
+
+              <h4>수강신청이 접수되었습니다.</h4>
+
+              <p>
+                업무일 기준 24시간내에 강의 정보를 확인하실 수 있습니다.
+              </p>
+
+            <?php
+              }else{
+            ?>
+
+              <h4>현재 수강중인 강의가 없습니다.</h4>
+
+              <p>
+                수강신청 후 나의 수업 일정과 학습 정보를 확인할 수 있습니다.
+              </p>
+
+              <a href="../course_pg/course_register.php" class="course_apply_btn">
+                수강신청하기
+              </a>
+
+            <?php
+              }
+            ?>
+
+          </div>
+
+        <?php
+          }else{
+        ?>
+
         <!-- 예정된 수업 -->
         <div class="lesson_section top_lesson_section">
 
@@ -619,30 +700,53 @@
                       Feedback
                     </button>
                       <?php
-                        // 수업 상태에 따라 홀드 버튼 이름 변경
-                        $hold_btn_text = "홀드신청";
+                      // 수업 상태에 따라 홀드 버튼 이름 변경
+                      $hold_btn_text = "홀드신청";
 
-                        if($lesson['calendar_status'] == "홀드신청중"){
-                          $hold_btn_text = "신청취소";
-                        }else if($lesson['calendar_status'] == "홀드"){
-                          $hold_btn_text = "홀드취소";
-                        }else if($lesson['calendar_status'] == "홀드취소요청중"){
-                          $hold_btn_text = "취소요청중";
-                        }else if($lesson['calendar_status'] == "출석" || $lesson['calendar_status'] == "결석"){
-                          $hold_btn_text = "홀드불가";
-                        }
+                      if($lesson['calendar_status'] == "홀드신청중"){
+                        $hold_btn_text = "신청취소";
+                      }else if($lesson['calendar_status'] == "홀드"){
+                        $hold_btn_text = "홀드취소";
+                      }else if($lesson['calendar_status'] == "홀드취소요청중"){
+                        $hold_btn_text = "취소요청중";
+                      }else if($lesson['calendar_status'] == "출석" || $lesson['calendar_status'] == "결석"){
+                        $hold_btn_text = "홀드불가";
+                      }
 
-                        if(
-                          $lesson['calendar_status'] == "예정" ||
-                          $lesson['calendar_status'] == "홀드신청중" ||
-                          $lesson['calendar_status'] == "홀드" ||
-                          $lesson['calendar_status'] == "홀드취소요청중"
-                        ){
-                      ?>
+                      if(
+                        $lesson['calendar_status'] == "예정" ||
+                        $lesson['calendar_status'] == "홀드신청중" ||
+                        $lesson['calendar_status'] == "홀드" ||
+                        $lesson['calendar_status'] == "홀드취소요청중"
+                      ){
+                    ?>
 
                       <?php
-                        if($lesson['can_hold_request'] == true){
+                        // 아직 관리자 승인 전인 홀드신청중이면 학생이 직접 신청취소 가능
+                        if($lesson['calendar_status'] == "홀드신청중"){
                       ?>
+
+                        <form
+                          action="./hold_cancel_ok.php"
+                          method="post"
+                          class="lesson_hold_cancel_form"
+                          onsubmit="return confirm('홀드 신청을 취소하시겠습니까?');"
+                        >
+                          <input type="hidden" name="lesson_no" value="<?php echo h($lesson['lesson_no']); ?>">
+                          <input type="hidden" name="payment_no" value="<?php echo h($lesson['payment_no']); ?>">
+
+                          <button
+                            type="submit"
+                            class="lesson_hold_btn"
+                          >
+                            신청취소
+                          </button>
+                        </form>
+
+                      <?php
+                        }else if($lesson['can_hold_request'] == true){
+                      ?>
+
                         <button
                           type="button"
                           class="lesson_hold_btn"
@@ -650,9 +754,11 @@
                         >
                           <?php echo h($hold_btn_text); ?>
                         </button>
+
                       <?php
                         }else{
                       ?>
+
                         <button
                           type="button"
                           class="lesson_hold_btn hold_disabled_btn"
@@ -660,24 +766,25 @@
                         >
                           <?php echo h($hold_btn_text); ?>
                         </button>
-                      <?php
-                        }
-                      ?>
-
-                      <?php
-                        }else{
-                      ?>
-
-                        <button
-                          type="button"
-                          onclick="alert('출석 또는 결석 처리된 수업은 홀드 신청/취소를 할 수 없습니다.');"
-                        >
-                          <?php echo h($hold_btn_text); ?>
-                        </button>
 
                       <?php
                         }
                       ?>
+
+                    <?php
+                      }else{
+                    ?>
+
+                      <button
+                        type="button"
+                        onclick="alert('출석 또는 결석 처리된 수업은 홀드 신청/취소를 할 수 없습니다.');"
+                      >
+                        <?php echo h($hold_btn_text); ?>
+                      </button>
+
+                    <?php
+                      }
+                    ?>
 
                 </div>
 
@@ -860,12 +967,26 @@
             </ul>
           <?php
             }else{
-          ?>
-            <p>이번 달에 표시할 한국 공휴일이 없습니다.</p>
-          <?php
+            ?>
+              <?php
+                if($api_message != ""){
+              ?>
+                <p class="api_message"><?php echo h($api_message); ?></p>
+              <?php
+                }else{
+              ?>
+                <p>이번 달에 표시할 한국 공휴일이 없습니다.</p>
+              <?php
+                }
+              ?>
+            <?php
             }
-          ?>
+            ?>
         </div>
+
+        <?php
+          }
+        ?>
 
       </div>
 

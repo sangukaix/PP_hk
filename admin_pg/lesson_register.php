@@ -8,6 +8,69 @@
   // DB 연결
   include "../common/db.php";
 
+  // 공공데이터포털 인증키 파일 불러오기
+    $holiday_service_key = "";
+
+    if(file_exists("../common/holiday_key.php")){
+      include "../common/holiday_key.php";
+    }
+
+    // 공휴일 API 호출 함수
+    function getHolidayInfo($year, $month_text, $service_key){
+      $holiday_list = [];
+      $message = "";
+
+      if($service_key == ""){
+        return [$holiday_list, "공공데이터포털 인증키가 없습니다."];
+      }
+
+      // 공공데이터포털 공휴일 정보 조회 API 주소
+      $api_url = "http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo";
+
+      $request_url = $api_url
+        . "?ServiceKey=" . $service_key
+        . "&solYear=" . $year
+        . "&solMonth=" . $month_text;
+
+      if(!function_exists("curl_init")){
+        return [$holiday_list, "서버에서 curl 기능을 사용할 수 없습니다."];
+      }
+
+      $ch = curl_init();
+
+      curl_setopt($ch, CURLOPT_URL, $request_url);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+
+      $xml_data = curl_exec($ch);
+
+      curl_close($ch);
+
+      if($xml_data === false || $xml_data == ""){
+        return [$holiday_list, "공휴일 API 호출에 실패했습니다."];
+      }
+
+      $xml = @simplexml_load_string($xml_data);
+
+      if($xml === false){
+        return [$holiday_list, "공휴일 API 응답을 읽을 수 없습니다."];
+      }
+
+      if(isset($xml->body->items->item)){
+        foreach($xml->body->items->item as $item){
+          $locdate = (string)$item->locdate;
+          $dateName = (string)$item->dateName;
+          $isHoliday = (string)$item->isHoliday;
+
+          if($isHoliday == "Y"){
+            $holiday_list[$locdate] = $dateName;
+          }
+        }
+      }
+
+      return [$holiday_list, $message];
+    }
+
   // 화면 출력용 특수문자 처리 함수
   function h($str){
     return htmlspecialchars((string)$str, ENT_QUOTES, "UTF-8");
@@ -85,6 +148,25 @@
   // 총 수업횟수와 주 수업횟수 계산
   $total_lessons = get_total_lessons($payment['total_period']);
   $weekly_count = get_weekly_count($payment['total_period']);
+
+  // 수업일정 미리보기에서 사용할 공휴일 목록
+    $preview_holidays = [];
+
+    // 시작일 기준으로 8개월치 공휴일을 미리 가져오기
+    $preview_start_time = strtotime($payment['start_date']);
+
+    for($i = 0; $i < 8; $i++){
+      $target_time = strtotime("+".$i." month", $preview_start_time);
+
+      $holiday_year = date('Y', $target_time);
+      $holiday_month = date('m', $target_time);
+
+      list($month_holidays, $holiday_message) = getHolidayInfo($holiday_year, $holiday_month, $holiday_service_key);
+
+      foreach($month_holidays as $holiday_date => $holiday_name){
+        $preview_holidays[$holiday_date] = $holiday_name;
+      }
+    }
 
   // 지금은 강사관리 백엔드가 없으므로 임시 강사 1명 사용
   $teacher_name = "이연";
@@ -408,6 +490,10 @@ $mapping_result = mysqli_query($db, $mapping_sql);
 </main>
 
 <script>
+
+    // PHP에서 가져온 공휴일 목록을 JavaScript로 넘기기
+  let previewHolidays = <?php echo json_encode($preview_holidays, JSON_UNESCAPED_UNICODE); ?>;
+
   // 강사검색 결과 영역 보여주기
   function showTeacherArea(){
     let teacherArea = document.querySelector('#teacher_area');
@@ -476,12 +562,20 @@ $mapping_result = mysqli_query($db, $mapping_sql);
     while(previewList.length < totalLessons && count < 500){
       let dayName = dayNames[startDate.getDay()];
 
+      let lessonDate = formatDate(startDate);
+      let holidayDateKey = lessonDate.split('-').join('');
+
       if(checkedDays.indexOf(dayName) !== -1){
-        previewList.push({
-          date: formatDate(startDate),
-          day: dayName,
-          time: lessonTime
-        });
+
+        // 공휴일이면 미리보기 목록에 넣지 않고 건너뛰기
+        if(previewHolidays[holidayDateKey] == undefined){
+          previewList.push({
+            date: lessonDate,
+            day: dayName,
+            time: lessonTime
+          });
+        }
+
       }
 
       startDate.setDate(startDate.getDate() + 1);

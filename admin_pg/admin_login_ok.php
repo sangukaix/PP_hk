@@ -12,7 +12,7 @@
 
   // 연습용 관리자 아이디 / 비밀번호
   // 나중에 실제 서비스에서는 DB + password_hash 방식으로 바꾸는 것이 좋음
-  $real_admin_id = "hellokorean";
+  $real_admin_id = "admin";
   $real_admin_pw = "1234";
 
   // 아이디 또는 비밀번호가 비어 있는지 확인

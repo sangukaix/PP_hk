@@ -48,6 +48,26 @@
   // 프로필 이미지 경로
   $profile_path = "../upload/profile/" . $profile_img;
 
+    // 로그인한 학생이 수강신청은 했지만 아직 수업등록 전인지 확인
+      $apply_sql = "
+        SELECT *
+        FROM hk_payments
+        WHERE member_no = '$user_no'
+        AND lesson_status = '등록필요'
+        ORDER BY no DESC
+        LIMIT 1
+      ";
+
+      $apply_result = mysqli_query($db, $apply_sql);
+
+      $has_apply = false;
+      $apply = null;
+
+      if($apply_result && mysqli_num_rows($apply_result) > 0){
+        $apply = mysqli_fetch_array($apply_result, MYSQLI_ASSOC);
+        $has_apply = true;
+      } 
+
 
   // 로그인한 학생의 수강중 강의 정보 가져오기
   $course_sql = "
@@ -271,7 +291,7 @@
       <!-- 마이페이지 전용 네비게이션 -->
       <div class="mypage_nav">
         <ul>
-          <li><a href="../course_pg/course_register.php" class="course_register_btn">수강신청</a></li>
+          <li><a href="./mypage.php" class="active">수강신청현황</a></li>
           <li><a href="./schedule.php">수업스케줄</a></li>
           <li><a href="#" class="disabled" onclick="return false;">쿠폰관리</a></li>
           <li><a href="#" class="disabled" onclick="return false;">결제내역</a></li>
@@ -421,15 +441,33 @@
               HK
             </div>
 
-            <h4>현재 수강중인 강의가 없습니다.</h4>
+            <?php
+              if($has_apply == true){
+            ?>
 
-            <p>
-              수강신청 후 나의 수업 일정과 학습 정보를 확인할 수 있습니다.
-            </p>
+              <h4>수강신청이 접수되었습니다.</h4>
 
-            <a href="../course_pg/course_register.php" class="course_apply_btn">
-              수강신청하기
-            </a>
+              <p>
+                업무일 기준 24시간내에 강의 정보를 확인하실 수 있습니다.
+              </p>
+
+            <?php
+              }else{
+            ?>
+
+              <h4>현재 수강중인 강의가 없습니다.</h4>
+
+              <p>
+                수강신청 후 나의 수업 일정과 학습 정보를 확인할 수 있습니다.
+              </p>
+
+              <a href="../course_pg/course_register.php" class="course_apply_btn">
+                수강신청하기
+              </a>
+
+            <?php
+              }
+            ?>
 
           </div>
 

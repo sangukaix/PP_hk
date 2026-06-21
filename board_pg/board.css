@@ -809,12 +809,12 @@ nav ul {
 
 /* Board 페이지 전체 내용 폭 줄이기 */
 #board_content .container {
-  max-width: 900px;
+  max-width: 1150px;
 }
 
 /* Board 상단 제목 영역도 게시판 폭과 맞춤 */
 #board_visual .container {
-  max-width: 1000px;
+  max-width: 1150px;
 }
 
 /* 게시판 테이블 글자 크기 조금 줄이기 */
@@ -966,12 +966,12 @@ nav ul {
 
 /* 게시판 목록 글씨 크기 줄이기 */
 .board_table td {
-  font-size: 13px;
+  font-size: 14px;
 }
 
 /* 게시판 목록 제목줄 글씨 크기 */
 .board_table thead th {
-  font-size: 13.5px;
+  font-size: 15.5px;
 }
 
 /* 답변 상태 표시 크기 줄이기 */

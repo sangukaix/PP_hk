@@ -8,6 +8,76 @@
   // DB 연결
   include "../common/db.php";
 
+  // 공휴일 API 인증키 불러오기
+  $holiday_service_key = "";
+
+  if(file_exists("../common/holiday_key.php")){
+    include "../common/holiday_key.php";
+  }
+
+  // 공휴일 API 호출 함수
+  function getHolidayInfo($year, $month, $holiday_service_key){
+
+    $holiday_list = [];
+    $message = "";
+
+    if($holiday_service_key == ""){
+      return [$holiday_list, "공공데이터포털 인증키가 없습니다."];
+    }
+
+    // 공공데이터포털 공휴일 정보 조회 API 주소
+    $api_url = "http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo";
+
+    $query = http_build_query([
+      "serviceKey" => $holiday_service_key,
+      "solYear" => $year,
+      "solMonth" => $month,
+      "numOfRows" => 50
+    ]);
+
+    $request_url = $api_url . "?" . $query;
+
+    if(!function_exists("curl_init")){
+      return [$holiday_list, "서버에서 curl 기능을 사용할 수 없습니다."];
+    }
+
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $request_url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+
+    $response = curl_exec($ch);
+    $curl_error = curl_error($ch);
+
+    curl_close($ch);
+
+    if($response === false || $response == ""){
+      return [$holiday_list, "공휴일 API 호출에 실패했습니다. " . $curl_error];
+    }
+
+    $xml = simplexml_load_string($response);
+
+    if($xml === false){
+      return [$holiday_list, "공휴일 API 응답을 읽을 수 없습니다."];
+    }
+
+    if(isset($xml->body->items->item)){
+      foreach($xml->body->items->item as $item){
+
+        $dateName = (string)$item->dateName;
+        $locdate = (string)$item->locdate;
+        $isHoliday = (string)$item->isHoliday;
+
+        if($isHoliday == "Y"){
+          $holiday_list[$locdate] = $dateName;
+        }
+      }
+    }
+
+    return [$holiday_list, $message];
+  }
+
   // POST 값 받기
   $payment_no = $_POST['payment_no'] ?? '';
   $add_type = $_POST['add_type'] ?? 'auto';
@@ -106,20 +176,41 @@
 
   // 자동 추가
   // 마지막 수업 다음날부터 시작해서 기존 요일 패턴에 맞는 첫 날짜를 찾음
+  // 단, 공휴일이면 건너뛰고 다음 수업일을 찾음
   if($add_type == 'auto'){
 
     $current_time = strtotime("+1 day", strtotime($last['lesson_date']));
     $loop_count = 0;
 
-    while($loop_count < 30){
+    // 월별 공휴일 저장 배열
+    $holiday_cache = [];
+
+    while($loop_count < 90){
 
       $day_num = date('w', $current_time);
       $day_text = $day_names[$day_num];
 
       if(in_array($day_text, $lesson_days)){
-        $lesson_date = date('Y-m-d', $current_time);
-        $lesson_day = $day_text;
-        break;
+
+        $check_date = date('Y-m-d', $current_time);
+        $check_date_key = date('Ymd', $current_time);
+
+        $holiday_year = date('Y', $current_time);
+        $holiday_month = date('m', $current_time);
+        $holiday_key = $holiday_year . $holiday_month;
+
+        // 해당 월 공휴일 정보를 아직 안 가져왔으면 API로 가져오기
+        if(!isset($holiday_cache[$holiday_key])){
+          list($month_holidays, $holiday_message) = getHolidayInfo($holiday_year, $holiday_month, $holiday_service_key);
+          $holiday_cache[$holiday_key] = $month_holidays;
+        }
+
+        // 공휴일이면 수업을 추가하지 않고 다음 날짜로 넘어감
+        if(!isset($holiday_cache[$holiday_key][$check_date_key])){
+          $lesson_date = $check_date;
+          $lesson_day = $day_text;
+          break;
+        }
       }
 
       $current_time = strtotime("+1 day", $current_time);
@@ -138,6 +229,7 @@
   }
 
   // 직접 추가
+  // 관리자가 직접 선택한 날짜는 공휴일이어도 강제로 추가 가능
   else if($add_type == 'custom'){
 
     if($custom_date == '' || $custom_time == ''){

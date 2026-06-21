@@ -122,7 +122,6 @@
 
     <div class="admin_top_btn">
       <span><?php echo h($_SESSION['admin_id']); ?> 관리자님</span>
-      <a href="./admin.php?tab=lesson">수강생관리로 돌아가기</a>
       <a href="./admin_logout.php">관리자 로그아웃</a>
     </div>
 
@@ -133,20 +132,42 @@
   <div class="admin_container">
 
     <section class="admin_title">
+
+      <div style="margin-bottom:12px;">
+        <a
+          href="./admin.php?tab=lesson"
+          class="admin_back_btn"
+          style="padding:8px 14px; font-size:13px;"
+        >
+          ← 수강생관리로 돌아가기
+        </a>
+      </div>
+
       <h2>수강생 상세관리</h2>
       <p>수업 일정별 출석, 결석, 홀드 상태를 관리합니다.</p>
+
     </section>
 
-    <!-- 수강생 기본정보 -->
-<!-- 수강생 기본정보 -->
-<!-- 수강생 기본정보 -->
+
 <!-- 수강생 기본정보 -->
 <section class="lesson_compact_box">
 
-  <div class="lesson_compact_header">
-    <h3>수강생 정보</h3>
-    <p>수강생 기본정보와 수업 현황을 간략하게 확인합니다.</p>
-  </div>
+      <div class="lesson_compact_header" style="display:flex; justify-content:space-between; align-items:center; gap:15px;">
+
+        <div>
+          <h3>수강생 정보</h3>
+          <p>수강생 기본정보와 수업 현황을 간략하게 확인합니다.</p>
+        </div>
+
+        <a
+          href="./student_page_login.php?payment_no=<?php echo h($payment_no); ?>"
+          class="admin_small_btn"
+          target="_blank"
+        >
+          학생페이지로 이동
+        </a>
+
+      </div>
 
   <div class="lesson_simple_grid">
 
@@ -226,79 +247,75 @@
 
 </section>
 
+<!-- 수업 입장 링크 관리 -->
+    <!-- 수업 입장 링크 / 홀드 횟수 설정 -->
+    <div class="admin_info_box" style="margin-top:20px; padding:18px 20px;">
 
-    <!-- 수업 입장 링크 관리 -->
-    <section class="lesson_zoom_box">
-
-      <div class="lesson_zoom_title">
-        <h3>수업 입장 링크</h3>
-        <p>학생이 마이페이지에서 수업입장 버튼을 눌렀을 때 이동할 링크입니다.</p>
-      </div>
-
-      <form action="./lesson_zoom_update_ok.php" method="post" class="lesson_zoom_form">
-
+      <!-- 수업 입장 링크 -->
+      <form 
+        action="./lesson_zoom_update_ok.php" 
+        method="post" 
+        style="display:flex; align-items:center; gap:8px; margin-bottom:14px;"
+      >
         <input type="hidden" name="payment_no" value="<?php echo h($payment_no); ?>">
+
+        <strong style="font-size:18px; min-width:120px;">수업 입장 링크</strong>
 
         <input
           type="text"
           name="zoom_link"
           value="<?php echo h($info['zoom_link'] ?? ''); ?>"
           placeholder="예: https://zoom.us/j/..."
-          class="lesson_zoom_input"
+          style="width:260px; padding:5px 7px;"
         >
 
-        <button type="submit" class="lesson_zoom_btn">링크 저장</button>
-
+        <button type="submit" style="padding:5px 10px;">
+          링크 저장
+        </button>
       </form>
-        <div class="admin_info_box" style="margin-top:20px;">
-          <h3>홀드 횟수 설정</h3>
 
-          <form action="./lesson_hold_limit_update_ok.php" method="post">
-            <input type="hidden" name="payment_no" value="<?php echo h($info['payment_no']); ?>">
 
-            <table class="admin_detail_table">
-              <tr>
-                <th>홀드 가능 횟수</th>
-                <td>
-                  <input 
-                    type="number" 
-                    name="hold_limit" 
-                    min="0"
-                    value="<?php echo h($info['hold_limit'] ?? 1); ?>"
-                    style="width:80px; padding:6px;"
-                  > 회
-                </td>
-              </tr>
+      <!-- 홀드 횟수 설정 -->
+      <form 
+        action="./lesson_hold_limit_update_ok.php" 
+        method="post" 
+        style="display:flex; align-items:center; gap:8px;"
+      >
+        <input type="hidden" name="payment_no" value="<?php echo h($payment_no); ?>">
 
-              <tr>
-                <th>홀드취소 가능 횟수</th>
-                <td>
-                  <input 
-                    type="number" 
-                    name="hold_cancel_limit" 
-                    min="0"
-                    value="<?php echo h($info['hold_cancel_limit'] ?? 1); ?>"
-                    style="width:80px; padding:6px;"
-                  > 회
-                </td>
-              </tr>
-            </table>
+        <strong style="font-size:18px; min-width:120px;">홀드 횟수 설정</strong>
 
-            <p style="margin-top:8px; font-size:12px; color:#777;">
-              ※홀드 및 홀드 취소는 관리자 승인 전까지는 횟수가 차감되지 않습니다.
-            </p>
+        <span style="font-size:15px;">홀드 가능 횟수</span>
 
-            <div style="margin-top:12px; text-align:right;">
-              <button type="submit" class="admin_btn blue_btn">
-                홀드 횟수 저장
-              </button>
-            </div>
-          </form>
-        </div>
+        <input 
+          type="number" 
+          name="hold_limit" 
+          min="0"
+          value="<?php echo h($info['hold_limit'] ?? 1); ?>"
+          style="width:70px; padding:5px 7px;"
+        >
 
-    </section>
+        <span style="font-size:15px;">회</span>
 
-    <!-- 수업일정 상세 -->
+        <span style="font-size:15px; margin-left:10px;">홀드취소 가능 횟수</span>
+
+        <input 
+          type="number" 
+          name="hold_cancel_limit" 
+          min="0"
+          value="<?php echo h($info['hold_cancel_limit'] ?? 1); ?>"
+          style="width:70px; padding:5px 7px;"
+        >
+
+        <span style="font-size:15px;">회</span>
+
+        <button type="submit" style="padding:5px 10px; margin-left:10px;">
+          홀드 횟수 저장
+        </button>
+      </form>
+
+    </div>
+
 <!-- 수업일정 상세 -->
         <section class="lesson_register_box">
 
@@ -366,13 +383,13 @@
 
             <thead>
                 <tr>
-                <th>회차</th>
-                <th>수업일</th>
-                <th>요일</th>
-                <th>수업시간</th>
-                <th>강사명</th>
-                <th>상태</th>
-                <th>관리</th>
+                  <th>회차</th>
+                  <th>수업일</th>
+                  <th>요일</th>
+                  <th>수업시간</th>
+                  <th>강사명</th>
+                  <th>상태</th>
+                  <th>관리</th>
                 </tr>
             </thead>
 
@@ -431,10 +448,10 @@
                     </form>
                     </td>
 
-                    <td>
-                    <button type="submit" class="admin_small_btn" form="status_form_<?php echo h($schedule['no']); ?>">
-                        저장
-                    </button>
+                      <td>
+                      <button type="submit" class="admin_small_btn" form="status_form_<?php echo h($schedule['no']); ?>">
+                          상태저장
+                      </button>
 
                     <form
                         action="./lesson_delete_ok.php"

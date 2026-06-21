@@ -10,6 +10,11 @@
   box-sizing: border-box;
 }
 
+/* 페이지마다 스크롤바 유무 때문에 화면이 흔들리는 것 방지 */
+html {
+  overflow-y: scroll;
+}
+
 /* 2. body 기본 글꼴 설정 */
 body {
   font-family: Arial, sans-serif;
