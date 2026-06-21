@@ -104,7 +104,23 @@
 
   // SQL 실행
   $board_result = mysqli_query($db, $board_sql);
+  
+  // ==============================
+// 문의글 필독 공지사항 가져오기
+// ==============================
 
+$board_notice_sql = "SELECT * FROM hk_board_notice ORDER BY no ASC LIMIT 1";
+$board_notice_result = mysqli_query($db, $board_notice_sql);
+$board_notice = mysqli_fetch_array($board_notice_result, MYSQLI_ASSOC);
+
+// 혹시 공지사항이 없을 때 기본값
+if(!$board_notice){
+  $board_notice = [
+    'no' => 1,
+    'title' => '문의글 작성시 필독',
+    'content' => ''
+  ];
+}
 
   // ==============================
   // 결제회원 목록
@@ -565,9 +581,17 @@
     <!-- $active_tab 값이 board일 때만 active 클래스를 붙여서 화면에 보이게 함 -->
     <section id="board_panel" class="admin_panel <?php if($active_tab == 'board'){ echo 'active'; } ?>">
 
-      <div class="admin_panel_title">
-        <h3>문의글관리</h3>
-        <p>문의글 답변</p>
+      <div class="admin_panel_title admin_panel_title_flex">
+
+        <div>
+          <h3>문의글관리</h3>
+          <p>문의글 답변</p>
+        </div>
+
+        <a href="./board_notice_edit.php" class="notice_edit_btn">
+          공지사항 수정
+        </a>
+
       </div>
 
       <div class="admin_table_area">

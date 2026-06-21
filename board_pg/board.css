@@ -71,7 +71,7 @@ nav ul li a {
 
 /* 현재 Board 메뉴 표시 */
 .board {
-  color: blueviolet;
+  color: #1f5fbf;
   font-size: medium;
 }
 

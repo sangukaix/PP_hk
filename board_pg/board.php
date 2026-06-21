@@ -94,6 +94,21 @@
     return htmlspecialchars((string)$str, ENT_QUOTES, "UTF-8");
   }
 
+      // ==============================
+    // 게시판 상단 필독 공지사항 가져오기
+    // ==============================
+    $notice_sql = "SELECT * FROM hk_board_notice ORDER BY no ASC LIMIT 1";
+    $notice_result = mysqli_query($db, $notice_sql);
+    $board_notice = mysqli_fetch_array($notice_result, MYSQLI_ASSOC);
+
+    // 혹시 공지사항이 없을 때 기본값
+    if(!$board_notice){
+      $board_notice = [
+        'title' => '문의글 작성시 필독',
+        'updated_at' => ''
+      ];
+    }
+
   // 상담유형을 화면에 보기 좋게 정리하는 함수
 // 예전 DB 값에 [신규], [기존] 같은 글자가 남아 있어도 화면에서는 깔끔하게 보여줌
 function show_category($category){
@@ -278,16 +293,27 @@ function show_category($category){
           </thead>
 
           <tbody>
-
-            <!-- 공지사항은 DB에서 가져오지 않고 항상 맨 위에 고정 -->
-              <tr class="notice">
-                <td>-</td>
-                <td>공지</td>
-                <td><a href="#">■문의글 작성시 필독■</a></td>
-                <td>관리자</td>
-                <td>2026-06-14</td>
-                <td><span class="status notice_text">공지</span></td>
-              </tr>
+              <!-- 공지사항은 DB에서 가져와서 항상 맨 위에 고정 -->
+                <tr class="notice">
+                  <td>-</td>
+                  <td>공지</td>
+                  <td>
+                    <a href="./board_notice.php">
+                      ■<?php echo h($board_notice['title']); ?>■
+                    </a>
+                  </td>
+                  <td>관리자</td>
+                  <td>
+                    <?php
+                      if($board_notice['updated_at'] != ''){
+                        echo h(substr($board_notice['updated_at'], 0, 10));
+                      }else{
+                        echo '-';
+                      }
+                    ?>
+                  </td>
+                  <td><span class="status notice_text">공지</span></td>
+                </tr>
 
             <?php
               // DB에서 가져온 문의글이 1개 이상 있을 때

@@ -103,6 +103,47 @@
   background-color: #fff;
 }
 
+/* 수강신청현황 박스만 조금 크게 */
+.course_status_box {
+  max-width: 720px;
+  padding: 42px;
+}
+
+/* 수강신청현황 과정명 */
+.course_status_box .course_name {
+  font-size: 22px;
+}
+
+/* 수강신청현황 정보 글씨 */
+.course_status_box .course_detail dl {
+  grid-template-columns: 85px 1fr;
+  row-gap: 12px;
+}
+
+.course_status_box .course_detail dt,
+.course_status_box .course_detail dd {
+  font-size: 14px;
+}
+
+/* 진척도 / 출석률 글씨 */
+.course_status_box .progress_row span {
+  font-size: 14px;
+}
+
+.course_status_box .progress_row strong {
+  font-size: 13px;
+}
+
+/* 홀드 표 글씨 */
+.course_status_box .hold_table {
+  font-size: 13px;
+}
+
+.course_status_box .hold_table th,
+.course_status_box .hold_table td {
+  padding: 10px;
+}
+
 /* 과정명 */
 .course_name {
   font-size: 20px;
@@ -129,18 +170,18 @@
 .course_detail dl {
   display: grid;
   grid-template-columns: 75px 1fr;
-  row-gap: 10px;
-  margin-bottom: 22px;
+  row-gap: 11px;
+  margin-bottom: 26px;
 }
 
 .course_detail dt {
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: bold;
   color: #222;
 }
 
 .course_detail dd {
-  font-size: 13px;
+  font-size: 13.5px;
   color: #444;
 }
 
@@ -192,13 +233,13 @@
 .progress_row {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 11px;
+  gap: 11px;
+  margin-bottom: 13px;
 }
 
 .progress_row span {
-  width: 55px;
-  font-size: 13px;
+  width: 58px;
+  font-size: 13.5px;
   font-weight: bold;
   color: #222;
 }
@@ -220,8 +261,8 @@
 
 /* 퍼센트 글씨 */
 .progress_row strong {
-  width: 70px;
-  font-size: 12px;
+  width: 75px;
+  font-size: 12.5px;
   color: #222;
   text-align: right;
 }
@@ -230,13 +271,13 @@
 .hold_table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 14px;
-  font-size: 12px;
+  margin-top: 40px;
+  font-size: 12.5px;
   text-align: center;
 }
 
 .hold_table th {
-  padding: 8px;
+  padding: 9px;
   background-color: #f3f5f8;
   border: 1px solid #ddd;
   color: #333;
@@ -244,7 +285,7 @@
 }
 
 .hold_table td {
-  padding: 8px;
+  padding: 9px;
   border: 1px solid #ddd;
   color: #333;
 }
@@ -321,13 +362,15 @@
 }
 
 .lesson_title_row {
-  margin-bottom: 18px;
+  margin-bottom: 25px;
 }
 
 .lesson_title_row h4 {
-  font-size: 18px;
-  color: #1f5fbf;
-  margin-bottom: 6px;
+  font-size: 20px;
+  color: #222;
+  margin-bottom: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #ddd;
 }
 
 .lesson_title_row p {
@@ -765,8 +808,13 @@
 /* profile=============================================================================== */
 
 /* 개인정보수정 박스 */
-.profile_box {
-  max-width: 700px;
+/* 개인정보수정 제목 */
+.mypage_title h3 {
+  font-size: 20px;
+  color: #222;
+  margin-bottom: 28px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #ddd;
 }
 
 /* 개인정보 수정 폼 */
@@ -941,14 +989,14 @@
 
 /* 수강신청 nav 버튼 */
 header nav ul li a.course_register_btn {
-  color: #7b3ff2 !important;
+  color: #1f5fbf !important;
   font-weight: 600;
   transition: 0.2s;
 }
 
 /* 수강신청 hover */
 header nav ul li a.course_register_btn:hover {
-  color: #1f5fbf !important;
+  color: #4f8df5 !important;
 }
 
 /* 모바일 */
@@ -1236,4 +1284,24 @@ header nav ul li a.course_register_btn:hover {
 /* 수업카드 하단 홀드 버튼 글씨 두께 조정 */
 .lesson_hold_btn {
   font-weight: 400;
+}
+
+/* 마이페이지 상단 네비 색상 최종 통일 */
+header nav ul li:nth-child(1) a,
+header nav ul li:nth-child(4) a,
+header nav ul li:nth-child(5) a,
+header nav ul li:nth-child(6) a,
+header nav ul li a.course_register_btn,
+header nav ul li a.board {
+  color: #1f5fbf !important;
+}
+
+/* 마이페이지 상단 네비 hover 색상 */
+header nav ul li:nth-child(1) a:hover,
+header nav ul li:nth-child(4) a:hover,
+header nav ul li:nth-child(5) a:hover,
+header nav ul li:nth-child(6) a:hover,
+header nav ul li a.course_register_btn:hover,
+header nav ul li a.board:hover {
+  color: #4f8df5 !important;
 }

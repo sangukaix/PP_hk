@@ -18,7 +18,7 @@
 
   <!-- 외부 CSS 연결 -->
   <link rel="stylesheet" href="./01main.css">
-<link rel="stylesheet" href="../common/common.css">
+<link rel="stylesheet" href="../common/common.css?v=260621_1">
 </head>
 
 <body>

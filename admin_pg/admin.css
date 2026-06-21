@@ -1505,3 +1505,34 @@ body {
   color: #0b7f8c;
   text-decoration: underline;
 }
+/* 문의글관리 제목 오른쪽 버튼 정렬 */
+.admin_panel_title_flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 공지사항 수정 버튼 */
+.notice_edit_btn {
+  display: inline-block;
+  padding: 9px 18px;
+
+  background-color: #0b7f8c;
+  color: #fff;
+  border-radius: 4px;
+
+  font-size: 13px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* 공지사항 수정 버튼 hover */
+.notice_edit_btn:hover {
+  background-color: #096773;
+}
+
+/* 공지사항 수정 페이지 버튼 글씨 크기 통일 */
+.admin_answer_btn button,
+.admin_answer_btn a {
+  font-size: 13px;
+}

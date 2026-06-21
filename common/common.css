@@ -77,18 +77,18 @@ nav ul li {
 nav ul li a {
   font-size: 16px;
   font-weight: bold;
-  color: #333;
+  color: #1f5fbf;
 }
 
 /* 현재 Board 메뉴 표시 */
 .board {
-  color: blueviolet;
+  color: #1f5fbf;
   font-size: medium;
 }
 
 /* 메뉴에 마우스를 올렸을 때 */
 nav ul li a:hover {
-  color: #1f5fbf;
+  color: #4f8df5;
 }
 
 /* 로그인 버튼 */
@@ -182,17 +182,20 @@ nav ul li:nth-child(3) a {
    수강신청 / 고객센터 / 게시판 강조
 ========================= */
 
+/* Home / 수강신청 / 고객센터 / 게시판 기본색 */
+nav ul li:nth-child(1) a,
 nav ul li:nth-child(4) a,
 nav ul li:nth-child(5) a,
 nav ul li:nth-child(6) a {
-  color: blueviolet !important;
+  color: #1f5fbf !important;
 }
 
-/* 수강신청 / 고객센터 / 게시판 hover */
+/* Home / 수강신청 / 고객센터 / 게시판 hover */
+nav ul li:nth-child(1) a:hover,
 nav ul li:nth-child(4) a:hover,
 nav ul li:nth-child(5) a:hover,
 nav ul li:nth-child(6) a:hover {
-  color: #1f5fbf !important;
+  color: #4f8df5 !important;
 }
 
 /* footer를 화면 맨 아래에 고정 */
@@ -235,7 +238,7 @@ nav ul li a.mypage_btn:hover {
 
 /* 수강신청 nav 버튼 */
 header nav ul li a.course_register_btn {
-  color: blueviolet !important;
+  color: #1f5fbf !important;
   font-weight: 600;
   transition: 0.2s;
   cursor: pointer !important;
@@ -244,5 +247,31 @@ header nav ul li a.course_register_btn {
 
 /* 수강신청 hover */
 header nav ul li a.course_register_btn:hover {
+  color: #4f8df5 !important;
+}
+
+/* 상단 네비 색상 최종 통일 */
+header nav ul li:nth-child(1) a,
+header nav ul li:nth-child(4) a,
+header nav ul li:nth-child(5) a,
+header nav ul li:nth-child(6) a,
+header nav ul li a.course_register_btn,
+header nav ul li a.board {
   color: #1f5fbf !important;
+}
+
+/* 상단 네비 hover 색상 */
+header nav ul li:nth-child(1) a:hover,
+header nav ul li:nth-child(4) a:hover,
+header nav ul li:nth-child(5) a:hover,
+header nav ul li:nth-child(6) a:hover,
+header nav ul li a.course_register_btn:hover,
+header nav ul li a.board:hover {
+  color: #4f8df5 !important;
+}
+
+/* 로그인 / 회원가입 버튼 글씨 살짝 키우기 */
+header nav ul li a.login_btn,
+header nav ul li a.join_btn {
+  font-size: 13.5px !important;
 }
