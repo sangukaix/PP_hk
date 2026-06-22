@@ -211,3 +211,703 @@ footer p {
     margin-bottom: 20px;
   }
 }
+
+/* 메인 비주얼 */
+#main_visual{
+  position: relative;
+  overflow: hidden;
+  padding: 90px 0 110px;
+  background: linear-gradient(180deg, #f8fbff 0%, #eef5fc 100%);
+}
+
+#main_visual .container{
+  position: relative;
+  z-index: 2;
+}
+
+#main_visual::before{
+  content: "";
+  position: absolute;
+  top: -80px;
+  right: -120px;
+  width: 780px;
+  height: 520px;
+  background:
+    radial-gradient(circle at 70% 35%, rgba(103, 177, 255, 0.22) 0%, rgba(103, 177, 255, 0.10) 28%, rgba(103, 177, 255, 0) 62%),
+    radial-gradient(circle at 78% 78%, rgba(80, 155, 255, 0.20) 0%, rgba(80, 155, 255, 0.08) 28%, rgba(80, 155, 255, 0) 60%),
+    linear-gradient(135deg, rgba(255,255,255,0) 35%, rgba(153, 204, 255, 0.20) 100%);
+  border-radius: 50px 0 0 220px;
+}
+
+#main_visual::after{
+  content: "";
+  position: absolute;
+  right: -40px;
+  bottom: 40px;
+  width: 760px;
+  height: 180px;
+  background:
+    repeating-linear-gradient(
+      -8deg,
+      rgba(255,255,255,0.0) 0px,
+      rgba(255,255,255,0.0) 10px,
+      rgba(255,255,255,0.55) 11px,
+      rgba(255,255,255,0.0) 13px
+    );
+  opacity: 0.8;
+  transform: rotate(-6deg);
+}
+
+.visual_text{
+  position: relative;
+  z-index: 3;
+  max-width: 700px;
+}
+
+#main_visual h2{
+  display: inline-block;
+  margin-bottom: 28px;
+  padding: 10px 22px;
+  border: 1px solid #b8d4f6;
+  border-radius: 999px;
+  background-color: rgba(255,255,255,0.6);
+  color: #2f80ed;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+#main_visual .main_title{
+  margin-bottom: 24px;
+  color: #0f2340;
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -2px;
+  word-break: keep-all;
+}
+
+#main_visual .main_desc{
+  margin-bottom: 36px;
+  color: #4f5f73;
+  font-size: 20px;
+  line-height: 1.8;
+  word-break: keep-all;
+}
+
+.main_btn_wrap{
+  display: flex;
+  gap: 18px;
+}
+
+.main_btn{
+  display: inline-block;
+  min-width: 210px;
+  padding: 18px 28px;
+  border-radius: 14px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+
+.main_btn_fill{
+  background: linear-gradient(90deg, #166cff 0%, #3e90ff 100%);
+  color: #fff;
+  box-shadow: 0 12px 24px rgba(62, 144, 255, 0.18);
+}
+
+.main_btn_fill:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 16px 28px rgba(62, 144, 255, 0.22);
+}
+
+.main_btn_line{
+  border: 2px solid #5a98f8;
+  background-color: #fff;
+  color: #1f67e7;
+}
+
+.main_btn_line:hover{
+  background-color: #f4f9ff;
+}
+
+/* 반응형 */
+@media (max-width: 1200px){
+  #main_visual .main_title{
+    font-size: 52px;
+  }
+}
+
+@media (max-width: 768px){
+  #main_visual{
+    padding: 70px 0 90px;
+  }
+
+  #main_visual::before{
+    width: 420px;
+    height: 320px;
+    top: -20px;
+    right: -100px;
+  }
+
+  #main_visual::after{
+    width: 420px;
+    height: 120px;
+    right: -60px;
+    bottom: 20px;
+  }
+
+  #main_visual h2{
+    font-size: 15px;
+  }
+
+  #main_visual .main_title{
+    font-size: 38px;
+    line-height: 1.35;
+  }
+
+  #main_visual .main_desc{
+    font-size: 17px;
+    line-height: 1.7;
+  }
+
+  .main_btn_wrap{
+    flex-direction: column;
+  }
+
+  .main_btn{
+    min-width: auto;
+    width: 100%;
+    font-size: 18px;
+  }
+}
+
+/* 메인 배너 최종 정리 */
+#main_visual{
+  position: relative;
+  overflow: hidden;
+  height: auto !important;
+  min-height: 560px;
+  padding: 90px 0 120px;
+  background: linear-gradient(180deg, #f8fbff 0%, #edf5fd 100%);
+  border-bottom: 1px solid #e1ecf7;
+}
+
+#main_visual .container{
+  position: relative;
+  z-index: 2;
+  width: 1180px;
+  margin: 0 auto;
+  text-align: left !important;
+}
+
+.visual_text{
+  width: 620px;
+  text-align: left !important;
+}
+
+#main_visual h2{
+  display: inline-block;
+  margin: 0 0 28px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #1267e8;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+#main_visual .main_title{
+  margin: 0 0 28px;
+  color: #0d1f3a;
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 1.28;
+  letter-spacing: -2px;
+  word-break: keep-all;
+}
+
+#main_visual .main_desc{
+  margin: 0 0 38px;
+  color: #42536a;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.8;
+  word-break: keep-all;
+}
+
+.main_btn_wrap{
+  display: flex;
+  justify-content: flex-start !important;
+  gap: 20px;
+}
+
+.main_btn{
+  display: inline-block;
+  min-width: 190px;
+  padding: 18px 28px;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  box-sizing: border-box;
+  transition: 0.25s;
+}
+
+.main_btn_fill{
+  background: #1267e8;
+  color: #fff;
+  box-shadow: 0 10px 22px rgba(18, 103, 232, 0.18);
+}
+
+.main_btn_fill:hover{
+  background: #0d5bd1;
+  transform: translateY(-2px);
+}
+
+.main_btn_line{
+  border: 2px solid #1267e8;
+  background: rgba(255,255,255,0.65);
+  color: #1267e8;
+}
+
+.main_btn_line:hover{
+  background: #f3f8ff;
+}
+
+/* 오른쪽 하늘색 추상 배경 */
+#main_visual::before{
+  content: "";
+  position: absolute;
+  top: -90px;
+  right: -120px;
+  width: 760px;
+  height: 620px;
+  background:
+    radial-gradient(circle at 65% 25%, rgba(75, 154, 245, 0.20) 0%, rgba(75, 154, 245, 0.10) 36%, rgba(75, 154, 245, 0) 66%),
+    radial-gradient(circle at 75% 80%, rgba(53, 142, 238, 0.24) 0%, rgba(53, 142, 238, 0.10) 34%, rgba(53, 142, 238, 0) 68%);
+  border-radius: 0 0 0 260px;
+  pointer-events: none;
+}
+
+#main_visual::after{
+  content: "";
+  position: absolute;
+  right: -120px;
+  bottom: 50px;
+  width: 780px;
+  height: 260px;
+  background:
+    repeating-linear-gradient(
+      -10deg,
+      rgba(255,255,255,0) 0px,
+      rgba(255,255,255,0) 11px,
+      rgba(255,255,255,0.48) 12px,
+      rgba(255,255,255,0) 14px
+    );
+  opacity: 0.85;
+  transform: rotate(-5deg);
+  pointer-events: none;
+}
+
+/* 메인 배너 높이 / 버튼 크기 살짝 축소 */
+#main_visual{
+  min-height: 450px;
+  padding: 70px 0 95px;
+}
+
+.main_btn{
+  min-width: 150px;
+  padding: 14px 24px;
+  border-radius: 9px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.main_btn_wrap{
+  gap: 16px;
+}
+
+/* 메인 하단 카드 3개 디자인 */
+#intro{
+  padding: 70px 0 90px;
+  background: #f8fbff;
+}
+
+#intro .container{
+  display: flex;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+#intro article{
+  position: relative;
+  flex: 1;
+  min-height: 170px;
+  padding: 34px 38px 30px;
+  border: 1px solid #d7e7fb;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 14px 34px rgba(42, 104, 170, 0.08);
+  box-sizing: border-box;
+  overflow: hidden;
+  transition: 0.25s;
+}
+
+#intro article::before{
+  content: "";
+  display: block;
+  width: 46px;
+  height: 3px;
+  margin-bottom: 28px;
+  border-radius: 999px;
+  background: #2f80ed;
+}
+
+#intro article::after{
+  content: "→";
+  position: absolute;
+  right: 34px;
+  bottom: 26px;
+  color: #2f80ed;
+  font-size: 26px;
+  font-weight: 300;
+}
+
+#intro article:hover{
+  transform: translateY(-6px);
+  border-color: #9fc9fb;
+  box-shadow: 0 20px 42px rgba(42, 104, 170, 0.13);
+}
+
+#intro article h3{
+  margin-bottom: 16px;
+  color: #0d1f3a;
+  font-size: 25px;
+  font-weight: 700;
+  letter-spacing: -0.7px;
+}
+
+#intro article p{
+  color: #4f5f73;
+  font-size: 17px;
+  line-height: 1.7;
+  letter-spacing: -0.3px;
+}
+
+#intro article p::after{
+  content: "";
+  display: block;
+  width: calc(100% - 8px);
+  height: 1px;
+  margin-top: 26px;
+  background: #c9ddf5;
+}
+
+/* 모바일에서는 세로 정렬 */
+@media (max-width: 768px){
+  #intro{
+    padding: 45px 0 60px;
+  }
+
+  #intro .container{
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  #intro article{
+    min-height: auto;
+    padding: 28px 30px 34px;
+  }
+
+  #intro article h3{
+    font-size: 22px;
+  }
+
+  #intro article p{
+    font-size: 16px;
+  }
+}
+
+/* 메인 하단 카드 3개 - 미니멀 디자인으로 재정리 */
+#intro{
+  padding: 65px 0 85px;
+  background: #f8fbff;
+}
+
+#intro .container{
+  display: flex;
+  justify-content: space-between;
+  gap: 28px;
+  width: 1180px;
+  margin: 0 auto;
+}
+
+/* 카드 기본 */
+#intro article{
+  position: relative;
+  display: block !important;
+  flex: 1;
+  min-height: 210px;
+  padding: 42px 42px 34px;
+  border: 1px solid #d7e7fb;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 14px 34px rgba(42, 104, 170, 0.08);
+  box-sizing: border-box;
+  overflow: hidden;
+  transition: 0.25s;
+}
+
+/* 기존 아이콘/원형 디자인 제거하고 짧은 라인만 표시 */
+#intro article::before{
+  content: "";
+  display: block;
+  width: 46px;
+  height: 2px;
+  margin: 0 0 32px;
+  border-radius: 999px;
+  background: #2f80ed;
+}
+
+/* 카드 아래 얇은 선 */
+#intro article p::after{
+  content: "";
+  display: block;
+  width: 100%;
+  height: 1px;
+  margin-top: 34px;
+  background: #c9ddf5;
+}
+
+/* 오른쪽 아래 화살표 */
+#intro article::after{
+  content: "→";
+  position: absolute;
+  right: 38px;
+  bottom: 28px;
+  color: #2f80ed;
+  font-size: 26px;
+  font-weight: 300;
+}
+
+/* 제목 */
+#intro article h3{
+  margin: 0 0 18px;
+  color: #0d1f3a;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -0.7px;
+  text-align: left;
+}
+
+/* 설명 */
+#intro article p{
+  margin: 0;
+  color: #4f5f73;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.75;
+  letter-spacing: -0.3px;
+  text-align: left;
+}
+
+/* hover */
+#intro article:hover{
+  transform: translateY(-5px);
+  border-color: #9fc9fb;
+  box-shadow: 0 20px 42px rgba(42, 104, 170, 0.13);
+}
+
+/* 메인 카드 3개 - 아이콘형 디자인 */
+#intro{
+  padding: 50px 0 70px;
+  background: #f8fbff;
+}
+
+#intro .container{
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  width: 1180px;
+  margin: 0 auto;
+}
+
+#intro article{
+  position: relative;
+  flex: 1;
+  min-height: 190px;
+  padding: 32px 34px 26px;
+  border: 1px solid #dbe9fb;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 14px 32px rgba(42, 104, 170, 0.08);
+  box-sizing: border-box;
+  overflow: hidden;
+  transition: 0.25s;
+}
+
+/* 이전 카드 CSS에서 만든 라인/화살표 제거 */
+#intro article::before,
+#intro article::after,
+#intro article p::after{
+  display: none;
+  content: none;
+}
+
+.intro_card_top{
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.intro_icon{
+  width: 70px;
+  height: 70px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #eef5ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.intro_icon i{
+  color: #1267e8;
+  font-size: 34px;
+  line-height: 1;
+}
+
+.intro_text h3{
+  margin: 4px 0 14px;
+  color: #0d1f3a;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.7px;
+  text-align: left;
+}
+
+.intro_text p{
+  margin: 0;
+  color: #4f5f73;
+  font-size: 10px;
+  line-height: 1.75;
+  letter-spacing: -0.3px;
+  text-align: left;
+}
+
+.intro_line{
+  position: absolute;
+  left: 34px;
+  right: 34px;
+  bottom: 28px;
+  height: 1px;
+  background: #7fb2ff;
+}
+
+.intro_line span{
+  position: absolute;
+  right: -2px;
+  top: -16px;
+  color: #1267e8;
+  font-size: 25px;
+  font-weight: 300;
+}
+
+#intro article:hover{
+  transform: translateY(-5px);
+  border-color: #b9d8fb;
+  box-shadow: 0 20px 42px rgba(42, 104, 170, 0.13);
+}
+
+/* 메인 카드 폰트 축소 + 화살표 제거 */
+.intro_text h3{
+  font-size: 21px;
+  margin: 2px 0 10px;
+  letter-spacing: -0.5px;
+}
+
+.intro_text p{
+  font-size: 14.5px;
+  line-height: 1.65;
+  letter-spacing: -0.3px;
+}
+
+/* 아래 선만 남기고 화살표 제거 */
+.intro_line{
+  left: 34px;
+  right: 34px;
+  bottom: 24px;
+  height: 1px;
+  background: #7fb2ff;
+}
+
+.intro_line span{
+  display: none;
+}
+
+/* 메인 카드 폰트 확실히 축소 */
+#intro article .intro_text h3{
+  font-size: 22px !important;
+  line-height: 1.35 !important;
+  margin: 0 0 8px !important;
+  letter-spacing: -0.4px !important;
+}
+
+#intro article .intro_text p{
+  font-size: 16px !important;
+  line-height: 1.65 !important;
+  letter-spacing: -0.2px !important;
+}
+
+/* 아이콘도 살짝 축소 */
+#intro article .intro_icon{
+  width: 60px !important;
+  height: 60px !important;
+}
+
+#intro article .intro_icon i{
+  font-size: 28px !important;
+}
+
+/* 화살표 완전히 제거 */
+#intro article .intro_line span{
+  display: none !important;
+}
+
+/* 메인 배너 헤딩 폰트 / 크기 미세 조정 */
+#main_visual .main_title{
+  font-family: "Pretendard", sans-serif;
+  font-size: 50px;
+  font-weight: 800;
+  line-height: 1.28;
+  letter-spacing: -2.2px;
+}
+
+/* 메인 배너 버튼 크기 축소 + 호버 정리 */
+.main_btn{
+  min-width: 135px;
+  padding: 10px 20px;
+  font-size: 15px;
+  border-radius: 8px;
+}
+
+/* 무료 상담 신청 hover */
+.main_btn_fill:hover{
+  background: #0d5bd1;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 26px rgba(18, 103, 232, 0.22);
+}
+
+/* 수강안내 보기 hover */
+.main_btn_line:hover{
+  background: #eef6ff;
+  color: #0d5bd1;
+  border-color: #0d5bd1;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(18, 103, 232, 0.10);
+}

@@ -89,9 +89,9 @@
 <main>
 
   <!-- 수강신청 상단 -->
-  <section id="course_visual">
+  <section id="course_visual" class="sub_visual">
     <div class="container">
-      <h2>수강신청하기</h2>
+      <h2>수강신청</h2>
       <p>원하는 과정과 수업 시간을 선택해주세요.</p>
     </div>
   </section>

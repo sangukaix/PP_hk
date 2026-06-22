@@ -300,7 +300,7 @@
       </div>
 
       <!-- 수강신청현황 박스 -->
-      <div class="mypage_box profile_box">
+      <div class="mypage_box profile_box course_status_card">
 
         <?php
           // 수강 중인 강의가 있을 때

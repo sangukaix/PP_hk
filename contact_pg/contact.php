@@ -95,7 +95,7 @@
 
 <main>
 
-  <section id="contact_visual">
+  <section id="contact_visual" class="sub_visual">
     <div class="container">
       <h2>Contact Us</h2>
       <p>HelloKorean 고객센터</p>

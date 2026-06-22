@@ -1305,3 +1305,139 @@ header nav ul li a.course_register_btn:hover,
 header nav ul li a.board:hover {
   color: #4f8df5 !important;
 }
+
+/* 마이페이지 수강신청현황 카드 외곽 디자인 */
+.course_status_card{
+  border: 1px solid #cfe4ff;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+  box-shadow: 0 14px 34px rgba(42, 104, 170, 0.08);
+}
+
+/* 과정명 제목 조금 더 정리 */
+.course_status_card .course_name{
+  color: #0d1f3a;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+/* 진행바 배경 조금 부드럽게 */
+.course_status_card .progress_bar{
+  background: #e9eef5;
+  border-radius: 999px;
+}
+
+/* 진행바 색상 메인 컬러와 맞추기 */
+.course_status_card .progress_fill{
+  background: #1267e8;
+  border-radius: 999px;
+}
+
+/* 홀드 표 테두리 색상 부드럽게 */
+.course_status_card .hold_table th{
+  background: #f4f8fd;
+}
+
+.course_status_card .hold_table th,
+.course_status_card .hold_table td{
+  border-color: #d9e4f0;
+}
+
+/* 마이페이지 공통 하늘색 외곽 카드 */
+.soft_blue_card{
+  border: 1px solid #cfe4ff;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+  box-shadow: 0 14px 34px rgba(42, 104, 170, 0.08);
+}
+
+/* 수업스케줄 상단 카드 영역 */
+.top_lesson_section.soft_blue_card{
+  padding: 28px 32px 32px;
+  margin-bottom: 40px;
+}
+
+/* 수업스케줄 페이지 - 바깥 박스 제거 */
+.schedule_box{
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+
+/* 수업스케줄 카드만 보이게 정리 */
+.top_lesson_section.soft_blue_card{
+  padding: 28px 32px 32px;
+  margin-bottom: 40px;
+  border: 1px solid #cfe4ff;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+  box-shadow: 0 14px 34px rgba(42, 104, 170, 0.08);
+}
+
+/* 마이페이지 상단 탭 메뉴 - 파란 줄 스타일 */
+.mypage_nav{
+  margin-bottom: 32px;
+}
+
+.mypage_nav ul{
+  display: flex;
+  border: 1px solid #dbe4ef;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.mypage_nav li{
+  flex: 1;
+}
+
+.mypage_nav li a{
+  position: relative;
+  display: block;
+  padding: 15px 10px;
+  background: #fff;
+  color: #4f5f73;
+  font-size: 15px;
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+  border-right: 1px solid #e5edf5;
+}
+
+.mypage_nav li:last-child a{
+  border-right: none;
+}
+
+/* 선택된 메뉴 */
+.mypage_nav li a.active{
+  background: #fff;
+  color: #1267e8;
+  font-weight: 700;
+}
+
+/* 선택된 메뉴 아래 파란 줄 */
+.mypage_nav li a.active::after{
+  content: "";
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 0;
+  height: 3px;
+  border-radius: 999px 999px 0 0;
+  background: #1267e8;
+}
+
+/* 비활성 메뉴 */
+.mypage_nav li a.disabled{
+  color: #a7b0bd;
+  background: #f8f9fb;
+}
+
+/* 마우스 올렸을 때 */
+.mypage_nav li a:not(.disabled):hover{
+  color: #1267e8;
+  background: #f7fbff;
+}
+

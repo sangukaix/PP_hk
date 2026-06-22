@@ -284,7 +284,7 @@ function show_category($category){
 <main>
 
   <!-- Board 상단 영역 -->
-  <section id="board_visual">
+  <section id="board_visual" class="sub_visual">
     <div class="container">
       <h2>Q&A Board</h2>
       <p>Hello Korean 수업에 대해 궁금한 점을 남겨주세요.</p>

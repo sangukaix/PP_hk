@@ -128,7 +128,7 @@
       </div>
 
       <!-- 개인정보수정 박스 -->
-      <div class="mypage_box profile_box">
+      <div class="mypage_box profile_box soft_blue_card">
 
         <div class="mypage_title">
           <h3>개인정보수정</h3>

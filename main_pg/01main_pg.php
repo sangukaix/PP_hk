@@ -16,16 +16,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hello Korean</title>
 
-  <!-- AOS 외부 CSS -->
+<!-- AOS 외부 CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
 
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+<!-- Pretendard 웹폰트 -->
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+
 <!-- 내 CSS -->
-<link rel="stylesheet" href="./01main.css">
-
-
-  <!-- 외부 CSS 연결 -->
-  <link rel="stylesheet" href="./01main.css">
 <link rel="stylesheet" href="../common/common.css?v=260621_1">
+<link rel="stylesheet" href="./01main.css?v=260622_1">
 </head>
 
 <body>
@@ -112,11 +114,23 @@
 
     <div class="container">
 
-      <h2>Online Education Solution</h2>
+      <div class="visual_text">
+        <h2>Online Education Solution</h2>
 
-      <p>
-        꿈꾸던 커리어와 실력을 만드는 온라인 언어 학습
-      </p>
+        <p class="main_title">
+          꿈꾸던 커리어와 실력을 만드는 온라인 언어 학습
+        </p>
+
+        <p class="main_desc">
+          검증된 튜터, 맞춤형 학습, 무제한 연습으로<br>
+          언제 어디서나 성장을 지원합니다.
+        </p>
+
+        <div class="main_btn_wrap">
+          <a href="../board_pg/board.php" class="main_btn main_btn_fill">무료 상담 신청</a>
+          <a href="../course_pg/course_register.php" class="main_btn main_btn_line">수강안내 보기</a>
+        </div>
+      </div>
 
     </div>
 
@@ -126,20 +140,64 @@
 
     <div class="container">
 
-        <article data-aos="fade-up">
-        <h3>영미권 원어민 강사</h3>
-        <p>TESOL수료 명문대 출신 원어민<br> 튜터와 1:1 화상영어</p>
+      <article data-aos="fade-up">
+        <div class="intro_card_top">
+          <div class="intro_icon">
+            <i class="bi bi-headset"></i>
+          </div>
+
+          <div class="intro_text">
+            <h3>영미권 원어민 강사</h3>
+            <p>
+              검증된 강사진과 실시간 1:1<br>수업으로
+              자연스러운 표현을 익힙니다.
+            </p>
+          </div>
+        </div>
+
+        <div class="intro_line">
+          <span>→</span>
+        </div>
       </article>
 
       <article data-aos="fade-up" data-aos-delay="100">
-        <h3>맞춤 튜터 추천</h3>
-        <p>원하는 스타일과 목적에 딱<br>
-          맞는 튜터를 추천해드려요</p>
+        <div class="intro_card_top">
+          <div class="intro_icon">
+            <i class="bi bi-people"></i>
+          </div>
+
+          <div class="intro_text">
+            <h3>맞춤 튜터 추천</h3>
+            <p>
+              학습 목표와 수준에 맞는 튜터를 <br>매칭하여
+              효과적인 학습을 제공합니다.
+            </p>
+          </div>
+        </div>
+
+        <div class="intro_line">
+          <span>→</span>
+        </div>
       </article>
 
       <article data-aos="fade-up" data-aos-delay="200">
-        <h3>무제한 AI 연습</h3>
-        <p>선생님과 수업 후 AI와 24시간 무한반복 연습</p>
+        <div class="intro_card_top">
+          <div class="intro_icon">
+            <i class="bi bi-mic"></i>
+          </div>
+
+          <div class="intro_text">
+            <h3>무제한 AI 연습</h3>
+            <p>
+              수업 후에도 AI와 자유롭게 말하기<br> 연습을
+              하며 실력을 향상시킬 수 있습니다.
+            </p>
+          </div>
+        </div>
+
+        <div class="intro_line">
+          <span>→</span>
+        </div>
       </article>
 
     </div>

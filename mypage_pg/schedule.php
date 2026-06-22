@@ -581,7 +581,7 @@
         ?>
 
         <!-- 예정된 수업 -->
-        <div class="lesson_section top_lesson_section">
+        <div class="lesson_section top_lesson_section soft_blue_card">
 
           <div class="lesson_title_row">
             <h4>수업스케줄</h4>
