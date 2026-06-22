@@ -98,9 +98,16 @@
   }
 
   // 현재 페이지에 보여줄 문의글만 가져오기
-  $board_sql = "SELECT * FROM hk_board
-                ORDER BY no DESC
-                LIMIT $board_start, $board_list_num";
+    $board_sql = "
+      SELECT 
+        b.*,
+        m.user_id AS board_user_id
+      FROM hk_board b
+      LEFT JOIN hk_members m
+      ON b.member_no = m.no
+      ORDER BY b.no DESC
+      LIMIT $board_start, $board_list_num
+    ";
 
   // SQL 실행
   $board_result = mysqli_query($db, $board_sql);
@@ -595,13 +602,14 @@ if(!$board_notice){
       </div>
 
       <div class="admin_table_area">
-        <table class="admin_table">
+        <table class="admin_table board_admin_table">
           <caption>문의글 목록</caption>
 
           <thead>
             <tr>
               <th>번호</th>
               <th>작성자</th>
+              <th>학습자 ID</th>
               <th>상담유형</th>
               <th>제목</th>
               <th>내용</th>
@@ -623,6 +631,7 @@ if(!$board_notice){
               <tr>
                 <td><?php echo h($board['no']); ?></td>
                 <td><?php echo h($board['writer']); ?></td>
+                <td><?php echo h($board['board_user_id']); ?></td>
                 <td><?php echo h($board['category']); ?></td>
                 <td class="text_left">
                   <!-- 제목을 누르면 관리자용 문의글 상세보기 페이지로 이동 -->
@@ -654,7 +663,7 @@ if(!$board_notice){
 
               <!-- 문의글이 없을 때 -->
               <tr>
-                <td colspan="8">등록된 문의글이 없습니다.</td>
+                <td colspan="9">등록된 문의글이 없습니다.</td>
               </tr>
 
             <?php
@@ -729,6 +738,7 @@ if(!$board_notice){
               <th>희망 시작일</th>
               <th>수업시간</th>
               <th>총 기간</th>
+              <th>수강료</th>
               <th>결제수단</th>
               <th>입금자명</th>
               <th>입금예정일</th>
@@ -761,6 +771,9 @@ if(!$board_notice){
                 <td><?php echo h($payment['start_date']); ?></td>
                 <td><?php echo h($payment['lesson_time']); ?></td>
                 <td><?php echo h($payment['total_period']); ?></td>
+                <td>
+                  <strong><?php echo number_format((int)$payment['course_amount']); ?>원</strong>
+                </td>
                 <td><?php echo h($payment['payment_method']); ?></td>
                 <td><?php echo h($payment['depositor_name']); ?></td>
                 <td><?php echo h($payment['deposit_date']); ?></td>
@@ -860,7 +873,7 @@ if(!$board_notice){
             ?>
 
               <tr>
-                <td colspan="14">등록된 결제회원이 없습니다.</td>
+                <td colspan="15">등록된 결제회원이 없습니다.</td>
               </tr>
 
             <?php

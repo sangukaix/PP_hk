@@ -1536,3 +1536,24 @@ body {
 .admin_answer_btn a {
   font-size: 13px;
 }
+
+/* 문의글관리 테이블 컬럼 크기 조정 */
+.board_admin_table th:nth-child(1),
+.board_admin_table td:nth-child(1) {
+  width: 60px;
+}
+
+.board_admin_table th:nth-child(2),
+.board_admin_table td:nth-child(2) {
+  width: 90px;
+}
+
+.board_admin_table th:nth-child(3),
+.board_admin_table td:nth-child(3) {
+  width: 110px;
+}
+
+.board_admin_table th:nth-child(4),
+.board_admin_table td:nth-child(4) {
+  width: 120px;
+}

@@ -43,32 +43,47 @@
         <li><a href="../main_pg/01main_pg.php">Home</a></li>
         <li><a href="#">코스</a></li>
         <li><a href="#">강사소개</a></li>
-        <li><a href="#">수강신청</a></li>
+        <li><a href="../course_pg/course_register.php" class="course_register_btn">수강신청</a></li>
         <li><a href="../contact_pg/contact.php">고객센터</a></li>
         <li><a href="../board_pg/board.php" class="board">게시판</a></li>
+
+        <!-- My page -->
+        <li>
+          <?php
+            if(isset($_SESSION['user_id'])){
+          ?>
+            <a href="../mypage_pg/mypage.php" class="mypage_btn">My page</a>
+          <?php
+            }else{
+          ?>
+            <a href="#" class="mypage_btn" onclick="alert('로그인 후 접속해주세요.'); return false;">My page</a>
+          <?php
+            }
+          ?>
+        </li>
+
         <?php
-        // 로그인 상태라면 로그아웃 / 아이디 표시
-        if(isset($_SESSION['user_id'])){
+          if(isset($_SESSION['user_id'])){
         ?>
-            <li>
+          <li>
             <a href="../member_pg/logout.php" class="login_btn">로그아웃</a>
-            </li>
+          </li>
 
-            <li>
+          <li>
             <a href="#" class="join_btn"><?php echo $_SESSION['user_id']; ?>님</a>
-            </li>
+          </li>
         <?php
-        }else{
+          }else{
         ?>
-            <li>
+          <li>
             <a href="../member_pg/login.php" class="login_btn">로그인</a>
-            </li>
+          </li>
 
-            <li>
+          <li>
             <a href="../member_pg/join.php" class="join_btn">회원가입</a>
-            </li>
+          </li>
         <?php
-        }
+          }
         ?>
       </ul>
     </nav>

@@ -80,10 +80,17 @@
 
   // 현재 페이지에 보여줄 문의글만 가져오기
   // LIMIT 시작번호, 가져올개수
-  $sql = "SELECT * FROM hk_board
-          $where_sql
-          ORDER BY no DESC
-          LIMIT $start, $list_num";
+      $sql = "
+        SELECT 
+          b.*,
+          m.user_id AS board_user_id
+        FROM hk_board b
+        LEFT JOIN hk_members m
+        ON b.member_no = m.no
+        $where_sql
+        ORDER BY b.no DESC
+        LIMIT $start, $list_num
+      ";
 
   // SQL 실행
   $result = mysqli_query($db, $sql);
@@ -93,6 +100,55 @@
   function h($str){
     return htmlspecialchars((string)$str, ENT_QUOTES, "UTF-8");
   }
+
+  // 작성자 이름 가리기
+      // 예: 현상욱 -> 현*욱
+      function hide_name($name){
+
+        $name = trim($name);
+        $len = mb_strlen($name, "UTF-8");
+
+        // 이름이 없으면 빈칸
+        if($len == 0){
+          return "";
+        }
+
+        // 한 글자 이름이면 *
+        if($len == 1){
+          return "*";
+        }
+
+        // 두 글자 이름이면 마지막 글자만 *
+        if($len == 2){
+          return mb_substr($name, 0, 1, "UTF-8") . "*";
+        }
+
+        // 세 글자 이상이면 첫 글자 + * + 마지막 글자
+        $first = mb_substr($name, 0, 1, "UTF-8");
+        $last = mb_substr($name, $len - 1, 1, "UTF-8");
+
+        return $first . "*" . $last;
+        }
+
+                  // 아이디 가리기
+          // 예: test123 -> te***
+          function hide_user_id($user_id){
+
+            $user_id = trim($user_id);
+            $len = mb_strlen($user_id, "UTF-8");
+
+            if($len == 0){
+              return "";
+            }
+
+            if($len == 1){
+              return mb_substr($user_id, 0, 1, "UTF-8") . "***";
+            }
+
+            $front = mb_substr($user_id, 0, 2, "UTF-8");
+
+            return $front . "***";
+          }
 
       // ==============================
     // 게시판 상단 필독 공지사항 가져오기
@@ -302,7 +358,7 @@ function show_category($category){
                       ■<?php echo h($board_notice['title']); ?>■
                     </a>
                   </td>
-                  <td>관리자</td>
+                  <td class="notice_writer">관리자</td>
                   <td>
                     <?php
                       if($board_notice['updated_at'] != ''){
@@ -357,7 +413,14 @@ function show_category($category){
                 </td>
 
                 <!-- 작성자 -->
-                <td><?php echo h($row['writer']); ?></td>
+                <td class="board_writer">
+                  <?php echo h(hide_name($row['writer'])); ?>
+                  <?php
+                    if(isset($row['board_user_id']) && $row['board_user_id'] != ''){
+                      echo "(" . h(hide_user_id($row['board_user_id'])) . ")";
+                    }
+                  ?>
+                </td>
 
                 <!-- 작성일 -->
                 <td><?php echo h($date); ?></td>

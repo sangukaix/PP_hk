@@ -72,7 +72,42 @@ include "../common/db.php";
   $lesson_time = $first_time . " / " . $second_time;
   $total_period = $course_period . " / " . $lesson_count;
 
-  // 아직 가격 계산 전이라 0원으로 저장
+  // 수업기간 + 수업횟수별 수강료
+  $price_table = array(
+    "1개월" => array(
+      "주 2회" => 250000,
+      "주 3회" => 337000,
+      "주 5회" => 490000
+    ),
+
+    "3개월" => array(
+      "주 2회" => 646000,
+      "주 3회" => 865000,
+      "주 5회" => 1309000
+    ),
+
+    "6개월" => array(
+      "주 2회" => 1122000,
+      "주 3회" => 1563000,
+      "주 5회" => 2279000
+    )
+  );
+
+  // 원래 내야 하는 수강료
+  if(isset($price_table[$course_period][$lesson_count])){
+    $course_amount = $price_table[$course_period][$lesson_count];
+  }else{
+    echo "
+      <script>
+        alert('수강 금액 정보가 올바르지 않습니다.');
+        location.href='./course_register.php';
+      </script>
+    ";
+    exit;
+  }
+
+  // 실제 입금 확인 금액
+  // 무통장입금은 관리자가 통장 확인 후 직접 입력하므로 처음에는 0원
   $payment_amount = 0;
 
   // 상태값
@@ -102,6 +137,7 @@ include "../common/db.php";
       lesson_days,
       lesson_time,
       total_period,
+      course_amount,
       payment_status,
       payment_amount,
       lesson_status,
@@ -116,6 +152,7 @@ include "../common/db.php";
       '$lesson_days',
       '$lesson_time',
       '$total_period',
+      '$course_amount',
       '$payment_status',
       '$payment_amount',
       '$lesson_status',

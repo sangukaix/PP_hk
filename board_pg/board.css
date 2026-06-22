@@ -1049,3 +1049,21 @@ nav ul {
   max-width: 1050px;
 }
 
+/* 게시판 목록 작성자 제목 */
+.board_table th:nth-child(4) {
+  text-align: center;
+  padding-left: 10px;
+}
+
+/* 게시판 목록 작성자 이름 + 아이디 */
+.board_table td.board_writer {
+  text-align: right;
+  padding-right: 38px;
+  white-space: nowrap;
+}
+
+/* 공지 작성자 관리자 */
+.board_table .notice_writer {
+  text-align: center;
+  padding-left: 8px;
+}

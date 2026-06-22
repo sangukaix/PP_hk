@@ -275,3 +275,25 @@ header nav ul li a.login_btn,
 header nav ul li a.join_btn {
   font-size: 13.5px !important;
 }
+
+/* 상단 메뉴가 길어져도 My page가 안 밀리게 조정 */
+header nav ul {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+header nav ul li {
+  margin-left: 22px;
+}
+
+header nav ul li a {
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+header nav ul li a.mypage_btn {
+  display: inline-block;
+  padding: 7px 12px;
+  font-size: 14px;
+}

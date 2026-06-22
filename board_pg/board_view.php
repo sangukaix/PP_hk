@@ -30,7 +30,15 @@
   $no = (int)$no;
 
   // hk_board 테이블에서 해당 번호의 문의글 1개만 가져오기
-  $sql = "SELECT * FROM hk_board WHERE no = $no";
+      $sql = "
+      SELECT 
+        b.*,
+        m.user_id AS board_user_id
+      FROM hk_board b
+      LEFT JOIN hk_members m
+      ON b.member_no = m.no
+      WHERE b.no = $no
+    ";
 
   // SQL 실행
   $result = mysqli_query($db, $sql);
@@ -50,9 +58,54 @@
     exit;
   }
 
-  // 화면 출력 시 특수문자를 안전하게 바꿔주는 함수
+    // 화면 출력 시 특수문자를 안전하게 바꿔주는 함수
   function h($str){
     return htmlspecialchars((string)$str, ENT_QUOTES, "UTF-8");
+  }
+
+  // 작성자 이름 가리기
+  // 예: 현상욱 -> 현*욱
+  function hide_name($name){
+
+    $name = trim($name);
+    $len = mb_strlen($name, "UTF-8");
+
+    if($len == 0){
+      return "";
+    }
+
+    if($len == 1){
+      return "*";
+    }
+
+    if($len == 2){
+      return mb_substr($name, 0, 1, "UTF-8") . "*";
+    }
+
+    $first = mb_substr($name, 0, 1, "UTF-8");
+    $last = mb_substr($name, $len - 1, 1, "UTF-8");
+
+    return $first . "*" . $last;
+  }
+
+  // 아이디 가리기
+  // 예: test123 -> te***
+  function hide_user_id($user_id){
+
+    $user_id = trim($user_id);
+    $len = mb_strlen($user_id, "UTF-8");
+
+    if($len == 0){
+      return "";
+    }
+
+    if($len == 1){
+      return mb_substr($user_id, 0, 1, "UTF-8") . "***";
+    }
+
+    $front = mb_substr($user_id, 0, 2, "UTF-8");
+
+    return $front . "***";
   }
 
   // 상태값이 비어 있으면 기본값으로 답변대기 표시
@@ -194,7 +247,14 @@
 
             <tr>
               <th>작성자</th>
-              <td class="text_left"><?php echo h($row['writer']); ?></td>
+              <td class="text_left">
+                <?php echo h(hide_name($row['writer'])); ?>
+                <?php
+                  if(isset($row['board_user_id']) && $row['board_user_id'] != ''){
+                    echo "(" . h(hide_user_id($row['board_user_id'])) . ")";
+                  }
+                ?>
+              </td>
             </tr>
 
             <tr>

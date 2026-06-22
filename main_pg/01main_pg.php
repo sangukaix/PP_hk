@@ -16,6 +16,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hello Korean</title>
 
+  <!-- AOS 외부 CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+
+<!-- 내 CSS -->
+<link rel="stylesheet" href="./01main.css">
+
+
   <!-- 외부 CSS 연결 -->
   <link rel="stylesheet" href="./01main.css">
 <link rel="stylesheet" href="../common/common.css?v=260621_1">
@@ -119,18 +126,18 @@
 
     <div class="container">
 
-      <article>
+        <article data-aos="fade-up">
         <h3>영미권 원어민 강사</h3>
         <p>TESOL수료 명문대 출신 원어민<br> 튜터와 1:1 화상영어</p>
       </article>
 
-      <article>
+      <article data-aos="fade-up" data-aos-delay="100">
         <h3>맞춤 튜터 추천</h3>
         <p>원하는 스타일과 목적에 딱<br>
           맞는 튜터를 추천해드려요</p>
       </article>
 
-      <article>
+      <article data-aos="fade-up" data-aos-delay="200">
         <h3>무제한 AI 연습</h3>
         <p>선생님과 수업 후 AI와 24시간 무한반복 연습</p>
       </article>
@@ -152,6 +159,14 @@
   </div>
 
 </footer>
+
+<!-- AOS 외부 JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+<script>
+  // AOS 실행
+  AOS.init();
+</script>
 
 </body>
 </html>
